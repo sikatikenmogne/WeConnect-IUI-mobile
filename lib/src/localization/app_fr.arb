@@ -1,28 +1,28 @@
 {
-  "@@locale": "en",
+  "@@locale": "fr",
   "@@author": "WeConnect IUI Dev Team",
   "appTitle": "WeConnect IUI mobile",
   "@appTitle": {
-    "description": "The title of the application"
+    "description": "Le titre de l'application"
   },
-  "darkTheme": "Mode sombre",
+  "darkTheme": "Thème sombre",
   "@darkTheme": {
     "description": "Le mode sombre"
   },
-  "lightTheme": "Mode clair",
+  "lightTheme": "Thème clair",
   "@lightTheme": {
     "description": "Le mode clair"
   },
-  "listDetailPageSampleText": "More Information Here",
+  "listDetailPageSampleText": "Plus d'informations sur l'élément de liste sélectionné.",
   "@listDetailPageSampleText": {
     "description": "Sample text for the List details page"
   },
-  "listDetailPageTitle": "Item Details",
+  "listDetailPageTitle": "Details de la liste",
   "@listDetailPageTitle": {
     "description": "Title for the list details page"
   },
-  "mainPageTitle": "Sample Items",
-  "sampleitemItemId": "SampleItem #{itemId}",
+  "mainPageTitle": "Exemple de liste",
+  "sampleitemItemId": "Element de liste N°{itemId}",
   "@sampleitemItemId": {
     "placeholders": {
       "itemId": {
@@ -30,9 +30,9 @@
       }
     }
   },
-  "settingsPagetitle": "Settings",
-  "systemTheme": "Basé sur le thème du système",
+  "settingsPagetitle": "Paramètres",
+  "systemTheme": "Thème du Systeme",
   "@systemTheme": {
-    "description": "Définir le thème de l'application en fonction du thème du système"
+    "description": "Le System du système d'exploitation"
   }
 }
