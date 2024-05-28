@@ -103,9 +103,10 @@ To run the test suite for this app, use the command: `flutter test`
 We welcome contributions from the community. To contribute:
 
 1. Fork this repository
-2. Create your feature branch: `git checkout -b feature/yourFeature`
+2. Create your feature branch: `git checkout -b feature/your-feature`
+   1. example: `git checkout -b feature/add-login`
 3. Commit your changes following the [Conventional Commits](https://www.conventionalcommits.org/) specification: `git commit -m 'feat: add some feature'`
-4. Push to the branch: `git push origin feature/yourFeature`
+4. Push to the branch: `git push origin feature/your-feature`
 5. Open a pull request
 
 Please make sure your commits follow the Conventional Commits specification so your changes can be easily tracked.
@@ -126,6 +127,16 @@ The Conventional Commits specification is a lightweight convention on top of com
 ## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 📞 Contact Information
+
+For any questions or support, please email us at:
+
+- **Samuel SIKATI KENMOGNE**: [sikatikenmogne@gmail.com](mailto:sikatikenmogne@gmail.com)
+- **Jordan TCHOUNGA ZOUATOUM**: [tchounga18jordan@gmail.com](mailto:tchounga18jordan@gmail.com)
+- **Florian Dimitri NDIBA NDOUH**: [florianndiba01@gmail.com](mailto:florianndiba01@gmail.com)
+
+You can also raise an issue in the [GitHub issue tracker](https://github.com/sikatikenmogne/WeConnect-IUI-mobile/issues) for this project.
 
 ## 🙏 Acknowledgements
 
