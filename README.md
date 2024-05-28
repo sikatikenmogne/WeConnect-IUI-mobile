@@ -52,7 +52,10 @@ To support additional languages, please visit the tutorial on [Internationalizin
 
 1. Clone the repository: `git clone https://github.com/sikatikenmogne/we_connect_iui_mobile.git`
 2. Navigate to the project directory: `cd we_connect_iui_mobile`
-3. Copy the `.env.example` file and rename it to `.env`, then replace the placeholders with your actual Firebase API keys.
+3. Copy the `assets/.env.example` file and rename the new file to `.env`
+   1. Ex: `cp assets/.env.example assets/.env`
+   2. then replace the placeholders with your actual Firebase API keys.
+      1. for any issues about this step contact @sikatikenmogne
 4. Download the `google-services.json` file from your Firebase project and place it in the `android/app/` directory.
    1. for any issues about this step contact @sikatikenmogne
 5. Install the dependencies: `flutter pub get`
