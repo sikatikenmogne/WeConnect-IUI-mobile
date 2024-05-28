@@ -41,3 +41,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignore the google-services.json file to prevent exposing Firebase service account credentials
+android/app/google-services.json
+
+# Ignore the .env file to prevent exposing user credentials
+assets/.env
