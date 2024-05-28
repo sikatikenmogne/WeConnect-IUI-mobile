@@ -1,6 +1,6 @@
 
 <div align="center">
-<img src="assets/images/ucac-icam.png" width="300px">
+<img src="assets\logo\4-no_bg.png" width="300px">
 
 <h1 align="center"> 
 WeConnect IUI
@@ -143,4 +143,4 @@ You can also raise an issue in the [GitHub issue tracker](https://github.com/sik
 
 ## 🙏 Acknowledgements
 
-This project was created by [Samuel SIKATI KENMOGNE]([github.c](https://github.com/sikatikenmogne)), [Jordan TCHOUNGA ZOUATOUM](https://github.com/Mr-Tchounga), and [Florian Dimitri NDIBA NDOUH](#). We would like to thank the Flutter community for their valuable resources and support.
+This project was created by [Samuel SIKATI KENMOGNE]([github.c](https://github.com/sikatikenmogne)), [Jordan TCHOUNGA ZOUATOUM](https://github.com/Mr-Tchounga), and [Florian Dimitri NDIBA NDOUH](https://github.com/Flo-Dim). We would like to thank the Flutter community for their valuable resources and support.
