@@ -3,7 +3,7 @@
 <img src="assets/images/ucac-icam.png" width="300px">
 
 <h1 align="center"> 
-🎓 WeConnect IUI 🎓
+WeConnect IUI
 </h1>
 
 <div align="center">
@@ -39,7 +39,12 @@ The `assets/images` directory contains [resolution-aware images](https://flutter
 
 ## 🌍 Localization
 
-This project generates localized messages based on arb files found in the `lib/src/localization` directory.
+This project supports multiple languages. The currently supported languages are:
+
+- English
+- French
+
+The localized messages are generated based on arb files found in the `lib/src/localization` directory.
 
 To support additional languages, please visit the tutorial on [Internationalizing Flutter apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
 
@@ -104,6 +109,19 @@ We welcome contributions from the community. To contribute:
 5. Open a pull request
 
 Please make sure your commits follow the Conventional Commits specification so your changes can be easily tracked.
+
+### :bookmark: Conventional Commits
+
+The Conventional Commits specification is a lightweight convention on top of commit messages. It provides an easy set of rules for creating an explicit commit history, which makes it easier to write automated tools on top of. Here are some common types you might use:
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools and libraries such as documentation generation
 
 ## 📜 License
 
