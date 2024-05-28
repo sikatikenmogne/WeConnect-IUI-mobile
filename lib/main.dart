@@ -18,9 +18,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // Initialize the connection to Supabase using environment values.
+  // 'SUPABASE_URL' is the URL of your Supabase project.
+  // 'SUPABASE_ANON_KEY' is the public anon key of your Supabase project.
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: dotenv.env['SUPABASE_URL']!, // Fetch the Supabase URL from the environment variables
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!, // Fetch the Supabase public anon key from the environment variables
   );
   
   // Set up the SettingsController, which will glue user settings to multiple
@@ -36,3 +39,6 @@ void main() async {
   // SettingsView.
   runApp(MyApp(settingsController: settingsController));
 }
+
+// Get an instance of the Supabase client
+final supabase = Supabase.instance.client;
