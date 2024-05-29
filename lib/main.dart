@@ -5,8 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/firebase_options.dart';
 
 import 'src/app.dart';
-import 'src/controller/settings_controller.dart';
-import 'src/service/settings_service.dart';
+import 'src/controller/settings/settings_controller.dart';
+import 'src/service/settings/settings_service.dart';
 
 void main() async {
   // Load environment variables from the .env file

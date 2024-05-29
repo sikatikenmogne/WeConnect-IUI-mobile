@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../controller/settings_controller.dart';
+import '../../../controller/settings/settings_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Displays the various settings that can be customized by the user.

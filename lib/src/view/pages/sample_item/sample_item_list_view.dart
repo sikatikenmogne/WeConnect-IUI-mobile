@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'settings_view.dart';
-import '../../model/sample_item.dart';
+import '../settings/settings_view.dart';
+import '../../../model/sample_item/sample_item.dart';
 import 'sample_item_details_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

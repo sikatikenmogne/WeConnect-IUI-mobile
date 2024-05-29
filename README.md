@@ -78,23 +78,29 @@ This project follows a layered MVC architecture. The `models` directory contains
         └── app.dart
         └── 📁constants
         └── 📁controller
-            └── settings_controller.dart
+            └── 📁settings
+                └── settings_controller.dart
         └── 📁localization
             └── app_en.arb
             └── app_fr.arb
         └── 📁model
-            └── sample_item.dart
+            └── 📁sample_item
+                └── sample_item.dart
         └── 📁routes
         └── 📁service
-            └── settings_service.dart
+            └── 📁settings
+                └── settings_service.dart
         └── 📁state
         └── 📁utils
         └── 📁view
+            └── 📁components
             └── 📁pages
-                └── sample_item_details_view.dart
-                └── sample_item_list_view.dart
-                └── settings_view.dart
-            ├── widgets
+                └── 📁sample_item
+                    └── 📁components
+                    └── sample_item_details_view.dart
+                    └── sample_item_list_view.dart
+                └── 📁settings
+                    └── settings_view.dart
 ```
 
 ## 🧪 Testing
