@@ -21,6 +21,7 @@ dependencies:
   get: ^4.6.6
   intl: any
   supabase_flutter: ^2.5.3
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:

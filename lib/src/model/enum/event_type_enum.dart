@@ -1,0 +1,4 @@
+enum EventTypeEnum{
+  CLASS,
+  TEST
+}
