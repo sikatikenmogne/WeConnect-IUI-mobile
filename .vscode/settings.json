@@ -1,4 +1,4 @@
 {
     "l10nization.appLocalizationsVariable": "AppLocalizations.of(context)!",
-    "CodeGPT.apiKey": "CodeGPT Plus Beta"
+    "dart.flutterSdkPath": "~/Documents/New/flutter"
 }
