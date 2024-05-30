@@ -140,25 +140,25 @@ class _OnboardingViewState extends State<OnboardingView> {
                     height: 30,
                   ),
                   CommonButton(
-                    text: "Next page",
-                    color: AppColor.pinkAccent,
-                    onPressed: () {
-                      if (_pageController.hasClients) {
-                        _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
-                        ); // Change to next page on button press
-                      }
-                      if (homeCon.currentPage.value == homeCon.demoData.length - 1) {
-                        if (isSignInPage) {
-                          Navigator.pushNamed(context, LoginPage.routeName);
-                        } else {
-                          Navigator.pushNamed(context, SignupPage.routeName);
+                      text: "Next page",
+                      color: AppColor.pinkAccent,
+                      onPressed: () {
+                        if (_pageController.hasClients) {
+                          _pageController.nextPage(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          ); // Change to next page on button press
                         }
-                        isSignInPage = !isSignInPage;    
-                    }
-                    }
-                  ),
+                        if (homeCon.currentPage.value ==
+                            homeCon.demoData.length - 1) {
+                          if (isSignInPage) {
+                            Navigator.pushNamed(context, LoginPage.routeName);
+                          } else {
+                            Navigator.pushNamed(context, SignupPage.routeName);
+                          }
+                          isSignInPage = !isSignInPage;
+                        }
+                      }),
                   const SizedBox(
                     height: 20,
                   ),

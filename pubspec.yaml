@@ -40,7 +40,9 @@ flutter:
     - assets/images/onboarding/push_notifications_cuate.png
     - assets/images/onboarding/mobile_login_amico.png
     - assets/images/onboarding/No-Image-Placeholder.svg
-
+    - assets/images/onboarding/Profile_data_amico.png
+    - assets/images/onboarding/Starting_a_business_project_amico.png
+    - assets/images/onboarding/GDPR_amico.png
   fonts:
     - family: Syne
       fonts:

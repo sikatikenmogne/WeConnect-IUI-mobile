@@ -28,6 +28,23 @@ class OnboardingController extends GetxController {
       description:
           "Share your ideas, achievements, projects. Post updates, photos, and comments to stay connected with your peers.",
     ),
+    OnboardingData(
+      image: AppImage.onboardingFourthImage,
+      title: "Your Profile",
+      description: "Create Your Profile. customize it,  express yourself.",
+    ),
+    OnboardingData(
+      image: AppImage.onboardingFifthImage,
+      title: "Secure and Private",
+      description:
+          "Your data is safe with us. We prioritize your privacy and security.",
+    ),
+    OnboardingData(
+      image: AppImage.onboardingSixthImage,
+      title: "Get Started",
+      description:
+          "Sign up now and start connecting with your school community!",
+    ),
   ];
 
   // Call this method to change the current page.
