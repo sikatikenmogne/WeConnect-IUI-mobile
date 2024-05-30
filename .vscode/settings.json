@@ -1,3 +1,4 @@
 {
-    "l10nization.appLocalizationsVariable": "AppLocalizations.of(context)!"
+    "l10nization.appLocalizationsVariable": "AppLocalizations.of(context)!",
+    "dart.flutterSdkPath": "~/Documents/New/flutter"
 }
