@@ -1,3 +1,4 @@
 {
-    "l10nization.appLocalizationsVariable": "AppLocalizations.of(context)!"
+    "l10nization.appLocalizationsVariable": "AppLocalizations.of(context)!",
+    "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }
