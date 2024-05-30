@@ -1,6 +1,6 @@
 
 <div align="center">
-<img src="assets\logo\4-no_bg.png" width="300px">
+<img src="assets\images\logo\4-no_bg.png" width="300px">
 
 <h1 align="center"> 
 WeConnect IUI
