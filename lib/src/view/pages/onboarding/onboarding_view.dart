@@ -8,6 +8,8 @@ import 'package:we_connect_iui_mobile/src/controller/onboarding/onboarding_contr
 import '../../../constants/app_color.dart';
 import '../../components/common_button.dart';
 import '../../components/common_text.dart';
+import '../login/loginPage.dart';
+import '../login/signupPage.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class OnboardingView extends StatefulWidget {
   @override
   _OnboardingViewState createState() => _OnboardingViewState();
 
-  static const routeName = '/';
+  static const routeName = '/onboarding';
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
@@ -40,6 +42,7 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
+    bool isSignInPage = true;
     return Scaffold(
       backgroundColor: AppColor.white,
       body: Padding(
@@ -146,7 +149,15 @@ class _OnboardingViewState extends State<OnboardingView> {
                           curve: Curves.easeIn,
                         ); // Change to next page on button press
                       }
-                    },
+                      if (homeCon.currentPage.value == homeCon.demoData.length - 1) {
+                        if (isSignInPage) {
+                          Navigator.pushNamed(context, LoginPage.routeName);
+                        } else {
+                          Navigator.pushNamed(context, SignupPage.routeName);
+                        }
+                        isSignInPage = !isSignInPage;    
+                    }
+                    }
                   ),
                   const SizedBox(
                     height: 20,
