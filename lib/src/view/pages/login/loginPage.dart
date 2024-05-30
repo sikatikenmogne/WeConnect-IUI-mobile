@@ -6,6 +6,8 @@ import '../../../constants/app_color.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  static const routeName = '/login';
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

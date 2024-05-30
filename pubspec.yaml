@@ -17,6 +17,8 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
+  get: ^4.6.6
   intl: any
   supabase_flutter: ^2.5.3
 
@@ -33,6 +35,10 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/images/onboarding/webinar_amico.png
+    - assets/images/onboarding/push_notifications_cuate.png
+    - assets/images/onboarding/mobile_login_amico.png
+    - assets/images/onboarding/No-Image-Placeholder.svg
 
   fonts:
     - family: Syne

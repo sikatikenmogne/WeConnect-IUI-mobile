@@ -6,6 +6,8 @@ import '../../../constants/app_color.dart';
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
+  static const routeName = '/sing_up';
+
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
