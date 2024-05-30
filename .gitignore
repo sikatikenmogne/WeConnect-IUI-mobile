@@ -47,3 +47,7 @@ android/app/google-services.json
 
 # Ignore the .env file to prevent exposing user credentials
 assets/.env
+
+# Visual studio code related
+.vscode/
+.vscode/settings.json
