@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import 'view/pages/sample_item/sample_item_details_view.dart';
 import 'view/pages/sample_item/sample_item_list_view.dart';
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
                     return const SampleItemDetailsView();
                   case SampleItemListView.routeName:
                   default:
-                    return const SampleItemListView();
+                    return const LoginPage();
                 }
               },
             );
