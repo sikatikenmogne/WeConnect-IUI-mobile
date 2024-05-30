@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import '../../../constants/app_color.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColor.white,
@@ -24,9 +23,32 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Icon button
+            Container(
+              width: screenWidth * 0.87,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColor.primary,
+                        size: 30,
+                      )),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 80),
             // Login title
             const Text(
-              'Login',
+              'Inscription',
               style: TextStyle(
                 color: AppColor.primary,
                 fontFamily: "Syne",
@@ -34,16 +56,41 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
 
-            // Login form
+            // Signup form
             Form(
               key: _formKey,
               child: Column(
                 children: [
+                  // Name input field
+                  Container(
+                    //height: screenWidth * 0.1,
+                    width: screenWidth * 0.87,
+                    child: TextFormField(
+                      style: const TextStyle(
+                        color: AppColor.primary,
+                        fontFamily: 'Syne',
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Name',
+                        hintStyle: TextStyle(color: AppColor.primary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: AppColor.primary,
+                        ),
+                        filled: true,
+                        fillColor: AppColor.success,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   // Email input field
                   Container(
-                    // height: screenWidth * 0.1,
+                    //height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
                       style: const TextStyle(
@@ -91,6 +138,31 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                   ),
+                  // Repeat password input field
+                  const SizedBox(height: 20),
+                  Container(
+                    width: screenWidth * 0.87,
+                    child: TextFormField(
+                      style: const TextStyle(
+                        color: AppColor.primary,
+                        fontFamily: 'Syne',
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: 'Repeat password',
+                        hintStyle: TextStyle(color: AppColor.primary),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: AppColor.primary,
+                        ),
+                        filled: true,
+                        fillColor: AppColor.success,
+                      ),
+                      obscureText: true,
+                    ),
+                  ),
                   const SizedBox(height: 40),
 
                   // Submit button with centered text and icon at the end
@@ -122,11 +194,12 @@ class _LoginPageState extends State<LoginPage> {
                                 Text(
                                   'Submit',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 15,
                                     fontFamily: 'Syne',
                                   ),
                                 ),
-                                SizedBox(width: 8),
+                                SizedBox(
+                                    width: 8), // Adjust this width as needed
                                 Icon(Icons.exit_to_app),
                               ],
                             ),
@@ -144,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
-                          "Don't have an account?",
+                          "Already have an account?",
                           style: TextStyle(
                             color: AppColor.tertiary,
                             fontFamily: 'Syne',
@@ -156,10 +229,10 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignupPage()));
+                                    builder: (context) => LoginPage()));
                           },
                           child: const Text(
-                            "Signup",
+                            "Signin",
                             style: TextStyle(
                               color: AppColor.primary,
                               fontFamily: 'Syne',
@@ -169,10 +242,11 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
+
+                  const SizedBox(height: 200)
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * .05),
           ],
         ),
       ),
