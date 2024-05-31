@@ -23,6 +23,7 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final homeCon = Get.put<OnboardingController>(OnboardingController());
   late PageController _pageController; // Declare PageController
+  String onboardingButton = "Next page";
 
   @override
   void initState() {
@@ -49,16 +50,6 @@ class _OnboardingViewState extends State<OnboardingView> {
         padding: const EdgeInsets.all(20.0),
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                onPressed: () {},
-                child: CommonText(
-                  text: "Skip",
-                  color: AppColor.header,
-                ),
-              ),
-            ),
             PageView.builder(
               controller: _pageController,
               itemCount: homeCon.demoData.length,
@@ -95,6 +86,23 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ],
                 );
               },
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: TextButton(
+                onPressed: () {
+                  if (isSignInPage) {
+                    Navigator.pushNamed(context, LoginPage.routeName);
+                  } else {
+                    Navigator.pushNamed(context, SignupPage.routeName);
+                  }
+                  isSignInPage = !isSignInPage;
+                },
+                child: CommonText(
+                  text: "Skip",
+                  color: AppColor.header,
+                ),
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -140,10 +148,16 @@ class _OnboardingViewState extends State<OnboardingView> {
                     height: 30,
                   ),
                   CommonButton(
-                      text: "Next page",
+                      text: onboardingButton,
                       color: AppColor.pinkAccent,
                       onPressed: () {
                         if (_pageController.hasClients) {
+                          setState(() {
+                            if (homeCon.currentPage.value ==
+                                homeCon.demoData.length - 1) {
+                              onboardingButton = "Continue";
+                            }
+                          });
                           _pageController.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeIn,
