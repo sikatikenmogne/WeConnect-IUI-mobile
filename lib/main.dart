@@ -10,7 +10,7 @@ import 'src/service/settings/settings_service.dart';
 
 void main() async {
   // Load environment variables from the .env file
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env.dev");
 
   // Initialize Firebase for the application.
   // The 'options' parameter specifies the configuration, which is set to the default options for the current platform.
@@ -29,7 +29,7 @@ void main() async {
   //   url: dotenv.env['SUPABASE_URL']!, // Fetch the Supabase URL from the environment variables
   //   anonKey: dotenv.env['SUPABASE_ANON_KEY']!, // Fetch the Supabase public anon key from the environment variables
   // );
-  
+
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
   final settingsController = SettingsController(SettingsService());
