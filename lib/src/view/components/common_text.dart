@@ -7,6 +7,7 @@ class CommonText extends StatelessWidget {
   final double fontSize;
   final Color color;
   final FontWeight fontWeight;
+  final TextAlign alignment;
 
   const CommonText({
     Key? key,
@@ -14,13 +15,14 @@ class CommonText extends StatelessWidget {
     this.fontSize = 14.0,
     this.color = AppColor.black,
     this.fontWeight = FontWeight.w400,
+    this.alignment = TextAlign.center,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: TextAlign.center,
+      textAlign: alignment,
       style: TextStyle(
         fontSize: fontSize,
         color: color,

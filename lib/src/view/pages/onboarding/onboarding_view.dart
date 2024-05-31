@@ -23,7 +23,7 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final homeCon = Get.put<OnboardingController>(OnboardingController());
   late PageController _pageController; // Declare PageController
-  String onboardingButton = "Next page";
+  String onboardingButton = "Next";
 
   @override
   void initState() {
@@ -44,10 +44,11 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     bool isSignInPage = true;
+    var indexMemory = 0;
     return Scaffold(
       backgroundColor: AppColor.white,
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(40.0),
         child: Stack(
           children: [
             PageView.builder(
@@ -56,6 +57,12 @@ class _OnboardingViewState extends State<OnboardingView> {
               scrollDirection: Axis.horizontal,
               onPageChanged: (index) {
                 homeCon.currentPage.value = index;
+                indexMemory = index;
+                setState(() {
+                  if (indexMemory == homeCon.demoData.length - 1) {
+                    onboardingButton = "Continue";
+                  } else {}
+                });
               },
               itemBuilder: (context, index) {
                 return Column(
@@ -63,18 +70,31 @@ class _OnboardingViewState extends State<OnboardingView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     const Spacer(),
-                    CommonText(
-                      text: homeCon.demoData[index].title,
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      flex: 2,
-                      child: Image.asset(
-                        homeCon.demoData[index].image,
-                        fit: BoxFit.cover,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CommonText(
+                        text: homeCon.demoData[index].title,
+                        fontSize: 27,
+                        // fontWeight: FontWeight.bold,
+                        alignment: TextAlign.left,
                       ),
+                    ),
+                    (index == 0)
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: CommonText(
+                              text: "WeConnect",
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.primary,
+                              alignment: TextAlign.left,
+                            ),
+                          )
+                        : Container(),
+                    const SizedBox(height: 20),
+                    Image.asset(
+                      homeCon.demoData[index].image,
+                      fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 10),
                     CommonText(
@@ -152,12 +172,11 @@ class _OnboardingViewState extends State<OnboardingView> {
                       color: AppColor.pinkAccent,
                       onPressed: () {
                         if (_pageController.hasClients) {
-                          setState(() {
-                            if (homeCon.currentPage.value ==
-                                homeCon.demoData.length - 1) {
-                              onboardingButton = "Continue";
-                            }
-                          });
+                          // setState(() {
+                          //   if (indexMemory == homeCon.demoData.length - 1) {
+                          //     onboardingButton = "Continue";
+                          //   }
+                          // });
                           _pageController.nextPage(
                             duration: Duration(milliseconds: 300),
                             curve: Curves.easeIn,

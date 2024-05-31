@@ -48,8 +48,15 @@ class _SplashscreenState extends State<Splashscreen> {
           Expanded(
             flex: 11,
             child: Center(
-              child:
-                  Image.asset(AppImage.appLogoBlack, width: 200, height: 200),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Image.asset(
+                    AppImage.appLogoBlack,
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxWidth * 0.4,
+                  );
+                },
+              ),
             ),
           ),
           Expanded(
@@ -57,7 +64,7 @@ class _SplashscreenState extends State<Splashscreen> {
               child: Center(
                 child: CommonText(
                     text: "© 2024 - Powered by X2025",
-                    fontSize: 8,
+                    fontSize: 12,
                     color: AppColor.white),
               ))
         ],
