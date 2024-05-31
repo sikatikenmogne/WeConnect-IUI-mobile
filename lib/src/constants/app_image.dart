@@ -1,4 +1,5 @@
 class AppImage {
+  static const String appLogoBlack = 'assets/images/logo/2.png';
   static const String onboardingFirstImage =
       'assets/images/onboarding/webinar_amico.png';
   static const String onboardingSecondImage =
