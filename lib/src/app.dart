@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:we_connect_iui_mobile/src/routes/routes.dart'; // Import your routes file
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart'; // Import your routes file
 import 'package:we_connect_iui_mobile/src/controller/settings/settings_controller.dart';
 
 /// The Widget that configures your application.
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
-          initialRoute: Routes.splashscreen,
-          routes: Routes.getRoutes(),
+          initialRoute: AppRoutes.splashscreen,
+          routes: AppRoutes.getRoutes(),
         );
       },
     );

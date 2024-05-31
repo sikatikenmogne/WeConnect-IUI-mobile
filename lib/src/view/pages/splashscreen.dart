@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
-import 'package:we_connect_iui_mobile/src/routes/routes.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 
 import '../../constants/app_image.dart';
@@ -19,7 +19,7 @@ class _SplashscreenState extends State<Splashscreen> {
   void initState() {
     // TODO: implement initState
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, Routes.onboarding);
+      Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
     });
     super.initState();
   }
