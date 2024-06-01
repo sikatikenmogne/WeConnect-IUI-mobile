@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import '../../../constants/app_color.dart';
@@ -14,6 +15,11 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                     //height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: nameController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -95,6 +102,7 @@ class _SignupPageState extends State<SignupPage> {
                     //height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -120,6 +128,7 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -145,6 +154,7 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: repeatPasswordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -175,8 +185,33 @@ class _SignupPageState extends State<SignupPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Add your submit functionality here
+
+                        final name = nameController.text;
+                        final email = emailController.text;
+                        final password = passwordController.text;
+                        final repeatPassword = repeatPasswordController.text;
+
+                        if (password != repeatPassword) {
+                          // Show an error message
+                          return;
+                        }
+
+                        try {
+                          final response = await supabaseClient.auth.signUp(email: email, password: password);
+                        
+                          if (response.user != null) {
+                            // There was an error during the sign-up process
+                            print('Sign-up failed: ');
+                          } else {
+                            // Sign-up was successful
+                            print('Sign-up successful');
+                          }
+                        } catch (e) {
+                          // An unexpected error occurred
+                          print('Unexpected error occurred: $e');
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

@@ -1,4 +1,10 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
+import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
 
 import '../../../constants/app_color.dart';
@@ -14,6 +20,54 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _redirecting = false;
+  late final TextEditingController _emailController = TextEditingController();
+  late final StreamSubscription<AuthState> _authStateSubscription;
+
+  Future<void> _signIn() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final response = await supabaseClient.auth.signInWithOtp(
+        email: emailController.text.trim(),
+        emailRedirectTo:
+            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Check your email for a login link!')),
+        );
+        emailController.clear();
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.signUp);
+      }
+    } on AuthException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                     // height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -73,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -103,9 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Add your submit functionality here
-                      },
+                      onPressed: _isLoading ? null : _signIn,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
