@@ -24,11 +24,13 @@ void main() async {
   // 'SUPABASE_URL' is the URL of your Supabase project.
   // 'SUPABASE_ANON_KEY' is the public anon key of your Supabase project.
 
-  // ! Uncomment the following line to initialize Supabase connection
-  // await Supabase.initialize(
-  //   url: dotenv.env['SUPABASE_URL']!, // Fetch the Supabase URL from the environment variables
-  //   anonKey: dotenv.env['SUPABASE_ANON_KEY']!, // Fetch the Supabase public anon key from the environment variables
-  // );
+  // ! Comment the following line to disable the Supabase connection initialize
+  await Supabase.initialize(
+    url: dotenv.env[
+        'SUPABASE_URL']!, // Fetch the Supabase URL from the environment variables
+    anonKey: dotenv.env[
+        'SUPABASE_ANON_KEY']!, // Fetch the Supabase public anon key from the environment variables
+  );
 
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
@@ -45,5 +47,5 @@ void main() async {
 }
 
 // Get an instance of the Supabase client
-// ! Uncomment this line after initializing Supabase
-// final supabase = Supabase.instance.client;
+// ! Comment this line if Supabase initialization is also commented
+final supabaseClient = Supabase.instance.client;
