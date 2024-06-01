@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/sample_item/sample_item_details_view.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/sample_item/sample_item_list_view.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/splashscreen.dart';
 
@@ -24,6 +25,7 @@ class AppRoutes {
       login: (context) => LoginPage(),
       signUp: (context) => SignupPage(),
       home: (context) => SampleItemListView(),
+      sampleItemDetails: (context) => SampleItemDetailsView(),
     };
   }
 }

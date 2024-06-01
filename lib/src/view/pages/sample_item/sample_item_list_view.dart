@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
 import '../settings/settings_view.dart';
 import '../../../model/sample_item/sample_item.dart';
@@ -62,7 +63,7 @@ class SampleItemListView extends StatelessWidget {
                 // background, the navigation stack is restored.
                 Navigator.restorablePushNamed(
                   context,
-                  SampleItemDetailsView.routeName,
+                  AppRoutes.sampleItemDetails,
                 );
               });
         },
