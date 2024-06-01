@@ -20,6 +20,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
   intl: any
+  package_info_plus: ^8.0.0
+  shared_preferences: ^2.2.3
   supabase_flutter: ^2.5.3
   uuid: ^4.4.0
 
