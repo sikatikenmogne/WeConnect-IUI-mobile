@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
@@ -20,6 +21,40 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
+
+  Future<void> _updateProfile() async {
+    final userName = nameController.text.trim();
+    // final website = _websiteController.text.trim();
+    final user = supabaseClient.auth.currentUser;
+    final updates = {
+      'id': user!.id,
+      'username': userName,
+      // 'website': website,
+      'updated_at': DateTime.now().toIso8601String(),
+    };
+    try {
+      await supabaseClient.from('profiles').upsert(updates);
+      if (mounted) {
+        const SnackBar(
+          content: Text('Successfully updated profile!'),
+        );
+      }
+    } on PostgrestException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +234,55 @@ class _SignupPageState extends State<SignupPage> {
                         }
 
                         try {
-                          final response = await supabaseClient.auth.signUp(email: email, password: password);
-                        
+                          final response = await supabaseClient.auth
+                              .signUp(email: email, password: password);
+
                           if (response.user != null) {
-                            // There was an error during the sign-up process
-                            print('Sign-up failed: ');
+                            print('Sign-up successful');
+
+                            // Save additional user information
+                            try {
+                              final insertResponse =
+                                  await supabaseClient.from('profiles').insert({
+                                'id': response.user!.id,
+                                'username': name,
+                                // 'full_name': name,
+                                'updated_at': DateTime.now().toIso8601String(),
+                              });
+
+                              if (mounted) {
+                                const SnackBar(
+                                  content:
+                                      Text('Profile Successfully created !'),
+                                );
+                              }
+
+                              // await _updateProfile();
+
+                              if (insertResponse.error != null) {
+                                print(
+                                    'Failed to save user profile: ${insertResponse.error!.message}');
+                              } else {
+                                print('User profile saved successfully');
+                              }
+                            } on PostgrestException catch (error) {
+                              if (mounted) {
+                                SnackBar(
+                                  content: Text(error.message),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                );
+                              }
+                            } catch (error) {
+                              if (mounted) {
+                                SnackBar(
+                                  content:
+                                      const Text('Unexpected error occurred'),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                );
+                              }
+                            }
                           } else {
                             // Sign-up was successful
                             print('Sign-up successful');

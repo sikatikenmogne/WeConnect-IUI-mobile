@@ -32,15 +32,41 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
-      final response = await supabaseClient.auth.signInWithOtp(
+      final response = await supabaseClient.auth.signInWithPassword(
         email: emailController.text.trim(),
-        emailRedirectTo:
-            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+        password: passwordController.text,
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Check your email for a login link!')),
         );
+
+        // final userName = emailController.text.trim();
+        // // final website = _websiteController.text.trim();
+        // final user = supabaseClient.auth.currentUser;
+        // final updates = {
+        //   'id': user!.id,
+        //   'username': userName,
+        //   // 'website': website,
+        //   'updated_at': DateTime.now().toIso8601String(),
+        // };
+
+        // try {
+        //   await supabaseClient.from('profiles').upsert(updates);
+        //   if (mounted) {
+        //     const SnackBar(
+        //       content: Text('Successfully updated profile!'),
+        //     );
+        //   }
+        // } on PostgrestException catch (error) {
+        //   if (mounted) {
+        //     SnackBar(
+        //       content: Text(error.message),
+        //       backgroundColor: Theme.of(context).colorScheme.error,
+        //     );
+        //   }
+        // }
+
         emailController.clear();
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {
