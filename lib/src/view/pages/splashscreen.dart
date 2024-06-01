@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
-
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../constants/app_image.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -17,9 +18,21 @@ class Splashscreen extends StatefulWidget {
 class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
-    // TODO: implement initState
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
+    Future.delayed(Duration(seconds: 3), () async {
+      final prefs = await SharedPreferences.getInstance();
+      final packageInfo = await PackageInfo.fromPlatform();
+
+      final lastSeenVersion = prefs.getString('lastSeenVersion');
+      final currentVersion = packageInfo.version;
+
+      if (lastSeenVersion == null || lastSeenVersion != currentVersion) {
+        // Show the onboarding screen and update the last seen version
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
+        await prefs.setString('lastSeenVersion', currentVersion);
+      } else {
+        // Go directly to the login screen
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      }
     });
     super.initState();
   }
