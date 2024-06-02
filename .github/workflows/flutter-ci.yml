@@ -38,5 +38,5 @@ jobs:
         - name: Upload APK
           uses: actions/upload-artifact@v4
           with:
-              name: we-connect-app-${{ github.run_number }}
+              name: we-connect-app-v${{ github.run_number }}
               path: build/app/outputs/flutter-apk/app-release.apk
