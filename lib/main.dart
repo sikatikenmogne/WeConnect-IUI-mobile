@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:we_connect_iui_mobile/firebase_options.dart';
 
 import 'src/app.dart';
 import 'src/controller/settings/settings_controller.dart';

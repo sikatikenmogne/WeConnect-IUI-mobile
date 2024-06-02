@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:we_connect_iui_mobile/src/controller/onboarding/onboarding_controller.dart';
 
 import '../../../constants/app_color.dart';
 import '../../components/common_button.dart';
 import '../../components/common_text.dart';
-import '../login/loginPage.dart';
-import '../login/signupPage.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({Key? key}) : super(key: key);
