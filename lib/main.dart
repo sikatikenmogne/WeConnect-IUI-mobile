@@ -10,14 +10,6 @@ void main() async {
   // Load environment variables from the .env file
   await dotenv.load(fileName: ".env.dev");
 
-  // Initialize Firebase for the application.
-  // The 'options' parameter specifies the configuration, which is set to the default options for the current platform.
-
-  // ! Uncomment the following line to initialize Firebase connection
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
   // Initialize the connection to Supabase using environment values.
   // 'SUPABASE_URL' is the URL of your Supabase project.
   // 'SUPABASE_ANON_KEY' is the public anon key of your Supabase project.
