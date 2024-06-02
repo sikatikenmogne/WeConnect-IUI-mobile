@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/controller/onboarding/onboarding_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
@@ -21,6 +23,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   final homeCon = Get.put<OnboardingController>(OnboardingController());
   late PageController _pageController; // Declare PageController
   String onboardingButton = "Next";
+  bool isSignInPage = true;
 
   @override
   void initState() {
@@ -38,9 +41,38 @@ class _OnboardingViewState extends State<OnboardingView> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
   }
 
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn == true) {
+      // Retrieve the session from Supabase
+      final session = supabaseClient.auth.currentSession;
+
+      if (session != null) {
+        // There is an active session
+        print('Session: ${session.user}');
+      } else {
+        // There is no active session
+        print('No active session');
+      }
+
+      // Redirect to home route
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    } else {
+      if (homeCon.currentPage.value == homeCon.demoData.length - 1) {
+        if (isSignInPage) {
+          Navigator.pushNamed(context, AppRoutes.login);
+        } else {
+          Navigator.pushNamed(context, AppRoutes.signUp);
+        }
+        isSignInPage = !isSignInPage;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isSignInPage = true;
     var indexMemory = 0;
     return Scaffold(
       backgroundColor: AppColor.white,
@@ -167,7 +199,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   CommonButton(
                       text: onboardingButton,
                       color: AppColor.pinkAccent,
-                      onPressed: () {
+                      onPressed: () async {
                         if (_pageController.hasClients) {
                           // setState(() {
                           //   if (indexMemory == homeCon.demoData.length - 1) {
@@ -181,12 +213,14 @@ class _OnboardingViewState extends State<OnboardingView> {
                         }
                         if (homeCon.currentPage.value ==
                             homeCon.demoData.length - 1) {
-                          if (isSignInPage) {
-                            Navigator.pushNamed(context, AppRoutes.login);
-                          } else {
-                            Navigator.pushNamed(context, AppRoutes.signUp);
-                          }
-                          isSignInPage = !isSignInPage;
+                          await checkLoginStatus();
+
+                          // if (isSignInPage) {
+                          //   Navigator.pushNamed(context, AppRoutes.login);
+                          // } else {
+                          //   Navigator.pushNamed(context, AppRoutes.signUp);
+                          // }
+                          // isSignInPage = !isSignInPage;
                         }
                       }),
                   const SizedBox(

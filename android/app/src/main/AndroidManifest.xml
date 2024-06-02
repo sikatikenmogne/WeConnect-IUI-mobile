@@ -30,11 +30,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <activity>
-            <meta-data
-                android:name="android.app.immersive.systemUiVisibility"
-                android:value="stickyImmersive"/>
-            </activity>
+
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

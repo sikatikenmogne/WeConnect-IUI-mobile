@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
@@ -41,31 +41,11 @@ class _LoginPageState extends State<LoginPage> {
           const SnackBar(content: Text('Check your email for a login link!')),
         );
 
-        // final userName = emailController.text.trim();
-        // // final website = _websiteController.text.trim();
-        // final user = supabaseClient.auth.currentUser;
-        // final updates = {
-        //   'id': user!.id,
-        //   'username': userName,
-        //   // 'website': website,
-        //   'updated_at': DateTime.now().toIso8601String(),
-        // };
-
-        // try {
-        //   await supabaseClient.from('profiles').upsert(updates);
-        //   if (mounted) {
-        //     const SnackBar(
-        //       content: Text('Successfully updated profile!'),
-        //     );
-        //   }
-        // } on PostgrestException catch (error) {
-        //   if (mounted) {
-        //     SnackBar(
-        //       content: Text(error.message),
-        //       backgroundColor: Theme.of(context).colorScheme.error,
-        //     );
-        //   }
-        // }
+        if (response.user != null) {
+          // The user is logged in
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isLoggedIn', true);
+        }
 
         emailController.clear();
         Navigator.pushReplacementNamed(context, AppRoutes.home);
@@ -92,6 +72,21 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn == true) {
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
     }
   }
 

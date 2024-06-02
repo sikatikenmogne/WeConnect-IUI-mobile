@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import '../../../constants/app_color.dart';
@@ -257,8 +259,6 @@ class _SignupPageState extends State<SignupPage> {
                                 );
                               }
 
-                              // await _updateProfile();
-
                               if (insertResponse.error != null) {
                                 print(
                                     'Failed to save user profile: ${insertResponse.error!.message}');
@@ -283,9 +283,17 @@ class _SignupPageState extends State<SignupPage> {
                                 );
                               }
                             }
+
+                            // Save the login status in SharedPreferences
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('isLoggedIn', true);
+                                              
+
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.home);
                           } else {
-                            // Sign-up was successful
-                            print('Sign-up successful');
+                            // Sign-up was failed
+                            print('Sign-up failed');
                           }
                         } catch (e) {
                           // An unexpected error occurred
