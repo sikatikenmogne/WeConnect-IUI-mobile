@@ -36,6 +36,7 @@ flutter:
 
   assets:
     # Add assets from the images directory to the application.
+    - assets/
     - assets/images/
     - assets/images/onboarding/webinar_amico.png
     - assets/images/onboarding/push_notifications_cuate.png

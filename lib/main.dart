@@ -8,7 +8,7 @@ import 'src/service/settings/settings_service.dart';
 
 void main() async {
   // Load environment variables from the .env file
-  await dotenv.load(fileName: ".env.dev");
+  await dotenv.load(fileName: "assets/.env.dev");
 
   // Initialize the connection to Supabase using environment values.
   // 'SUPABASE_URL' is the URL of your Supabase project.
