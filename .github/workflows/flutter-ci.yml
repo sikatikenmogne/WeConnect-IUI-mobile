@@ -35,8 +35,12 @@ jobs:
         - name: Build APK
           run: flutter build apk
 
+        - name: Get version
+          id: get_version
+          run: echo "::set-output name=version::$(flutter --version)"
+        
         - name: Upload APK
           uses: actions/upload-artifact@v4
           with:
-              name: app
+              name: we-connect-app-${{ steps.get_version.outputs.version }}
               path: build/app/outputs/flutter-apk/app-release.apk
