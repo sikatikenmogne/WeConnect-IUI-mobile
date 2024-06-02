@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:we_connect_iui_mobile/src/controller/onboarding/onboarding_controller.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
 import '../../../constants/app_color.dart';
 import '../../components/common_button.dart';
@@ -108,9 +109,9 @@ class _OnboardingViewState extends State<OnboardingView> {
               child: TextButton(
                 onPressed: () {
                   if (isSignInPage) {
-                    Navigator.pushNamed(context, LoginPage.routeName);
+                    Navigator.pushNamed(context, AppRoutes.login);
                   } else {
-                    Navigator.pushNamed(context, SignupPage.routeName);
+                    Navigator.pushNamed(context, AppRoutes.signUp);
                   }
                   isSignInPage = !isSignInPage;
                 },
@@ -181,9 +182,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                         if (homeCon.currentPage.value ==
                             homeCon.demoData.length - 1) {
                           if (isSignInPage) {
-                            Navigator.pushNamed(context, LoginPage.routeName);
+                            Navigator.pushNamed(context, AppRoutes.login);
                           } else {
-                            Navigator.pushNamed(context, SignupPage.routeName);
+                            Navigator.pushNamed(context, AppRoutes.signUp);
                           }
                           isSignInPage = !isSignInPage;
                         }
