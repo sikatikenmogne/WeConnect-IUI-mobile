@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
+import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
   }
 
   void navigateToChat(String userId) {
-    Navigator.pushNamed(context, '/chat/chat_message', arguments: userId);
+    Navigator.pushNamed(context, Routes.chatMessage, arguments: userId);
   }
 
   @override
@@ -55,16 +56,18 @@ class _ChatHomePageState extends State<ChatHomePage> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        // titleSpacing: ,
         backgroundColor: AppColor.header,
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: width*.04),
           child: IconButton(
-            icon: Icon(Icons.menu, color: AppColor.black, size: height/width*25),
+            icon: Icon(Icons.menu, color: AppColor.black, size: height/width*20),
             onPressed: () {},
           ),
         ),
-        title: Text("Chats", style: TextStyle(color: AppColor.black),),
+        title: Text(
+          "Chats", 
+          style: TextStyle(color: AppColor.black, fontSize: 25, fontFamily: "Syne")
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width*.04),
@@ -89,9 +92,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
           String username = groupedChatsByUsername.keys.elementAt(index);
           List<Chat> chats = groupedChatsByUsername[username]!;
           Chat lastChat = chats.last;
-
+    
           int unreadCount = chats.where((msg) => !msg.isRead).length;
-
+    
           return Padding(
             padding: EdgeInsets.symmetric(vertical: width * .008),
             child: ListTile(

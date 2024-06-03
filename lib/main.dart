@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/firebase_options.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 
 import 'src/app.dart';
 import 'src/controller/settings/settings_controller.dart';
@@ -42,7 +43,7 @@ void main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   runApp(MyApp(settingsController: settingsController));
-  // runApp(ChatHomePage());
+  // runApp(ChatPage(userId: "2",));
 }
 
 // Get an instance of the Supabase client
