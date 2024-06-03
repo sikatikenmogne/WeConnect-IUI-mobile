@@ -231,7 +231,9 @@ class _SignupPageState extends State<SignupPage> {
                         final repeatPassword = repeatPasswordController.text;
 
                         if (password != repeatPassword) {
-                          // Show an error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Invalid verification: the password and the repeat password dhould be the same')),
+                          );
                           return;
                         }
 
@@ -293,10 +295,18 @@ class _SignupPageState extends State<SignupPage> {
                                 context, AppRoutes.home);
                           } else {
                             // Sign-up was failed
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Sign up failed')),
+                            );
+                          
                             print('Sign-up failed');
                           }
                         } catch (e) {
                           // An unexpected error occurred
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Unexpected error occurred: $e')),
+                          );
+
                           print('Unexpected error occurred: $e');
                         }
                       },

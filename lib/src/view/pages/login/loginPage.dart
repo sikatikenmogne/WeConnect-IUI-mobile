@@ -32,11 +32,16 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signin started!')),
+      );
+      
       final response = await supabaseClient.auth.signInWithPassword(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
-      if (mounted) {
+
+      if (mounted) { 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Check your email for a login link!')),
         );
