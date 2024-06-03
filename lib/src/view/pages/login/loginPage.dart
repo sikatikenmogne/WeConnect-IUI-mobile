@@ -1,4 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase/supabase.dart';
+import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
 
 import '../../../constants/app_color.dart';
@@ -14,6 +20,116 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _redirecting = false;
+  late final TextEditingController _emailController = TextEditingController();
+  late final StreamSubscription<AuthState> _authStateSubscription;
+
+  Future<Session?> _signIn() async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Signin started!')),
+      );
+
+      final response = await supabaseClient.auth.signInWithPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
+
+      if (mounted) {
+        if (response.user != null) {
+          // The user is logged in
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isLoggedIn', true);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Authentification is successful!')),
+          );
+        }
+
+        emailController.clear();
+        return response.session;
+      }
+    } on AuthException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    }
+    return null;
+  }
+
+  Future<void> _signOut() async {
+    try {
+      await supabaseClient.auth.signOut();
+    } on AuthException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } finally {
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _redirect();
+    _setupAuthListener();
+    super.initState();
+  }
+
+  // Future<void> _checkLoginStatus() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+  //   if (isLoggedIn == true) {
+  //     Navigator.pushReplacementNamed(context, AppRoutes.home);
+  //   }
+  // }
+
+  Future<void> _redirect() async {
+    await Future.delayed(Duration.zero);
+    if (!mounted) {
+      return;
+    }
+
+    final session = supabaseClient.auth.currentSession;
+    if (session != null) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+    }
+  }
+
+  void _setupAuthListener() {
+    supabaseClient.auth.onAuthStateChange.listen((data) {
+      final event = data.event;
+      if (event == AuthChangeEvent.signedIn) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                     // height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -73,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -103,9 +221,21 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Add your submit functionality here
-                      },
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                              var signInResponse = await _signIn();
+                              if (signInResponse != null) {
+                                Navigator.pushReplacementNamed(
+                                    context, AppRoutes.home);
+                              } else {
+                                SnackBar(
+                                  content: const Text('Sign in failed'),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

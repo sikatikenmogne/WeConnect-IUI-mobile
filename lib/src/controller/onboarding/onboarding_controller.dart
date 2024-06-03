@@ -12,7 +12,7 @@ class OnboardingController extends GetxController {
   var demoData = [
     OnboardingData(
       image: AppImage.onboardingFirstImage,
-      title: "Welcome to WeConnect",
+      title: "Welcome to ",
       description:
           "Your school's social network, where staying connected is easier than ever!",
     ),

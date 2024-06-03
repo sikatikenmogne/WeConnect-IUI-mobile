@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase/supabase.dart';
+import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import '../../../constants/app_color.dart';
@@ -14,6 +18,122 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
+
+  void initState() {
+    super.initState();
+
+    // Écoutez les changements de session
+    supabaseClient.auth.onAuthStateChange.listen((event) async {
+      if (event == AuthChangeEvent.signedIn) {
+        final userName = nameController.text.trim();
+        // final website = _websiteController.text.trim();
+        final user = supabaseClient.auth.currentUser;
+
+        // L'utilisateur a cliqué sur le lien d'authentification et est maintenant connecté
+        // Vous pouvez maintenant continuer la séquence d'inscription
+
+        // Sauvegardez les informations supplémentaires de l'utilisateur
+        try {
+          final insertResponse = await supabaseClient.from('profiles').insert({
+            'id': user!.id,
+            'username': userName,
+            'updated_at': DateTime.now().toIso8601String(),
+          });
+
+          if (mounted) {
+            const SnackBar(
+              content: Text('Profile Successfully created !'),
+            );
+          }
+        } catch (e) {
+          print('Error saving user information: $e');
+        }
+      }
+    }, onError: (error) {
+      print('Error from stream: ${error.message}');
+    }, onDone: () {
+      print('Stream is done');
+    }, cancelOnError: false);
+  }
+
+  Future<void> _updateProfile(Map<String, String> updates) async {
+    try {
+      await supabaseClient.from('profiles').upsert(updates);
+      if (mounted) {
+        const SnackBar(
+          content: Text('Successfully updated profile!'),
+        );
+      }
+    } on PostgrestException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    }
+  }
+
+  Future<AuthResponse?> _signUp(
+      {required String email,
+      required String password,
+      required String repeatPassword}) async {
+    if (password != repeatPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Invalid verification: the password and the repeat password dhould be the same')),
+      );
+      return null;
+    }
+
+    try {
+      final response =
+          await supabaseClient.auth.signUp(email: email, password: password);
+
+      if (response.user != null) {
+        print('Sign-up successful');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Sign-up successful')),
+        );
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+
+        return response;
+      } else {
+        // Sign-up was failed
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign up failed')),
+        );
+
+        print('Sign-up failed');
+      }
+    } catch (e) {
+      // An unexpected error occurred
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unexpected error occurred: $e')),
+      );
+
+      print('Unexpected error occurred: $e');
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +190,7 @@ class _SignupPageState extends State<SignupPage> {
                     //height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: nameController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -95,6 +216,7 @@ class _SignupPageState extends State<SignupPage> {
                     //height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -120,6 +242,7 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -145,6 +268,7 @@ class _SignupPageState extends State<SignupPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
+                      controller: repeatPasswordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -175,8 +299,31 @@ class _SignupPageState extends State<SignupPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Add your submit functionality here
+                      onPressed: () async {
+                        final email = emailController.text;
+                        final password = passwordController.text;
+                        final repeatPassword = repeatPasswordController.text;
+
+                        var signUpResponse = await _signUp(
+                            email: email,
+                            password: password,
+                            repeatPassword: repeatPassword);
+
+                        if (signUpResponse != null && signUpResponse.session != null) {
+                          final name = nameController.text.trim();
+                          final user = signUpResponse.user;
+
+                          final updates = {
+                            'id': user!.id,
+                            'username': name,
+                            'updated_at': DateTime.now().toIso8601String(),
+                          };
+                          await _updateProfile(updates);
+
+                          // Navigate to the login page
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.home);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
