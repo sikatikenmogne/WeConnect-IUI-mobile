@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 
 import 'src/app.dart';
