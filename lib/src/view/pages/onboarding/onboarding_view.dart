@@ -140,12 +140,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               alignment: Alignment.topRight,
               child: TextButton(
                 onPressed: () {
-                  if (isSignInPage) {
-                    Navigator.pushNamed(context, AppRoutes.login);
-                  } else {
-                    Navigator.pushNamed(context, AppRoutes.signUp);
-                  }
-                  isSignInPage = !isSignInPage;
+                  _pageController.jumpToPage(homeCon.demoData.length - 1);
                 },
                 child: CommonText(
                   text: "Skip",
@@ -169,7 +164,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                           width: homeCon.currentPage.value == index
                               ? 38
                               : 8, // Adjust the size of the active dot
-                          margin: const EdgeInsets.symmetric(vertical: 3),
+                          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 1.5),
                           decoration: BoxDecoration(
                             color: homeCon.currentPage.value == index
                                 ? AppColor.pinkAccent
