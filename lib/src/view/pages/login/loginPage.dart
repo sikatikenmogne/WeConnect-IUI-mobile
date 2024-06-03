@@ -27,36 +27,52 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController _emailController = TextEditingController();
   late final StreamSubscription<AuthState> _authStateSubscription;
 
-  Future<void> _signIn() async {
+  Future<Session?> _signIn() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Signin started!')),
       );
-      
+
       final response = await supabaseClient.auth.signInWithPassword(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
 
-      if (mounted) { 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Check your email for a login link!')),
-        );
-
+      if (mounted) {
         if (response.user != null) {
           // The user is logged in
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('isLoggedIn', true);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Authentification is successful!')),
+          );
         }
 
         emailController.clear();
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      } else {
-        Navigator.pushReplacementNamed(context, AppRoutes.signUp);
+        return response.session;
       }
+    } on AuthException catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        SnackBar(
+          content: const Text('Unexpected error occurred'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        );
+      }
+    }
+    return null;
+  }
+
+  Future<void> _signOut() async {
+    try {
+      await supabaseClient.auth.signOut();
     } on AuthException catch (error) {
       if (mounted) {
         SnackBar(
@@ -73,9 +89,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     } finally {
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+        Navigator.of(context).pushReplacementNamed(AppRoutes.login);
       }
     }
   }
@@ -83,15 +97,27 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    _redirect();
   }
 
-  Future<void> _checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+  // Future<void> _checkLoginStatus() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool? isLoggedIn = prefs.getBool('isLoggedIn');
 
-    if (isLoggedIn == true) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+  //   if (isLoggedIn == true) {
+  //     Navigator.pushReplacementNamed(context, AppRoutes.home);
+  //   }
+  // }
+
+  Future<void> _redirect() async {
+    await Future.delayed(Duration.zero);
+    if (!mounted) {
+      return;
+    }
+
+    final session = supabaseClient.auth.currentSession;
+    if (session != null) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
     }
   }
 
@@ -185,7 +211,21 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: ElevatedButton(
-                      onPressed: _isLoading ? null : _signIn,
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                              var signInResponse = await _signIn();
+                              if (signInResponse != null) {
+                                Navigator.pushReplacementNamed(
+                                    context, AppRoutes.home);
+                              } else {
+                                SnackBar(
+                                  content: const Text('Sign in failed'),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error,
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
