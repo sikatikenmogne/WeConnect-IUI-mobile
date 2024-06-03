@@ -24,16 +24,44 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController repeatPasswordController =
       TextEditingController();
 
-  Future<void> _updateProfile() async {
-    final userName = nameController.text.trim();
-    // final website = _websiteController.text.trim();
-    final user = supabaseClient.auth.currentUser;
-    final updates = {
-      'id': user!.id,
-      'username': userName,
-      // 'website': website,
-      'updated_at': DateTime.now().toIso8601String(),
-    };
+  void initState() {
+    super.initState();
+
+    // Écoutez les changements de session
+    supabaseClient.auth.onAuthStateChange.listen((event) async {
+      if (event == AuthChangeEvent.signedIn) {
+        final userName = nameController.text.trim();
+        // final website = _websiteController.text.trim();
+        final user = supabaseClient.auth.currentUser;
+
+        // L'utilisateur a cliqué sur le lien d'authentification et est maintenant connecté
+        // Vous pouvez maintenant continuer la séquence d'inscription
+
+        // Sauvegardez les informations supplémentaires de l'utilisateur
+        try {
+          final insertResponse = await supabaseClient.from('profiles').insert({
+            'id': user!.id,
+            'username': userName,
+            'updated_at': DateTime.now().toIso8601String(),
+          });
+
+          if (mounted) {
+            const SnackBar(
+              content: Text('Profile Successfully created !'),
+            );
+          }
+        } catch (e) {
+          print('Error saving user information: $e');
+        }
+      }
+    }, onError: (error) {
+      print('Error from stream: ${error.message}');
+    }, onDone: () {
+      print('Stream is done');
+    }, cancelOnError: false);
+  }
+
+  Future<void> _updateProfile(Map<String, String> updates) async {
     try {
       await supabaseClient.from('profiles').upsert(updates);
       if (mounted) {
@@ -56,6 +84,53 @@ class _SignupPageState extends State<SignupPage> {
         );
       }
     }
+  }
+
+  Future<AuthResponse?> _signUp(
+      {required String email,
+      required String password,
+      required String repeatPassword}) async {
+    if (password != repeatPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Invalid verification: the password and the repeat password dhould be the same')),
+      );
+      return null;
+    }
+
+    try {
+      final response =
+          await supabaseClient.auth.signUp(email: email, password: password);
+
+      if (response.user != null) {
+        print('Sign-up successful');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign-up successful')),
+        );
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+
+        return response;
+      } else {
+        // Sign-up was failed
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign up failed')),
+        );
+
+        print('Sign-up failed');
+      }
+    } catch (e) {
+      // An unexpected error occurred
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unexpected error occurred: $e')),
+      );
+
+      print('Unexpected error occurred: $e');
+    }
+    return null;
   }
 
   @override
@@ -223,91 +298,30 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     child: ElevatedButton(
                       onPressed: () async {
-                        // Add your submit functionality here
-
-                        final name = nameController.text;
                         final email = emailController.text;
                         final password = passwordController.text;
                         final repeatPassword = repeatPasswordController.text;
 
-                        if (password != repeatPassword) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Invalid verification: the password and the repeat password dhould be the same')),
-                          );
-                          return;
-                        }
+                        var signUpResponse = await _signUp(
+                            email: email,
+                            password: password,
+                            repeatPassword: repeatPassword);
 
-                        try {
-                          final response = await supabaseClient.auth
-                              .signUp(email: email, password: password);
+                        if (signUpResponse != null &&
+                            signUpResponse.session != null) {
+                          final name = nameController.text.trim();
+                          final user = signUpResponse.user;
 
-                          if (response.user != null) {
-                            print('Sign-up successful');
+                          final updates = {
+                            'id': user!.id,
+                            'username': name,
+                            'updated_at': DateTime.now().toIso8601String(),
+                          };
+                          await _updateProfile(updates);
 
-                            // Save additional user information
-                            try {
-                              final insertResponse =
-                                  await supabaseClient.from('profiles').insert({
-                                'id': response.user!.id,
-                                'username': name,
-                                // 'full_name': name,
-                                'updated_at': DateTime.now().toIso8601String(),
-                              });
-
-                              if (mounted) {
-                                const SnackBar(
-                                  content:
-                                      Text('Profile Successfully created !'),
-                                );
-                              }
-
-                              if (insertResponse.error != null) {
-                                print(
-                                    'Failed to save user profile: ${insertResponse.error!.message}');
-                              } else {
-                                print('User profile saved successfully');
-                              }
-                            } on PostgrestException catch (error) {
-                              if (mounted) {
-                                SnackBar(
-                                  content: Text(error.message),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                );
-                              }
-                            } catch (error) {
-                              if (mounted) {
-                                SnackBar(
-                                  content:
-                                      const Text('Unexpected error occurred'),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                );
-                              }
-                            }
-
-                            // Save the login status in SharedPreferences
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.setBool('isLoggedIn', true);
-                                              
-
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.home);
-                          } else {
-                            // Sign-up was failed
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Sign up failed')),
-                            );
-                          
-                            print('Sign-up failed');
-                          }
-                        } catch (e) {
-                          // An unexpected error occurred
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Unexpected error occurred: $e')),
-                          );
-
-                          print('Unexpected error occurred: $e');
+                          // Navigate to the login page
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.home);
                         }
                       },
                       style: ElevatedButton.styleFrom(
