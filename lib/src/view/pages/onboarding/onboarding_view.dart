@@ -77,7 +77,7 @@ class _OnboardingViewState extends State<OnboardingView> {
     return Scaffold(
       backgroundColor: AppColor.white,
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(30.0),
         child: Stack(
           children: [
             PageView.builder(
