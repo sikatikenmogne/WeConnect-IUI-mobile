@@ -65,8 +65,8 @@ class _SplashscreenState extends State<Splashscreen> {
                 builder: (BuildContext context, BoxConstraints constraints) {
                   return Image.asset(
                     AppImage.appLogoBlack,
-                    width: constraints.maxWidth * 0.4,
-                    height: constraints.maxWidth * 0.4,
+                    width: constraints.maxWidth * 0.45,
+                    height: constraints.maxWidth * 0.45,
                   );
                 },
               ),
