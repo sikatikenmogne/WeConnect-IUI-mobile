@@ -12,12 +12,12 @@ class User extends AuditModel{
   String? _dateOfBirth;
   String? _sex;
   String _email;
-  String _password;
   String? _profilePicture;
   Role _role;
   Settings _settings;
 
   User({
+    String? id,
     String? firstname,
     String? lastname,
     String? promotion,
@@ -25,11 +25,9 @@ class User extends AuditModel{
     String? dateOfBirth,
     String? sex,
     required String email,
-    required String password,
     String? profilePicture,
-    required Role role,
-    required Settings settings
-  }) :  _id = AutogenerateUtil().generateId(),
+    required Role role
+  }) :  _id = (id == null) ? AutogenerateUtil().generateId() : id,
         _firstname = firstname, 
         _lastname = lastname, 
         _promotion = promotion, 
@@ -37,16 +35,14 @@ class User extends AuditModel{
         _dateOfBirth = dateOfBirth, 
         _sex = sex, 
         _email = email,
-        _password = password, 
         _profilePicture = profilePicture, 
         _role = role, 
-        _settings = settings,
+        _settings = Settings(),
         super();
 
   User.empty()
   : _id = "",
     _email = "",
-    _password = "",
     _role = Role.learner,
     _settings = Settings();
 
@@ -73,9 +69,6 @@ class User extends AuditModel{
 
   String get email => this._email;
   set email(String value) => this._email = value;
-
-  String get password => this._password;
-  set password(String value) => this._password = value;
 
   String? get profilePicture => this._profilePicture;
   set profilePicture(String? value) => this._profilePicture = value;
