@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 
 class CustomBubble extends StatelessWidget {
   final Widget child;
   final Color color;
   final bool isCurrentUser;
+  final DateTime createdAt;
 
   const CustomBubble({
     Key? key,
     required this.child,
     required this.color,
     required this.isCurrentUser,
+    required this.createdAt,
   }) : super(key: key);
 
   @override
@@ -24,7 +27,18 @@ class CustomBubble extends StatelessWidget {
           bottomRight: Radius.circular(isCurrentUser ? 0 : 18),
         ),
       ),
-      child: child,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          child,
+          SizedBox(height: 4), // Adjust spacing between child and timestamp
+          Text(
+            '${createdAt.hour}:${createdAt.minute}',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+        ],
+      ),
     );
   }
 }

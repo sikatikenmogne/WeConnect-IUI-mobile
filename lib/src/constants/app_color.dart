@@ -16,6 +16,7 @@ class AppColor {
   static const Color color1 = Color.fromRGBO(255, 46, 21, 1);
   static const Color color2 = Color.fromRGBO(249, 250, 251, 1);
   static const Color color3 = Color.fromRGBO(47, 58, 64, 1);
+  static const Color color4 = Color.fromRGBO(217, 217, 217, 1);
 
   static const Color inputText = Color(0xFFD9D9D9);
   static const Color buttonText = Color(0xFFFFFFFF);

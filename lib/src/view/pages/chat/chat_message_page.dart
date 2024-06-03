@@ -42,6 +42,8 @@ class _ChatPageState extends State<ChatPage> {
             text: chat.content
           ))
           .toList();
+
+      _messages = _messages.reversed.toList();
     });
   }
 
@@ -131,7 +133,7 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ))],
       ),
-      body: Chat(
+      body: Chat(        
         messages: _messages, 
         onSendPressed: _sendMessage, 
         user: types.User(id: currentUser.id),
@@ -146,7 +148,7 @@ class _ChatPageState extends State<ChatPage> {
     required bool nextMessageInGroup,
   }) {
     final isCurrentUser = message.author.id == currentUser.id;
-    final color = isCurrentUser ? AppColor.header : AppColor.inputText;
+    final color = isCurrentUser ? AppColor.header : AppColor.color2;
 
     return Container(
       margin: EdgeInsets.only(
@@ -155,10 +157,17 @@ class _ChatPageState extends State<ChatPage> {
         right: isCurrentUser ? 0 : 30,
       ),
       child: CustomBubble(
+        createdAt: DateTime.fromMillisecondsSinceEpoch(message.createdAt ?? 0),
         child: DefaultTextStyle(
-          style: TextStyle(fontSize: 12),
-          child: child,
+          style: TextStyle(fontSize: 15),
+        child: Builder(
+          builder: (context) {
+            return Text(
+              message is types.TextMessage ? message.text : ''
+            );
+          },
         ),
+      ),
         color: color,
         isCurrentUser: isCurrentUser,
       ),
