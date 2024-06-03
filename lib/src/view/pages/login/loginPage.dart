@@ -96,8 +96,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    super.initState();
     _redirect();
+    _setupAuthListener();
+    super.initState();
   }
 
   // Future<void> _checkLoginStatus() async {
@@ -119,6 +120,15 @@ class _LoginPageState extends State<LoginPage> {
     if (session != null) {
       Navigator.of(context).pushReplacementNamed(AppRoutes.home);
     }
+  }
+
+  void _setupAuthListener() {
+    supabaseClient.auth.onAuthStateChange.listen((data) {
+      final event = data.event;
+      if (event == AuthChangeEvent.signedIn) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      }
+    });
   }
 
   @override

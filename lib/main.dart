@@ -7,6 +7,11 @@ import 'src/controller/settings/settings_controller.dart';
 import 'src/service/settings/settings_service.dart';
 
 void main() async {
+  
+// Ensures that the widget binding has been initialized.
+// This is required if you're running code (like plugin initialization)
+// before calling runApp().
+WidgetsFlutterBinding.ensureInitialized();
   // Load environment variables from the .env file
   await dotenv.load(fileName: "assets/.env.dev");
 
