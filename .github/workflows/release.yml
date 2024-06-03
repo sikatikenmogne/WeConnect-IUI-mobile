@@ -8,28 +8,16 @@ on:
 jobs:         
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          cache: 'gradle'
-          check-latest: true
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
-      - name: Set up Flutter actions
-        uses: subosito/flutter-action@v2
-        with:
-            flutter-version: '3.22.1'
-
-      - name: Get dependencies
-        run: flutter pub get
-
-      - name: Run tests
-        run: flutter test
+      - name: Print the version
+        run: echo ${{ steps.get_version.outputs.VERSION }}
 
       - name: Build APK
         run: flutter build apk
@@ -37,7 +25,7 @@ jobs:
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: we-connect-app-${{ github.ref }}
+          name: we-connect-app-${{ steps.get_version.outputs.VERSION }}
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Create Release
@@ -46,15 +34,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: WeConnect-IUI-mobile ${{ github.ref }}
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: WeConnect-IUI-mobile ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
 
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: we-connect-app-${{ github.ref }}
+          name: we-connect-app-${{ steps.get_version.outputs.VERSION }}
 
       - name: Upload Release Asset
         id: upload_release_asset
@@ -63,6 +51,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./we-connect-app-${{ github.ref }}/app-release.apk
+          asset_path: ./we-connect-app-${{ steps.get_version.outputs.VERSION }}/app-release.apk
           asset_name: app-release.apk
           asset_content_type: application/vnd.android.package-archive
