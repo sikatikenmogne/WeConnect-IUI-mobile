@@ -12,14 +12,16 @@ class Chat extends AuditModel{
   Chat? _parentChat;
   
   Chat({
+    String? id,
     required String content,
     required User destinator,
+    bool? isRead,
     Chat? parentChat,
-  })  : _id = AutogenerateUtil().generateId(),
+  })  : _id = (id == null) ? AutogenerateUtil().generateId() : id,
         _content = content,
         _isSent = true,
         _isReceived = false,
-        _isRead = false,
+        _isRead = isRead ?? false,
         _destinator = destinator,
         _parentChat = parentChat, 
         super();

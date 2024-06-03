@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/view/chat/chat_home_page.dart';
+import 'package:we_connect_iui_mobile/src/view/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
 import '../view/pages/login/signupPage.dart';
@@ -13,6 +15,8 @@ class Routes {
   static const String settings = '/settings';
   static const String sampleItemDetails = '/sampleItemDetails';
   static const String sampleItemList = '/sampleItemList';
+  static const String chatHome = '/chat';
+  static const String chatMessage = '/chat/chat_message';
 
 
   static Map<String, WidgetBuilder> getRoutes() {
@@ -20,6 +24,11 @@ class Routes {
       onboarding: (context) => OnboardingView(),
       login: (context) => LoginPage(),
       signUp: (context) => SignupPage(),
+      chatHome: (context) => ChatHomePage(),
+      chatMessage: (context) {
+        final userId = ModalRoute.of(context)!.settings.arguments as String;
+        return ChatPage(userId: userId);
+      }
     };
   }
 }

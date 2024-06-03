@@ -42,6 +42,7 @@ void main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   runApp(MyApp(settingsController: settingsController));
+  // runApp(ChatHomePage());
 }
 
 // Get an instance of the Supabase client
