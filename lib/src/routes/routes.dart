@@ -19,7 +19,7 @@ class Routes {
   static const String sampleItemList = '/sampleItemList';
   static const String chatHome = '/chat';
   static const String chatMessage = '/chat/chat_message';
-  static const String about = '/avout';
+  static const String about = '/about';
 
 
   static Map<String, WidgetBuilder> getRoutes() {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_switch.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,11 +19,23 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   late Settings _settings;
+  late SupabaseClient supabaseClient;
+  late GoTrueClient auth;
+  late User? user;
   
   @override
   void initState(){
     super.initState();
     _settings = Settings();
+
+    supabaseClient = Supabase.instance.client;
+    auth = supabaseClient.auth;
+    user = auth.currentUser;
+
+    if (user == null){
+      Navigator.pushNamed(context, AppRoutes.login);
+    }
+
   }
 
   @override
