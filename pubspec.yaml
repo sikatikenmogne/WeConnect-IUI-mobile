@@ -4,14 +4,12 @@ description: "A new Flutter project."
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.2.7+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
-  firebase_auth: ^4.19.6
-  firebase_core: ^2.31.1
   flutter:
     sdk: flutter
   flutter_chat_ui: ^1.6.13
@@ -21,6 +19,9 @@ dependencies:
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
   intl: any
+  package_info_plus: ^8.0.0
+  shared_preferences: ^2.2.3
+  supabase: ^2.2.0
   supabase_flutter: ^2.5.3
   uuid: ^4.4.0
 
@@ -36,6 +37,7 @@ flutter:
 
   assets:
     # Add assets from the images directory to the application.
+    - assets/
     - assets/images/
     - assets/images/onboarding/webinar_amico.png
     - assets/images/onboarding/push_notifications_cuate.png
@@ -44,6 +46,7 @@ flutter:
     - assets/images/onboarding/Profile_data_amico.png
     - assets/images/onboarding/Starting_a_business_project_amico.png
     - assets/images/onboarding/GDPR_amico.png
+    - assets/images/logo/2.png
   fonts:
     - family: Syne
       fonts:

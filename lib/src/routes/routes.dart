@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/settings/settings_page.dart';
 
 import '../view/pages/login/signupPage.dart';
 import '../view/pages/onboarding/onboarding_view.dart';
@@ -29,7 +30,8 @@ class Routes {
         // final userId = ModalRoute.of(context)!.settings.arguments as String;
         // return ChatPage(userId: userId);
         return ChatPage();
-      }
+      },
+      settings: (context) => SettingsPage()
     };
   }
 }
