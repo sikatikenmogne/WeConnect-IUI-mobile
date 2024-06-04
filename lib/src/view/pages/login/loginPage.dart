@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
 
     final session = supabaseClient.auth.currentSession;
     if (session != null) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.chatHome);
     }
   }
 
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
     supabaseClient.auth.onAuthStateChange.listen((data) {
       final event = data.event;
       if (event == AuthChangeEvent.signedIn) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+        Navigator.of(context).pushReplacementNamed(AppRoutes.chatHome);
       }
     });
   }
@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                               var signInResponse = await _signIn();
                               if (signInResponse != null) {
                                 Navigator.pushReplacementNamed(
-                                    context, AppRoutes.home);
+                                    context, AppRoutes.chatHome);
                               } else {
                                 SnackBar(
                                   content: const Text('Sign in failed'),
