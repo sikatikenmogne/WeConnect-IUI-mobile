@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase/supabase.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
 
@@ -20,26 +21,26 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
-  bool _redirecting = false;
-  late final TextEditingController _emailController = TextEditingController();
-  late final StreamSubscription<AuthState> _authStateSubscription;
 
-  Future<Session?> _signIn() async {
+  final LoginController _loginController = LoginController(supabaseClient);
+
+  Future<Session?> _signInWithPassword(
+      {required String email, required String password}) async {
     try {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Signin started!')),
       );
 
-      final response = await supabaseClient.auth.signInWithPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text,
+      final response = await _loginController.signInWithPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
       );
 
       if (mounted) {
-        if (response.user != null) {
+        if (response?.user != null) {
           // The user is logged in
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('isLoggedIn', true);
@@ -47,10 +48,11 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Authentification is successful!')),
           );
+
+          return response;
         }
 
-        emailController.clear();
-        return response.session;
+        _emailController.clear();
       }
     } on AuthException catch (error) {
       if (mounted) {
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _signOut() async {
     try {
-      await supabaseClient.auth.signOut();
+      await _loginController.signOut();
     } on AuthException catch (error) {
       if (mounted) {
         SnackBar(
@@ -94,21 +96,27 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> performSignInAndNavigate(BuildContext context) async {
+    var signInResponse = await _signInWithPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    if (signInResponse != null) {
+      Navigator.pushReplacementNamed(context, AppRoutes.chatHome);
+    } else {
+      SnackBar(
+        content: const Text('Sign in failed'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+    }
+  }
+
   @override
   void initState() {
     _redirect();
     _setupAuthListener();
     super.initState();
   }
-
-  // Future<void> _checkLoginStatus() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool? isLoggedIn = prefs.getBool('isLoggedIn');
-
-  //   if (isLoggedIn == true) {
-  //     Navigator.pushReplacementNamed(context, AppRoutes.home);
-  //   }
-  // }
 
   Future<void> _redirect() async {
     await Future.delayed(Duration.zero);
@@ -164,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                     // height: screenWidth * 0.1,
                     width: screenWidth * 0.87,
                     child: TextFormField(
-                      controller: emailController,
+                      controller: _emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -190,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     width: screenWidth * 0.87,
                     child: TextFormField(
-                      controller: passwordController,
+                      controller: _passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
                         fontFamily: 'Syne',
@@ -223,19 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: _isLoading
                           ? null
-                          : () async {
-                              var signInResponse = await _signIn();
-                              if (signInResponse != null) {
-                                Navigator.pushReplacementNamed(
-                                    context, AppRoutes.chatHome);
-                              } else {
-                                SnackBar(
-                                  content: const Text('Sign in failed'),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.error,
-                                );
-                              }
-                            },
+                          : () async => await performSignInAndNavigate(context),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -285,10 +281,8 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(width: 5),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignupPage()));
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.signUp);
                           },
                           child: const Text(
                             "Signup",
