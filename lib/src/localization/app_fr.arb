@@ -34,5 +34,10 @@
   "systemTheme": "Thème du Systeme",
   "@systemTheme": {
     "description": "Le System du système d'exploitation"
+  },
+  "aboutPagetitle": "A Propos",
+  "systemAbout": "A propose de l'application",
+  "@systemAbout": {
+    "description": "A propose de l'application"
   }
 }

@@ -34,5 +34,10 @@
   "systemTheme": "Basé sur le thème du système",
   "@systemTheme": {
     "description": "Définir le thème de l'application en fonction du thème du système"
+  },
+  "aboutPagetitle": "About",
+  "systemAbout": "A propose de l'application",
+  "@systemAbout": {
+    "description": "A propose de l'application"
   }
 }

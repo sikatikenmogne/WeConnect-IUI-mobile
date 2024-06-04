@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const String sampleItemList = '/sampleItemList';
   static const String chatHome = '/chat';
   static const String chatMessage = '/chat/chat_message';
+  static const String about = '/avout';
 
 
   static Map<String, WidgetBuilder> getRoutes() {
@@ -31,7 +33,8 @@ class Routes {
         // return ChatPage(userId: userId);
         return ChatPage();
       },
-      settings: (context) => SettingsPage()
+      settings: (context) => SettingsPage(),
+      about: (context) => AboutPage()
     };
   }
 }

@@ -48,6 +48,7 @@ flutter:
     - assets/images/onboarding/Starting_a_business_project_amico.png
     - assets/images/onboarding/GDPR_amico.png
     - assets/images/logo/2.png
+    - assets/images/logo/1-no_bg.png
   fonts:
     - family: Syne
       fonts:
@@ -57,3 +58,10 @@ flutter:
           weight: 700
         - asset: assets/fonts/Syne-ExtraBold.ttf
           weight: 800
+    - family: RedHatDisplay
+      fonts:
+        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Regular.ttf
+        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Italic.ttf
+        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Medium.ttf
+        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Bold.ttf
+    
