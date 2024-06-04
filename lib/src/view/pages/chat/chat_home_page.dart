@@ -6,6 +6,8 @@ import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 
+import '../../components/header.dart';
+
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
   @override
@@ -55,36 +57,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
     return Scaffold(
       backgroundColor: AppColor.white,
-      appBar: AppBar(
-        backgroundColor: AppColor.header,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.04),
-          child: IconButton(
-            icon: Icon(Icons.menu, color: AppColor.black, size: height/width*20),
-            onPressed: () {},
-          ),
-        ),
+      appBar: AppHeader(
         title: Text(
           "Chats", 
           style: TextStyle(color: AppColor.black, fontSize: 25, fontFamily: "Syne")
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width*.04),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.search, color: AppColor.black,),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.notifications, color: AppColor.black,),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-        ],
+        height: height,
+        width: width
       ),
       body: ListView.builder(
         itemCount: groupedChatsByUsername.length,

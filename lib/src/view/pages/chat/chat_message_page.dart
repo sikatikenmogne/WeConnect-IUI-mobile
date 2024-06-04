@@ -119,7 +119,7 @@ class _ChatPageState extends State<ChatPage> {
           ],
         ),
         actions: [Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.03),
+          padding: EdgeInsets.symmetric(horizontal: width*.1),
           child: Row(
             children: [
               IconButton(

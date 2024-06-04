@@ -107,7 +107,9 @@ class _SignupPageState extends State<SignupPage> {
         print('Sign-up successful');
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign-up successful')),
+          SnackBar(
+              content: Text(
+                  'Sign-up successful')),
         );
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -307,8 +309,7 @@ class _SignupPageState extends State<SignupPage> {
                             password: password,
                             repeatPassword: repeatPassword);
 
-                        if (signUpResponse != null &&
-                            signUpResponse.session != null) {
+                        if (signUpResponse != null && signUpResponse.session != null) {
                           final name = nameController.text.trim();
                           final user = signUpResponse.user;
 

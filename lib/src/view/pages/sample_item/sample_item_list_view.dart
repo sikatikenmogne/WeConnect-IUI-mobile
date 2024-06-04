@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
-import '../settings/settings_view.dart';
 import '../../../model/sample_item/sample_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'src/app.dart';
 import 'src/controller/settings/settings_controller.dart';
 import 'src/service/settings/settings_service.dart';
 
 void main() async {
+  // Ensures that the widget binding has been initialized.
+  // This is required if you're running code (like plugin initialization)
+  // before calling runApp().
+  WidgetsFlutterBinding.ensureInitialized();
   // Load environment variables from the .env file
   await dotenv.load(fileName: "assets/.env.dev");
 
@@ -33,7 +38,6 @@ void main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   runApp(MyApp(settingsController: settingsController));
-  // runApp(ChatPage(userId: "2",));
 }
 
 // Get an instance of the Supabase client

@@ -4,6 +4,7 @@ import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_switch.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,8 +29,16 @@ class _SettingsPageState extends State<SettingsPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settingsPagetitle),
+      appBar: AppHeader(
+        width: width, 
+        height: height,
+        leading: Icons.arrow_back_ios,
+        title: Text("Back", style: TextStyle(color: AppColor.black),),
+        titleSpacing: -width*.001,
+        actions: [Text(
+            AppLocalizations.of(context)!.settingsPagetitle, 
+            style: TextStyle(color: AppColor.black, fontSize: 22),
+          )],
       ),
       body: Container(
         color: AppColor.white,
