@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 
 import '../../constants/app_color.dart';
 
@@ -8,6 +9,8 @@ class CommonText extends StatelessWidget {
   final Color color;
   final FontWeight fontWeight;
   final TextAlign alignment;
+  final String fontFamily;
+  final FontStyle fontStyle;
 
   const CommonText({
     Key? key,
@@ -16,6 +19,8 @@ class CommonText extends StatelessWidget {
     this.color = AppColor.black,
     this.fontWeight = FontWeight.w400,
     this.alignment = TextAlign.center,
+    this.fontFamily = AppFonts.FontFamily_Syne,
+    this.fontStyle = FontStyle.normal,
   }) : super(key: key);
 
   @override
@@ -27,7 +32,8 @@ class CommonText extends StatelessWidget {
         fontSize: fontSize,
         color: color,
         fontWeight: fontWeight,
-        fontFamily: 'Syne',
+        fontFamily: fontFamily,
+        fontStyle: fontStyle,
       ),
     );
   }
