@@ -5,9 +5,25 @@
   "@appTitle": {
     "description": "The title of the application"
   },
+  "backTextButton": "Back",
+  "@backTextButton": {
+    "description": "Text for back into navigation"
+  },
+  "changePicture": "Change picture",
+  "@changePicture": {
+    "description": "Change picture label"
+  },
   "darkTheme": "Mode sombre",
   "@darkTheme": {
     "description": "Le mode sombre"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile message value"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "email text label"
   },
   "lightTheme": "Mode clair",
   "@lightTheme": {
@@ -22,6 +38,18 @@
     "description": "Title for the list details page"
   },
   "mainPageTitle": "Sample Items",
+  "noImage": "No Image",
+  "@noImage": {
+    "description": "Placeholder message"
+  },
+  "number": "Number",
+  "@number": {
+    "description": "phone number label"
+  },
+  "promotion": "Promotion",
+  "@promotion": {
+    "description": "promotion"
+  },
   "sampleitemItemId": "SampleItem #{itemId}",
   "@sampleitemItemId": {
     "placeholders": {
@@ -30,9 +58,21 @@
       }
     }
   },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "button processing status label"
+  },
   "settingsPagetitle": "Settings",
+  "submit": "Submit",
+  "@submit": {
+    "description": "submit button label"
+  },
   "systemTheme": "Basé sur le thème du système",
   "@systemTheme": {
     "description": "Définir le thème de l'application en fonction du thème du système"
+  },
+  "userName": "User Name",
+  "@userName": {
+    "description": "UserName"
   }
 }

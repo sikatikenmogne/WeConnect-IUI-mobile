@@ -5,9 +5,25 @@
   "@appTitle": {
     "description": "Le titre de l'application"
   },
+  "backTextButton": "Back",
+  "@backTextButton": {
+    "description": "Text for back into navigation"
+  },
+  "changePicture": "Change picture",
+  "@changePicture": {
+    "description": "Change picture label"
+  },
   "darkTheme": "Thème sombre",
   "@darkTheme": {
     "description": "Le mode sombre"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile message value"
+  },
+  "email": "surname.name@20xx.ucac-icam.com",
+  "@email": {
+    "description": "Email Form in put placeholder"
   },
   "lightTheme": "Thème clair",
   "@lightTheme": {
@@ -22,6 +38,18 @@
     "description": "Title for the list details page"
   },
   "mainPageTitle": "Exemple de liste",
+  "noImage": "No Image",
+  "@noImage": {
+    "description": "Placeholder message"
+  },
+  "number": "6xx xxx xxx",
+  "@number": {
+    "description": "phone number label"
+  },
+  "promotion": "Promotion",
+  "@promotion": {
+    "description": "promotion"
+  },
   "sampleitemItemId": "Element de liste N°{itemId}",
   "@sampleitemItemId": {
     "placeholders": {
@@ -30,9 +58,21 @@
       }
     }
   },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "button processing status label"
+  },
   "settingsPagetitle": "Paramètres",
+  "submit": "Submit",
+  "@submit": {
+    "description": "submit button label"
+  },
   "systemTheme": "Thème du Systeme",
   "@systemTheme": {
     "description": "Le System du système d'exploitation"
+  },
+  "userName": "User Name",
+  "@userName": {
+    "description": "UserName"
   }
 }
