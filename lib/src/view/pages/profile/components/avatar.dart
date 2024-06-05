@@ -72,51 +72,58 @@ class _AvatarState extends State<Avatar> {
 
   Future<void> _upload() async {
     final picker = ImagePicker();
-    final imageFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 300,
-      maxHeight: 300,
-    );
-    if (imageFile == null) {
-      return;
-    }
-    setState(() => _isLoading = true);
-
     try {
-      final bytes = await imageFile.readAsBytes();
-      final fileExt = imageFile.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
-      final filePath = fileName;
-      await supabaseClient.storage.from('avatars').uploadBinary(
-            filePath,
-            bytes,
-            fileOptions: FileOptions(contentType: imageFile.mimeType),
-          );
-      final imageUrlResponse = await supabaseClient.storage
-          .from('avatars')
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
-      widget.onUpload(imageUrlResponse);
-    } on StorageException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CommonText(
-                text: error.message, fontFamily: AppFonts.FontFamily_RedHatDisplay),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Unexpected error occurred'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      }
-    }
+      final imageFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 300,
+        maxHeight: 300,
+      );
+      // rest of your code...
 
-    setState(() => _isLoading = false);
+      if (imageFile == null) {
+        return;
+      }
+      setState(() => _isLoading = true);
+
+      try {
+        final bytes = await imageFile.readAsBytes();
+        final fileExt = imageFile.path.split('.').last;
+        final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+        final filePath = fileName;
+        await supabaseClient.storage.from('avatars').uploadBinary(
+              filePath,
+              bytes,
+              fileOptions: FileOptions(contentType: imageFile.mimeType),
+            );
+        final imageUrlResponse = await supabaseClient.storage
+            .from('avatars')
+            .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10);
+        widget.onUpload(imageUrlResponse);
+      } on StorageException catch (error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: CommonText(
+                  text: error.message,
+                  fontFamily: AppFonts.FontFamily_RedHatDisplay),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+        }
+      } catch (error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Unexpected error occurred'),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+        }
+      }
+
+      setState(() => _isLoading = false);
+    } catch (e) {
+      print('Error picking image: $e');
+    }
   }
 }
