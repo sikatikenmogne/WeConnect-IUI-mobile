@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 
 import '../../constants/app_color.dart';
@@ -11,6 +12,9 @@ class CommonButton extends StatelessWidget {
   final double borderCircularRadius;
   final IconData? buttonIcon;
   final VoidCallback? onPressed;
+  final String fontFamily;
+  final FontWeight fontWeight;
+  final FontStyle fontStyle;
 
   const CommonButton({
     Key? key,
@@ -21,6 +25,9 @@ class CommonButton extends StatelessWidget {
     this.borderCircularRadius = 5,
     this.onPressed,
     this.buttonIcon = null,
+    this.fontFamily = AppFonts.FontFamily_Syne,
+    this.fontWeight = FontWeight.w400,
+    this.fontStyle = FontStyle.normal,
   }) : super(key: key);
 
   @override
@@ -39,7 +46,13 @@ class CommonButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          CommonText(text: text, fontSize: 15, color: textColor),
+          CommonText(
+              text: text,
+              fontSize: 15,
+              color: textColor,
+              fontFamily: fontFamily,
+              fontWeight: fontWeight,
+              fontStyle: fontStyle),
           if (buttonIcon != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
