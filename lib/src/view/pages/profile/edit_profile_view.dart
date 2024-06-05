@@ -3,12 +3,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_button.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 import 'package:we_connect_iui_mobile/src/view/components/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'components/avatar.dart';
+import 'components/profile_button.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({Key? key}) : super(key: key);
@@ -24,6 +26,7 @@ class _ProfileViewState extends State<EditProfileView> {
   final _emailController = TextEditingController();
 
   String? _avatarUrl;
+  Map<String, String>? _avatarData;
   var _loading = true;
 
   String dropdownValue2 = '2025';
@@ -45,6 +48,11 @@ class _ProfileViewState extends State<EditProfileView> {
       _usernameController.text = (data['username'] ?? '') as String;
       _websiteController.text = (data['website'] ?? '') as String;
       _avatarUrl = (data['avatar_url'] ?? '') as String;
+      _avatarData = {
+        'imageUrl': _avatarUrl!,
+        'username': _usernameController.text,
+        'promotion': "X2025",
+      };
     } on PostgrestException catch (error) {
       if (mounted) {
         SnackBar(
@@ -199,7 +207,7 @@ class _ProfileViewState extends State<EditProfileView> {
       appBar: AppHeader(
         title: Row(
           children: [
-            Icon(Icons.arrow_back_ios),
+            // Icon(Icons.arrow_back_ios),
             CommonText(
               text: AppLocalizations.of(context)!.backTextButton,
               fontFamily: AppFonts.FontFamily_RedHatDisplay,
@@ -363,15 +371,13 @@ class _ProfileViewState extends State<EditProfileView> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                CommonButton(
-                  onPressed: _loading ? null : _updateProfile,
-                  text: _loading
+                SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+
+                ProfileButton(
+                  _loading
                       ? AppLocalizations.of(context)!.saving
                       : AppLocalizations.of(context)!.submit,
-                  fontFamily: AppFonts.FontFamily_RedHatDisplay,
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.color3,
-                  fontStyle: FontStyle.italic,
+                  onPressed: _loading ? null : _updateProfile,
                 ),
                 // const SizedBox(height: 18),
                 // TextButton(onPressed: _signOut, child: const Text('Sign Out')),
