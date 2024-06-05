@@ -1,38 +1,60 @@
-import 'package:we_connect_iui_mobile/src/model/enum/privilege_enum.dart';
+import 'package:we_connect_iui_mobile/main.dart'; // Assuming supabaseClient is defined in main.dart
+import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 
-class Role{
-  static const learner = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR
-  ]);
-  static const instructor = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR
-  ]);
-  static const admin = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR,
-    PrivilegeEnum.CREATE_CALENDAR,
-  ]);
+class Role {
+  String _id;
+  String _name;
 
-  final List<PrivilegeEnum> privileges;
+  Role._({
+    required String id,
+    required String name,
+  })  : _id = id,
+        _name = name;
 
-  const Role._(this.privileges);
+  static Future<Role> create({
+    required String name,
+  }) async {
+    final id = AutogenerateUtil().generateId();
+    final newRole = Role._(
+      id: id,
+      name: name,
+    );
 
-  static List<Role> get values => [learner, instructor, admin];
+    final response = await supabaseClient.from("roles").insert({
+      "id": id,
+      "name": name,
+    });
+
+    if (response.error != null) {
+      print('Error inserting role: ${response.error!.message}');
+    } else {
+      print('Role inserted successfully');
+    }
+
+    return newRole;
+  }
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role._(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
+
+  String get id => _id;
+  set id(String value) => _id = value;
+
+  String get name => _name;
+  set name(String value) => _name = value;
+}
+
+// Example usage of the Role class
+void main() async {
+  // Example usage
+  Role newRole = await Role.create(
+    name: "Admin",
+  );
+
+  // Use the newRole object as needed
+  print('New role created with ID: ${newRole.id}');
 }

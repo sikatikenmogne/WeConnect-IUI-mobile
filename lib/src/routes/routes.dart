@@ -29,9 +29,8 @@ class Routes {
       signUp: (context) => SignupPage(),
       chatHome: (context) => ChatHomePage(),
       chatMessage: (context) {
-        // final userId = ModalRoute.of(context)!.settings.arguments as String;
-        // return ChatPage(userId: userId);
-        return ChatPage();
+        final userId = ModalRoute.of(context)!.settings.arguments as String;
+        return ChatPage(userId: userId);
       },
       settings: (context) => SettingsPage(),
       about: (context) => AboutPage()

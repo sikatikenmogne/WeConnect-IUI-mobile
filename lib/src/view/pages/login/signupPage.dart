@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
-import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
@@ -106,13 +106,17 @@ class _SignupPageState extends State<SignupPage> {
           await supabaseClient.auth.signUp(email: email, password: password);
 
       if (response.user != null) {
-        final _settings = Settings();
         final newUser = {
           "id": response.user!.id,
           "firstname": nameController.text, 
-          "email": response.user!.email,
-          "settingsid": _settings.id,
+          "email": emailController.text,
           "roleid": 3
+        };
+        final newSettings = {
+          "isEnglish": true,
+          "isDarkModeEnabled": false,
+          "isPostNotificationDisabled": false,
+          "isChatNotificationDisabled": false,
         };
         
         await supabaseClient
@@ -128,6 +132,8 @@ class _SignupPageState extends State<SignupPage> {
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('user', json.encode(newUser));
+        await prefs.setString('settings', json.encode(newSettings));
 
         return response;
       } else {

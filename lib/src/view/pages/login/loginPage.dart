@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +7,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
 
 import '../../../constants/app_color.dart';
 
@@ -44,6 +44,8 @@ class _LoginPageState extends State<LoginPage> {
           // The user is logged in
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('isLoggedIn', true);
+          await prefs.setString('user', json.encode(response!.user));
+          print("prefs stored");
 
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Authentification is successful!')),
@@ -279,19 +281,13 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.signUp);
-                          },
-                          child: InkWell(
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
-                            child: Text(
-                              "Signup",
-                              style: TextStyle(
-                                color: AppColor.primary,
-                                fontFamily: 'Syne',
-                              ),
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
+                          child: Text(
+                            "Signup",
+                            style: TextStyle(
+                              color: AppColor.primary,
+                              fontFamily: 'Syne',
                             ),
                           ),
                         ),

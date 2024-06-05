@@ -1,7 +1,10 @@
 import 'package:we_connect_iui_mobile/src/model/audit_model.dart';
 import 'package:we_connect_iui_mobile/src/model/enum/event_type_enum.dart';
+import 'package:we_connect_iui_mobile/main.dart'; // Assuming supabaseClient is defined in main.dart
+import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 
-class Calendar extends AuditModel{
+class Calendar extends AuditModel {
+  String _id;
   String _title;
   EventTypeEnum _eventType;
   DateTime _startDate;
@@ -10,7 +13,8 @@ class Calendar extends AuditModel{
   String _instructor;
   String? _comment;
 
-  Calendar({
+  Calendar._({
+    required String id,
     required String title,
     required EventTypeEnum eventType,
     required DateTime startDate,
@@ -18,7 +22,8 @@ class Calendar extends AuditModel{
     required String room,
     required String instructor,
     required String comment,
-  })  : _title = title,
+  })  : _id = id,
+        _title = title,
         _eventType = eventType,
         _startDate = startDate,
         _stopDate = stopDate,
@@ -26,6 +31,50 @@ class Calendar extends AuditModel{
         _instructor = instructor,
         _comment = comment,
         super();
+
+  static Future<Calendar> create({
+    required String title,
+    required EventTypeEnum eventType,
+    required DateTime startDate,
+    required DateTime stopDate,
+    required String room,
+    required String instructor,
+    required String comment,
+  }) async {
+    final id = AutogenerateUtil().generateId();
+    final newCalendar = Calendar._(
+      id: id,
+      title: title,
+      eventType: eventType,
+      startDate: startDate,
+      stopDate: stopDate,
+      room: room,
+      instructor: instructor,
+      comment: comment,
+    );
+
+    final response = await supabaseClient.from("calendars").insert({
+      "id": id,
+      "title": title,
+      "eventType": eventType.toString(), // Convert enum to string
+      "startDate": startDate.toIso8601String(),
+      "stopDate": stopDate.toIso8601String(),
+      "room": room,
+      "instructor": instructor,
+      "comment": comment,
+    });
+
+    if (response.error != null) {
+      print('Error inserting calendar event: ${response.error!.message}');
+    } else {
+      print('Calendar event inserted successfully');
+    }
+
+    return newCalendar;
+  }
+
+  String get id => _id;
+  set id(String value) => _id = value;
 
   String get title => _title;
   set title(String value) => _title = value;

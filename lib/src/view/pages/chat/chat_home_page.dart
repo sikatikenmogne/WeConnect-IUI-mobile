@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
-import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 
 import '../../components/header.dart';
@@ -16,24 +16,32 @@ class ChatHomePage extends StatefulWidget {
 
 class _ChatHomePageState extends State<ChatHomePage> {
   late Map<String, List<Chat>> groupedChatsByUsername;
+  late List<Chat> _chats;
 
+  
+  Future<void> _loadData() async {
+    await loadUserAndSettings();
+    _chats = await Chat.loadChats();
+  }
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
+    _loadData();
     groupChatsByUsername();
   }
 
   void groupChatsByUsername() {
-    groupedChatsByUsername = {};
-    for (var chat in chatDataSet.values) {
-      String username = '${chat.destinator.firstname} ${chat.destinator.lastname}';
-      if (!groupedChatsByUsername.containsKey(username)) {
-        groupedChatsByUsername[username] = [];
-      }
-      groupedChatsByUsername[username]!.add(chat);
+  groupedChatsByUsername = {};
+  for (var chat in _chats) {
+    String username = '${chat.destinator.firstname} ${chat.destinator.lastname}';
+    if (!groupedChatsByUsername.containsKey(username)) {
+      groupedChatsByUsername[username] = [];
     }
+    groupedChatsByUsername[username]!.add(chat);
   }
+}
+
 
   String _formatDateTime(DateTime dateTime) {
     final now = DateTime.now();

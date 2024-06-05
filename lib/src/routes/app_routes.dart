@@ -50,7 +50,7 @@ class AppRoutes {
             },
           ),
       chatHome: (context) => ChatHomePage(),
-      chatMessage: (context) => ChatPage(),
+      // chatMessage: (context) => ChatPage(userId: '',),
       editProfile: (context) => EditProfileView(),
     };
   }

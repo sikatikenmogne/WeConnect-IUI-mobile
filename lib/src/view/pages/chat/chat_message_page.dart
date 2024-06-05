@@ -1,55 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
-import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
-import 'package:we_connect_iui_mobile/src/model/role_model.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
-import 'package:we_connect_iui_mobile/src/service/user_service.dart';
 import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/custom_bubble.dart';
 
 import '../../../model/chat_model.dart' as chats;
 
 class ChatPage extends StatefulWidget{
-  // final String userId;
-  // const ChatPage({Key? key, required this.userId}) : super(key: key);
-
-  final String userId = "2";
-
-  const ChatPage({Key? key}) : super(key: key);
+  final String userId;
+  const ChatPage({Key? key, required this.userId}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late User currentUser;
+  late User _currentUser;
   late User otherUser;
-  // List<Chat> messages = [];
+  List<chats.Chat> loadedChats = [];
   List<types.Message> _messages = [];
 
 
-  void _loadMessages() {
+
+  void _loadOtherUser() async {
+    final otherUserResponse = await supabaseClient
+        .from("users")
+        .select()
+        .eq('id', widget.userId)
+        .single();
+
+      setState(() {
+        otherUser = User.fromJson(otherUserResponse);
+      });
+    }
+
+  void _loadMessages() async {
+  try {
+    loadedChats = await chats.Chat.loadChats();
     setState(() {
-      _messages = chatDataSet.values
+      _messages = loadedChats
           .where((chat) => chat.destinator.id == widget.userId)
           .map((chat) => types.TextMessage(
-            author: types.User(id: chat.destinator.id),
-            createdAt: chat.createdAt.millisecondsSinceEpoch,
-            id: chat.id,
-            text: chat.content
-          ))
+                author: types.User(id: chat.destinator.id),
+                createdAt: chat.createdAt.millisecondsSinceEpoch,
+                id: chat.id,
+                text: chat.content,
+              ))
           .toList();
 
       _messages = _messages.reversed.toList();
     });
+  } catch (e) {
+    print('Error loading messages: $e');
   }
+}
 
-  void _sendMessage(types.PartialText message){
+  void _sendMessage(types.PartialText message) async {
     final textMessage = types.TextMessage(
-      author: types.User(id: currentUser.id),
+      author: types.User(id: _currentUser.id),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: AutogenerateUtil().generateId(),
       text: message.text
@@ -58,26 +70,22 @@ class _ChatPageState extends State<ChatPage> {
     setState(() => _messages.insert(_messages.length, textMessage));
 
     // persist data
-    chatDataSet[textMessage.id] = chats.Chat(
-      id: textMessage.id,
-      content: textMessage.text,
-      destinator: otherUser
+    try {
+    await chats.Chat.create(
+      content: message.text,
+      destinator: otherUser,
     );
-
+    } catch (e) {
+      print('Error sending message: $e');
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    currentUser = User(
-          id: "0", 
-          firstname: "Jordan",
-          lastname: "TCHOUNGA",
-          email: "jt@gmail.com",
-          role: Role.learner
-        );
-    otherUser = UserService().getUserById("2")!;
-    // otherUser = UserService().getUserById(widget.userId)!;
+    loadUserAndSettings();
+    _currentUser = currentUser!;
+    _loadOtherUser();
     _loadMessages();
   }
 
@@ -136,7 +144,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Chat(        
         messages: _messages, 
         onSendPressed: _sendMessage, 
-        user: types.User(id: currentUser.id),
+        user: types.User(id: _currentUser.id),
         bubbleBuilder: _bubbleBuilder        
       ),
     );
@@ -147,7 +155,7 @@ class _ChatPageState extends State<ChatPage> {
     required types.Message message,
     required bool nextMessageInGroup,
   }) {
-    final isCurrentUser = message.author.id == currentUser.id;
+    final isCurrentUser = message.author.id == _currentUser.id;
     final color = isCurrentUser ? AppColor.header : AppColor.color2;
 
     return Container(
