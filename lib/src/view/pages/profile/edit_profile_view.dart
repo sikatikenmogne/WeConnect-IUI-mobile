@@ -26,6 +26,9 @@ class _ProfileViewState extends State<EditProfileView> {
   String? _avatarUrl;
   var _loading = true;
 
+  String dropdownValue2 = '2025';
+  String dropdownValue1 = 'X';
+
   /// Called once a user id is received within `onAuthenticated()`
   Future<void> _getProfile() async {
     setState(() {
@@ -192,8 +195,6 @@ class _ProfileViewState extends State<EditProfileView> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    var dropdownValue2 = '2025';
-    var dropdownValue1 = 'X';
     return Scaffold(
       appBar: AppHeader(
         title: Row(
