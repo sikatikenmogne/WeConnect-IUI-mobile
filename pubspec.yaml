@@ -18,10 +18,10 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.0.10+1
   get: ^4.6.6
+  image_picker: ^1.1.2
   intl: any
   package_info_plus: ^8.0.0
   shared_preferences: ^2.2.3
-  supabase: ^2.2.0
   supabase_flutter: ^2.5.3
   uuid: ^4.4.0
 
@@ -52,16 +52,25 @@ flutter:
   fonts:
     - family: Syne
       fonts:
-        - asset: assets/fonts/Syne-Regular.ttf
-        - asset: assets/fonts/Syne-Medium.ttf
-        - asset: assets/fonts/Syne-Bold.ttf
+        - asset: assets/fonts/Syne/Syne-Regular.ttf
+        - asset: assets/fonts/Syne/Syne-Medium.ttf
+        - asset: assets/fonts/Syne/Syne-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Syne-ExtraBold.ttf
+        - asset: assets/fonts/Syne/Syne-ExtraBold.ttf
           weight: 800
-    - family: RedHatDisplay
+    - family: Red_Hat_Display
       fonts:
-        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Regular.ttf
-        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Italic.ttf
-        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Medium.ttf
-        - asset: assets/fonts/RedHatDisplay/RedHatDisplay-Bold.ttf
-    
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-Regular.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-Italic.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-Medium.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-MediumItalic.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-SemiBold.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-SemiBoldItalic.ttf
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-BoldItalic.ttf
+          weight: 700
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Red_Hat_Display/RedHatDisplay-ExtraBoldItalic.ttf
+          weight: 800
