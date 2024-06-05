@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 
-class AppHeader extends StatelessWidget implements PreferredSizeWidget{
+class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final IconData? leading;
   final Widget? title;
   final double? titleSpacing;
@@ -13,7 +12,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget{
 
   const AppHeader({
     Key? key,
-    this.leading,
+    this.leading = Icons.menu,
     this.title,
     this.titleSpacing,
     this.actions,
@@ -28,34 +27,42 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor,
-      titleSpacing: titleSpacing,
-      leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.04),
-          child: IconButton(
-            icon: Icon(leading ?? Icons.menu, color: AppColor.black, size: height/width*20),
-            onPressed: () {},
+        backgroundColor: backgroundColor,
+        titleSpacing: titleSpacing,
+        leading: (leading != null)
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * .04),
+                child: IconButton(
+                  icon: Icon(leading ?? Icons.menu,
+                      color: AppColor.black, size: height / width * 20),
+                  onPressed: () {},
+                ),
+              )
+            : null,
+        title: title,
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * .04),
+            child: Row(
+              children: actions ??
+                  [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: AppColor.black,
+                      ),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.notifications,
+                        color: AppColor.black,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
+            ),
           ),
-        ),
-      title: title,
-      actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.04),
-          child: Row(
-            children: actions ?? [
-              IconButton(
-                icon: const Icon(Icons.search, color: AppColor.black,),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.notifications, color: AppColor.black,),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-      ]
-    );
+        ]);
   }
-  
 }
