@@ -1,6 +1,7 @@
 {
   "@@locale": "fr",
   "@@author": "WeConnect IUI Dev Team",
+  "aboutPagetitle": "A Propos",
   "appTitle": "WeConnect IUI mobile",
   "@appTitle": {
     "description": "Le titre de l'application"
@@ -17,11 +18,11 @@
   "@darkTheme": {
     "description": "Le mode sombre"
   },
-  "editProfile": "Edit Profile",
+  "editProfile": "Edit",
   "@editProfile": {
-    "description": "Edit profile message value"
+    "description": "Etit profile button label"
   },
-  "email": "surname.name@20xx.ucac-icam.com",
+  "email": "prénom.non@20xx.ucac-icam.com",
   "@email": {
     "description": "Email Form in put placeholder"
   },
@@ -67,14 +68,13 @@
   "@submit": {
     "description": "submit button label"
   },
-  "systemTheme": "Thème du Systeme",
-  "@systemTheme": {
-    "description": "Le System du système d'exploitation"
-  },
-  "aboutPagetitle": "A Propos",
   "systemAbout": "A propose de l'application",
   "@systemAbout": {
     "description": "A propose de l'application"
+  },
+  "systemTheme": "Thème du Systeme",
+  "@systemTheme": {
+    "description": "Le System du système d'exploitation"
   },
   "userName": "User Name",
   "@userName": {
