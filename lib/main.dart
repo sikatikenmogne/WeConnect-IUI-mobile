@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'src/app.dart';
 import 'src/controller/settings/settings_controller.dart';
 import 'src/service/settings/settings_service.dart';

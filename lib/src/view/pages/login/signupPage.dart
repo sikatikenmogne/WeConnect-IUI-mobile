@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
@@ -104,8 +106,20 @@ class _SignupPageState extends State<SignupPage> {
           await supabaseClient.auth.signUp(email: email, password: password);
 
       if (response.user != null) {
-        print('Sign-up successful');
+        final _settings = Settings();
+        final newUser = {
+          "id": response.user!.id,
+          "firstname": nameController.text, 
+          "email": response.user!.email,
+          "settingsid": _settings.id,
+          "roleid": 3
+        };
+        
+        await supabaseClient
+          .from("users")
+          .insert(newUser);
 
+        print('Sign-up successful');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
@@ -141,262 +155,267 @@ class _SignupPageState extends State<SignupPage> {
 
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Icon button
-            Container(
-              width: screenWidth * 0.87,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()));
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: AppColor.primary,
-                        size: 30,
-                      )),
-                ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Icon button
+              Container(
+                width: screenWidth * 0.87,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: AppColor.primary,
+                          size: 30,
+                        )),
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 80),
-            // Login title
-            const Text(
-              'Inscription',
-              style: TextStyle(
-                color: AppColor.primary,
-                fontFamily: "Syne",
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
+        
+              SizedBox(height: screenWidth*.2),
+              // Login title
+              const Text(
+                'Inscription',
+                style: TextStyle(
+                  color: AppColor.primary,
+                  fontFamily: "Syne",
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 40),
-
-            // Signup form
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Name input field
-                  Container(
-                    //height: screenWidth * 0.1,
-                    width: screenWidth * 0.87,
-                    child: TextFormField(
-                      controller: nameController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
-                        fontFamily: 'Syne',
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Name',
-                        hintStyle: TextStyle(color: AppColor.primary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.email,
+              const SizedBox(height: 40),
+        
+              // Signup form
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    // Name input field
+                    Container(
+                      //height: screenWidth * 0.1,
+                      width: screenWidth * 0.87,
+                      child: TextFormField(
+                        controller: nameController,
+                        style: const TextStyle(
                           color: AppColor.primary,
+                          fontFamily: 'Syne',
                         ),
-                        filled: true,
-                        fillColor: AppColor.success,
+                        decoration: const InputDecoration(
+                          hintText: 'Name',
+                          hintStyle: TextStyle(color: AppColor.primary),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: AppColor.primary,
+                          ),
+                          filled: true,
+                          fillColor: AppColor.success,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Email input field
-                  Container(
-                    //height: screenWidth * 0.1,
-                    width: screenWidth * 0.87,
-                    child: TextFormField(
-                      controller: emailController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
-                        fontFamily: 'Syne',
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        hintStyle: TextStyle(color: AppColor.primary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.email,
+                    const SizedBox(height: 20),
+                    // Email input field
+                    Container(
+                      //height: screenWidth * 0.1,
+                      width: screenWidth * 0.87,
+                      child: TextFormField(
+                        controller: emailController,
+                        style: const TextStyle(
                           color: AppColor.primary,
+                          fontFamily: 'Syne',
                         ),
-                        filled: true,
-                        fillColor: AppColor.success,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: TextStyle(color: AppColor.primary),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: AppColor.primary,
+                          ),
+                          filled: true,
+                          fillColor: AppColor.success,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Password input field
-                  Container(
-                    width: screenWidth * 0.87,
-                    child: TextFormField(
-                      controller: passwordController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
-                        fontFamily: 'Syne',
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: AppColor.primary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
+                    const SizedBox(height: 20),
+        
+                    // Password input field
+                    Container(
+                      width: screenWidth * 0.87,
+                      child: TextFormField(
+                        controller: passwordController,
+                        style: const TextStyle(
                           color: AppColor.primary,
+                          fontFamily: 'Syne',
                         ),
-                        filled: true,
-                        fillColor: AppColor.success,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: TextStyle(color: AppColor.primary),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: AppColor.primary,
+                          ),
+                          filled: true,
+                          fillColor: AppColor.success,
+                        ),
+                        obscureText: true,
                       ),
-                      obscureText: true,
                     ),
-                  ),
-                  // Repeat password input field
-                  const SizedBox(height: 20),
-                  Container(
-                    width: screenWidth * 0.87,
-                    child: TextFormField(
-                      controller: repeatPasswordController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
-                        fontFamily: 'Syne',
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Repeat password',
-                        hintStyle: TextStyle(color: AppColor.primary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock,
+                    // Repeat password input field
+                    const SizedBox(height: 20),
+                    Container(
+                      width: screenWidth * 0.87,
+                      child: TextFormField(
+                        controller: repeatPasswordController,
+                        style: const TextStyle(
                           color: AppColor.primary,
+                          fontFamily: 'Syne',
                         ),
-                        filled: true,
-                        fillColor: AppColor.success,
-                      ),
-                      obscureText: true,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-
-                  // Submit button with centered text and icon at the end
-                  Container(
-                    width: screenWidth * 0.87,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final email = emailController.text;
-                        final password = passwordController.text;
-                        final repeatPassword = repeatPasswordController.text;
-
-                        var signUpResponse = await _signUp(
-                            email: email,
-                            password: password,
-                            repeatPassword: repeatPassword);
-
-                        if (signUpResponse != null && signUpResponse.session != null) {
-                          final name = nameController.text.trim();
-                          final user = signUpResponse.user;
-
-                          final updates = {
-                            'id': user!.id,
-                            'username': name,
-                            'updated_at': DateTime.now().toIso8601String(),
-                          };
-                          await _updateProfile(updates);
-
-                          // Navigate to the login page
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.home);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        decoration: const InputDecoration(
+                          hintText: 'Repeat password',
+                          hintStyle: TextStyle(color: AppColor.primary),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: AppColor.primary,
+                          ),
+                          filled: true,
+                          fillColor: AppColor.success,
                         ),
-                        foregroundColor: Colors.white,
-                        backgroundColor:
-                            AppColor.primary, // Set the button color
+                        obscureText: true,
                       ),
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Syne',
+                    ),
+                    const SizedBox(height: 40),
+        
+                    // Submit button with centered text and icon at the end
+                    Container(
+                      width: screenWidth * 0.87,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final email = emailController.text;
+                          final password = passwordController.text;
+                          final repeatPassword = repeatPasswordController.text;
+        
+                          var signUpResponse = await _signUp(
+                              email: email,
+                              password: password,
+                              repeatPassword: repeatPassword);
+        
+                          if (signUpResponse != null && signUpResponse.session != null) {
+                            final name = nameController.text.trim();
+                            final user = signUpResponse.user;
+        
+                            final updates = {
+                              'id': user!.id,
+                              'username': name,
+                              'updated_at': DateTime.now().toIso8601String(),
+                            };
+                            await _updateProfile(updates);
+        
+                            // Navigate to the login page
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.home);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          foregroundColor: Colors.white,
+                          backgroundColor:
+                              AppColor.primary, // Set the button color
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Syne',
+                                    ),
                                   ),
+                                  SizedBox(
+                                      width: 8), // Adjust this width as needed
+                                  Icon(Icons.exit_to_app),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+        
+                    // Signup link aligned with form fields
+                    Container(
+                      width: screenWidth * 0.87,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                              color: AppColor.tertiary,
+                              fontFamily: 'Syne',
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                              child: Text(
+                                "Signin",
+                                style: TextStyle(
+                                  color: AppColor.primary,
+                                  fontFamily: 'Syne',
                                 ),
-                                SizedBox(
-                                    width: 8), // Adjust this width as needed
-                                Icon(Icons.exit_to_app),
-                              ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Signup link aligned with form fields
-                  Container(
-                    width: screenWidth * 0.87,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          "Already have an account?",
-                          style: TextStyle(
-                            color: AppColor.tertiary,
-                            fontFamily: 'Syne',
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
-                          },
-                          child: const Text(
-                            "Signin",
-                            style: TextStyle(
-                              color: AppColor.primary,
-                              fontFamily: 'Syne',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 200)
-                ],
+        
+                    SizedBox(height: screenWidth*.3)
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

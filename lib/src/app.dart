@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart'; // Import your routes file
 import 'package:we_connect_iui_mobile/src/controller/settings/settings_controller.dart';
 
+import 'routes/routes.dart';
+
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('fr', ''), // English, no country code
+            Locale('en', ''), // English, no country code
           ],
 
           // Use AppLocalizations to configure the correct application title
@@ -59,9 +61,9 @@ class MyApp extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
-
-          initialRoute: AppRoutes.splashscreen,
-          routes: AppRoutes.getRoutes(),
+          // initialRoute: Routes.about,
+          initialRoute: Routes.onboarding,
+          routes: Routes.getRoutes(),
         );
       },
     );

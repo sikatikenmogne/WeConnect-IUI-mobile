@@ -284,11 +284,14 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.signUp);
                           },
-                          child: const Text(
-                            "Signup",
-                            style: TextStyle(
-                              color: AppColor.primary,
-                              fontFamily: 'Syne',
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
+                            child: Text(
+                              "Signup",
+                              style: TextStyle(
+                                color: AppColor.primary,
+                                fontFamily: 'Syne',
+                              ),
                             ),
                           ),
                         ),

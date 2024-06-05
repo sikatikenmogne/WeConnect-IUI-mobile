@@ -42,7 +42,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         title: title,
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * .04),
+            padding: EdgeInsets.symmetric(horizontal: (actions == null) ? width*.04 : width*.08),
             child: Row(
               children: actions ??
                   [

@@ -48,6 +48,7 @@ flutter:
     - assets/images/onboarding/Starting_a_business_project_amico.png
     - assets/images/onboarding/GDPR_amico.png
     - assets/images/logo/2.png
+    - assets/images/logo/1-no_bg.png
   fonts:
     - family: Syne
       fonts:
