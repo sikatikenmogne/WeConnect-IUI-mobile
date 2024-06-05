@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
