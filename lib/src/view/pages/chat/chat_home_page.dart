@@ -20,22 +20,15 @@ class ChatHomePage extends StatefulWidget {
 
 class _ChatHomePageState extends State<ChatHomePage> {
   late Map<String, List<Chat>> groupedChatsByUsername;
-  final List<Chat> _chats = [];
   bool _isLoading = true;
   
   Future<void> _loadData() async {
-    await loadData();
+    // await loadData();
     await User.load();
-    print("==============================================");
-    for(var user in userData){
-      print("user: ${user.email} }");
-    }
-    print("==============================================");
-    print("==============================================");
+    await Chat.load();
 
-    // _chats = await Chat.loadChats();
     groupChatsByUsername();
-    // setState(() => _isLoading = false);
+    setState(() => _isLoading = false);
   }
   @override
   void initState() {
@@ -48,7 +41,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
   void groupChatsByUsername() {
     groupedChatsByUsername = {};
-    for (var chat in _chats) {
+    for (var chat in chatData) {
       String username = '${chat.destinator.firstname} ${chat.destinator.lastname}';
       if (!groupedChatsByUsername.containsKey(username)) {
         groupedChatsByUsername[username] = [];

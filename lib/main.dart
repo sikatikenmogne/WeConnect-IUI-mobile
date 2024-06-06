@@ -56,8 +56,8 @@ Map<String, bool>? userSettings;
 List<Comment>? commentData;
 List<Post>? postData;
 List<UserModel.User> userData = [];
-List<Calendar>? calendarData;
-List<Chat>? chatData;
+List<Calendar> calendarData = [];
+List<Chat> chatData = [];
 List<Role> roleData = [
   Role(id: "1", name: "ADMIN"),
   Role(id: "2", name: "INSTRUCTOR"),

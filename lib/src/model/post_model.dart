@@ -107,7 +107,7 @@ class Post extends AuditModel {
   //   }
   // }
 
-  static Post fromMap(Map<String, dynamic> map) {
+  factory Post.fromJson(Map<String, dynamic> map) {
     return Post(
       id: map['id'] as String,
       content: map['content'] as String,

@@ -8,7 +8,7 @@ import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/custom_bubble.dart';
 
-import '../../../model/chat_model.dart' as chats;
+import '../../../model/chat_model.dart' as ChatModel;
 
 class ChatPage extends StatefulWidget{
   final String userId;
@@ -21,7 +21,6 @@ class ChatPage extends StatefulWidget{
 class _ChatPageState extends State<ChatPage> {
   late User _currentUser;
   late User otherUser;
-  List<chats.Chat> loadedChats = [];
   List<types.Message> _messages = [];
 
 
@@ -40,9 +39,9 @@ class _ChatPageState extends State<ChatPage> {
 
   void _loadMessages() async {
   try {
-    loadedChats = await chats.Chat.load();
+    await ChatModel.Chat.load();
     setState(() {
-      _messages = loadedChats
+      _messages = chatData
           .where((chat) => chat.destinator.id == widget.userId)
           .map((chat) => types.TextMessage(
                 author: types.User(id: chat.destinator.id),
@@ -71,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
 
     // persist data
     try {
-    await chats.Chat.create(
+    await ChatModel.Chat.create(
       content: message.text,
       destinator: otherUser,
     );

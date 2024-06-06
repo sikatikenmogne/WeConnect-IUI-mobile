@@ -12,7 +12,7 @@ class Chat extends AuditModel {
   User _destinator;
   Chat? _parentChat;
 
-  Chat._({
+  Chat({
     required String id,
     required String content,
     required bool isSent,
@@ -20,6 +20,7 @@ class Chat extends AuditModel {
     required bool isRead,
     required User destinator,
     Chat? parentChat,
+    User? createdBy
   })  : _id = id,
         _content = content,
         _isSent = isSent,
@@ -27,44 +28,43 @@ class Chat extends AuditModel {
         _isRead = isRead,
         _destinator = destinator,
         _parentChat = parentChat,
-        super();
-
+        super(){
+          (createdBy != null) ? AuditModel().createdBy = createdBy : null;
+        }
   static Future<Chat> create({
     required String content,
+    bool? isSent,
+    bool? isReceived,
+    bool? isRead,
     required User destinator,
-    bool isRead = false,
     Chat? parentChat,
   }) async {
     final id = AutogenerateUtil().generateId();
-    final newChat = Chat._(
+    final newChat = Chat(
       id: id,
       content: content,
-      isSent: true,
-      isReceived: false,
-      isRead: isRead,
+      isSent: isSent ?? true,
+      isReceived: isReceived ?? false,
+      isRead: isRead ?? false,
       destinator: destinator,
       parentChat: parentChat,
     );
 
-    try {
-      final response = await supabaseClient.from("chat").insert({
-        "id": id,
-        "content": content,
-        "is_sent": true,
-        "is_received": false,
-        "is_read": isRead,
-        "destinator_id": destinator.id,
-        "created_by": AuditModel().createdBy,
-        "parent_chat_id": parentChat?.id,
-      });
+    final response = await supabaseClient.from("chats").insert({
+      "id": id,
+      "content": content,
+      "is_sent": isSent,
+      "is_received": isReceived,
+      "is_read": isRead,
+      "destinator_id": destinator.id,
+      "parent_chat_id": parentChat?.id,
+      "created_by": AuditModel().createdBy,
+    });
 
-      if (response.error != null) {
-        print('Error inserting chat: ${response.error!.message}');
-      } else {
-        print('Chat inserted successfully');
-      }
-    } catch (e) {
-      print('Exception inserting chat: $e');
+    if (response.error != null) {
+      print('Error inserting chat: ${response.error!.message}');
+    } else {
+      print('Chat inserted successfully');
     }
 
     return newChat;
@@ -72,71 +72,43 @@ class Chat extends AuditModel {
 
   static Future<List<Chat>> load() async {
     final user = await supabaseClient.auth.currentSession!.user;
-        
-    List<Chat> chats = [];
+
     try {
-      final response = await supabaseClient.from("chat")
-          .select()
+      final response = await supabaseClient.from("chat").select()
           .or('destinator_id.eq.${user.id},created_by.eq.${user.id}');
 
       final data = response as List<dynamic>;
-
       for (var item in data) {
-        try {
-          final destinatorResponse = await supabaseClient
-            .from('users').select().eq('id', item['destinator_id']).single();
-            
 
-          // User destinator = User.fromJson(destinatorResponse);
-          print("==============================================");
-          print("data: $destinatorResponse");
-          print("==============================================");
-          print("destinator: ${await User.fromMap(destinatorResponse) }");
-          print("==============================================");
-          print("==============================================");
-
-          // Optionally load the parent chat if it exists
-          // Chat? parentChat;
-          // if (item['parentChatId'] != null) {
-          //   try {
-          //     final parentChatResponse = await supabaseClient.from('chat').select().eq('id', item['parent_chat_id']).single();
-
-          //     parentChat = Chat.fromJson(parentChatResponse);
-          //   } catch (e) {
-          //     print('Exception loading parent chat: $e');
-          //   }
-          // }
-
-          // chats.add(Chat._(
-          //   id: item['id'],
-          //   content: item['content'],
-          //   isSent: item['is_ent'],
-          //   isReceived: item['is_received'],
-          //   isRead: item['is_read'],
-          //   destinator: destinator,
-          //   parentChat: parentChat,
-          // ));
-        } catch (e) {
-          print('Exception loading destinator user: $e');
-        }
+        chatData.add(Chat.fromJson(item));
       }
     } catch (e) {
-      print('Exception loading chats: $e');
+      print("Error loading chats: $e");
     }
-
-    return chats;
+    return chatData;
   }
 
+  static Chat? getById(String id) {
+    for (var chat in chatData) {
+      if (chat.id == id) {
+        return chat;
+      }
+    }
+    return null;
+  }
 
-  factory Chat.fromJson(Map<String, dynamic> json) {
-    return Chat._(
-      id: json['id'] as String,
-      content: json['content'] as String,
-      isSent: json['is_sent'] as bool,
-      isReceived: json['isReceived'] as bool,
-      isRead: json['isRead'] as bool,
-      destinator: User.fromJson(json['destinator']), 
-      parentChat: json['parentChat'] != null ? Chat.fromJson(json['parentChat']) : null,
+  factory Chat.fromJson(Map<String, dynamic> map) {
+    return Chat(
+      id: map['id'] as String,
+      content: map['content'] as String,
+      isSent: map['is_sent'] as bool,
+      isReceived: map['is_received'] as bool,
+      isRead: map['is_read'] as bool,
+      destinator: User.getById(map['destinator_id'] as String)!,
+      parentChat: map['parent_chat_id'] != null
+          ? Chat.getById(map['parent_chat_id'] as String)
+          : null,
+      createdBy: User.getById("created_by")
     );
   }
 

@@ -84,7 +84,7 @@ class Comment extends AuditModel {
             .select();
 
         List<Comment> comments = data
-            .map((commentData) =>  Comment.fromMap(commentData))
+            .map((commentData) =>  Comment.fromJson(commentData))
             .toList();
         print("Comments: $comments");
         commentData = comments;
@@ -118,7 +118,7 @@ class Comment extends AuditModel {
   //   }
   // }
 
-  static Comment fromMap(Map<String, dynamic> map) {
+  factory Comment.fromJson(Map<String, dynamic> map) {
     return Comment(
       id: map['id'] as String,
       content: map['content'] as String,

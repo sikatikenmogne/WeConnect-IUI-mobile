@@ -7,10 +7,12 @@ class AuditModel {
   late DateTime _updatedAt;
   late User? _updatedBy;
 
-  AuditModel() {
+  AuditModel({User? createdBy, User? upatedBy}){
     _createdAt = DateTime.now();
     _updatedAt = DateTime.now();
     _loadCurrentUser();
+    (createdBy != null) ? _createdBy = createdBy : currentUser;
+    // (updatedBy != null) ? _updatedBy = updatedBy : currentUser;
   }
 
   Future<void> _loadCurrentUser() async{
@@ -18,8 +20,7 @@ class AuditModel {
         .select()
         .eq("id", supabaseClient.auth.currentUser!.id)
         .single();
-    _createdBy = User.fromJson(user);
-    _updatedBy = User.fromJson(user);
+    currentUser = User.fromJson(user);
   }
 
   DateTime get createdAt => _createdAt;
