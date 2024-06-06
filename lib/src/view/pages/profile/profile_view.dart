@@ -32,9 +32,9 @@ class _ProfileViewState extends State<ProfileView> {
   Future<void> _onUpload(String imageUrl) async {
     try {
       final userId = supabaseClient.auth.currentUser!.id;
-      await supabaseClient.from('profiles').upsert({
+      await supabaseClient.from('users').upsert({
         'id': userId,
-        'avatar_url': imageUrl,
+        'profile_picture': imageUrl,
       });
       if (mounted) {
         const SnackBar(
@@ -73,14 +73,11 @@ class _ProfileViewState extends State<ProfileView> {
 
     try {
       final userId = supabaseClient.auth.currentSession!.user.id;
-      final data = await supabaseClient
-          .from('profiles')
-          .select()
-          .eq('id', userId)
-          .single();
-      _usernameController.text = (data['username'] ?? '') as String;
-      _websiteController.text = (data['website'] ?? '') as String;
-      _avatarUrl = (data['avatar_url'] ?? '') as String;
+      final data =
+          await supabaseClient.from('users').select().eq('id', userId).single();
+      _usernameController.text = (data['firstname'] ?? '') as String;
+      // _websiteController.text = (data['website'] ?? '') as String;
+      _avatarUrl = (data['profile_picture'] ?? '') as String;
       _avatarData = {
         'imageUrl': _avatarUrl!,
         'username': _usernameController.text,
