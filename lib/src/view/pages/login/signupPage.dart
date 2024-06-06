@@ -249,6 +249,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                           return null;
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -283,6 +284,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                           return null;
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -318,6 +320,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                           return null;
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     // Repeat password input field
@@ -352,6 +355,7 @@ class _SignupPageState extends State<SignupPage> {
                           }
                           return null;
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     const SizedBox(height: 40),
