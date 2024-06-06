@@ -231,11 +231,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       obscureText: true,
                       validator: (value) {
+                        int minimalLength = 6;
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.passwordRequired;
-                        } else if (value.length < 6) {
+                        } else if (value.length < minimalLength) {
                           return AppLocalizations.of(context)!
-                              .passwordMinimunSizeRequired;
+                              .passwordMinimunSizeRequired(minimalLength);
                         }
                         return null;
                       },
