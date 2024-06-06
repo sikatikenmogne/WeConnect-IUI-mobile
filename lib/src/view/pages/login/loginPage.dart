@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
+import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
 import '../../../constants/app_color.dart';
@@ -41,11 +42,17 @@ class _LoginPageState extends State<LoginPage> {
 
       if (mounted) {
         if (response?.user != null) {
+          final user = await supabaseClient.from("users")
+                    .select()
+                    .eq("id", response!.user.id)
+                    .single();
           // The user is logged in
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setBool('isLoggedIn', true);
-          await prefs.setString('user', json.encode(response!.user));
+          await prefs.setBool('isLoggedIn', true);      
+          await prefs.setString('user', json.encode(user));
           print("prefs stored");
+          loadUserAndSettings();
+          currentUser = UserModel.User.fromJson(user);
 
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Authentification is successful!')),

@@ -52,11 +52,34 @@ Map<String, bool>? userSettings;
 Future<void> loadUserAndSettings() async {
   final prefs = await SharedPreferences.getInstance();
  
-    // String? encodedMap = (prefs.getString("user")== null) ? prefs.getString("user") : "No User";
-    // Map<String, dynamic> decodedMap = json.decode(encodedMap!);
-    // User.fromJson(decodedMap.map((key, value) => MapEntry(key, value)));
+    // if(prefs.getString("user") != null && prefs.getString("user") != ""){
+    //   print("okay");
+    //   String? encodedMap = prefs.getString("user") ?? '';
+    //   print("okay");
+    //   Map<String, dynamic> decodedMap = json.decode(encodedMap);
+    //   print("okay");
+    //   currentUser = UserModel.User.fromJson(decodedMap.map((key, value) => MapEntry(key, value)));
+    // } else{
+    //   final user = await supabaseClient.from("users")
+    //     .select()
+    //     .eq("id", supabaseClient.auth.currentUser!.id)
+    //     .single();
+    //   currentUser = UserModel.User.fromJson(user);
+    // }    
 
-    String? encodedMap = prefs.getString("settings") ?? "No Setting";
-    Map<String, dynamic> decodedMap = json.decode(encodedMap);
-    userSettings = decodedMap.map((key, value) => MapEntry(key, value));
+    if(prefs.getString("settings") != null){
+      print("okay");
+      String? encodedMap = prefs.getString("settings") ?? "No Setting";
+      print("okay");
+      Map<String, dynamic> decodedMap = json.decode(encodedMap);
+      print("okay");
+      userSettings = decodedMap.map((key, value) => MapEntry(key, value));
+    } else{
+      userSettings = {
+        "isEnglish": true,
+        "isDarkModeEnabled": false,
+        "isPostNotificationDisabled": false,
+        "isChatNotificationDisabled": false,
+      };
+    }    
 }

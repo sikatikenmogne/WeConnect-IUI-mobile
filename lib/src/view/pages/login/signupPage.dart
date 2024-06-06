@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
+import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 
 import '../../../constants/app_color.dart';
 
@@ -134,6 +135,7 @@ class _SignupPageState extends State<SignupPage> {
         await prefs.setBool('isLoggedIn', true);
         await prefs.setString('user', json.encode(newUser));
         await prefs.setString('settings', json.encode(newSettings));
+        currentUser = UserModel.User.fromJson(newUser);
 
         return response;
       } else {
