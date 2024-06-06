@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/app_color.dart';
 
@@ -204,11 +206,11 @@ class _SignupPageState extends State<SignupPage> {
 
               SizedBox(height: screenWidth * .2),
               // Login title
-              const Text(
-                'Inscription',
+              Text(
+                AppLocalizations.of(context)!.inscription,
                 style: TextStyle(
                   color: AppColor.primary,
-                  fontFamily: "Syne",
+                  fontFamily: AppFonts.FontFamily_Syne,
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),
@@ -228,10 +230,11 @@ class _SignupPageState extends State<SignupPage> {
                         controller: nameController,
                         style: const TextStyle(
                           color: AppColor.primary,
-                          fontFamily: 'Syne',
+                          fontFamily: AppFonts.FontFamily_Syne,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Name',
+                        decoration: InputDecoration(
+                          hintText:
+                              AppLocalizations.of(context)!.inputLabelname,
                           hintStyle: TextStyle(color: AppColor.primary),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -245,7 +248,7 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
+                            return AppLocalizations.of(context)!.nameRequired;
                           }
                           return null;
                         },
@@ -261,10 +264,11 @@ class _SignupPageState extends State<SignupPage> {
                         controller: emailController,
                         style: const TextStyle(
                           color: AppColor.primary,
-                          fontFamily: 'Syne',
+                          fontFamily: AppFonts.FontFamily_Syne,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Email',
+                        decoration: InputDecoration(
+                          hintText:
+                              AppLocalizations.of(context)!.emailFormLabel,
                           hintStyle: TextStyle(color: AppColor.primary),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -278,9 +282,10 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
+                            return AppLocalizations.of(context)!.emailRequired;
                           } else if (!value.contains('@')) {
-                            return 'Please enter a valid email';
+                            return AppLocalizations.of(context)!
+                                .validEmailRequired;
                           }
                           return null;
                         },
@@ -296,10 +301,10 @@ class _SignupPageState extends State<SignupPage> {
                         controller: passwordController,
                         style: const TextStyle(
                           color: AppColor.primary,
-                          fontFamily: 'Syne',
+                          fontFamily: AppFonts.FontFamily_Syne,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.password,
                           hintStyle: TextStyle(color: AppColor.primary),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -334,10 +339,11 @@ class _SignupPageState extends State<SignupPage> {
                         controller: repeatPasswordController,
                         style: const TextStyle(
                           color: AppColor.primary,
-                          fontFamily: 'Syne',
+                          fontFamily: AppFonts.FontFamily_Syne,
                         ),
-                        decoration: const InputDecoration(
-                          hintText: 'Repeat password',
+                        decoration: InputDecoration(
+                          hintText:
+                              AppLocalizations.of(context)!.repeatPassword,
                           hintStyle: TextStyle(color: AppColor.primary),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -352,9 +358,11 @@ class _SignupPageState extends State<SignupPage> {
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please repeat your password';
+                            return AppLocalizations.of(context)!
+                                .pleaseRepeatYourPassword;
                           } else if (value != passwordController.text) {
-                            return 'Passwords do not match';
+                            return AppLocalizations.of(context)!
+                                .passwordsDoNotMatch;
                           }
                           return null;
                         },
@@ -423,12 +431,13 @@ class _SignupPageState extends State<SignupPage> {
                                     )
                                   : Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: const [
+                                      children: [
                                         Text(
-                                          'Submit',
+                                          AppLocalizations.of(context)!.submit,
                                           style: TextStyle(
                                             fontSize: 15,
-                                            fontFamily: 'Syne',
+                                            fontFamily:
+                                                AppFonts.FontFamily_Syne,
                                           ),
                                         ),
                                         SizedBox(
@@ -450,11 +459,11 @@ class _SignupPageState extends State<SignupPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            "Already have an account?",
+                          Text(
+                            AppLocalizations.of(context)!.alreadyHaveAnAccount,
                             style: TextStyle(
                               color: AppColor.tertiary,
-                              fontFamily: 'Syne',
+                              fontFamily: AppFonts.FontFamily_Syne,
                             ),
                           ),
                           const SizedBox(width: 5),
@@ -469,10 +478,10 @@ class _SignupPageState extends State<SignupPage> {
                               onTap: () =>
                                   Navigator.pushNamed(context, AppRoutes.login),
                               child: Text(
-                                "Signin",
+                                AppLocalizations.of(context)!.signin,
                                 style: TextStyle(
                                   color: AppColor.primary,
-                                  fontFamily: 'Syne',
+                                  fontFamily: AppFonts.FontFamily_Syne,
                                 ),
                               ),
                             ),

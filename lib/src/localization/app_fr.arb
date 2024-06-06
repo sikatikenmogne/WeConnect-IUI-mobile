@@ -2,6 +2,10 @@
   "@@locale": "fr",
   "@@author": "WeConnect IUI Dev Team",
   "aboutPagetitle": "A Propos",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "@alreadyHaveAnAccount": {
+    "description": "Already have an account"
+  },
   "appTitle": "WeConnect IUI mobile",
   "@appTitle": {
     "description": "Le titre de l'application"
@@ -38,6 +42,14 @@
   "@emailRequired": {
     "description": "Email is required message"
   },
+  "inputLabelname": "Name",
+  "@inputLabelname": {
+    "description": "Label for name input field"
+  },
+  "inscription": "Inscription",
+  "@inscription": {
+    "description": "sign up page title"
+  },
   "lightTheme": "Thème clair",
   "@lightTheme": {
     "description": "Le mode clair"
@@ -51,6 +63,10 @@
     "description": "Title for the list details page"
   },
   "mainPageTitle": "Exemple de liste",
+  "nameRequired": "Please enter your name",
+  "@nameRequired": {
+    "description": "Warning form message for empty name"
+  },
   "noImage": "No Image",
   "@noImage": {
     "description": "Placeholder message"
@@ -59,21 +75,42 @@
   "@number": {
     "description": "phone number label"
   },
+  "password": "Password",
+  "@password": {
+    "description": "Password input field label"
+  },
   "passwordFormLabel": "Password",
   "@passwordFormLabel": {
     "description": "Password form text label"
   },
-  "passwordMinimunSizeRequired": "Password must be at least 6 characters",
+  "passwordMinimunSizeRequired": "Password must be at least {minimallength} characters",
   "@passwordMinimunSizeRequired": {
-    "description": "Message to set a minimum password size"
+    "description": "Warning message for password length requirement",
+    "placeholders": {
+      "minimallength": {
+        "type": "int"
+      }
+    }
   },
   "passwordRequired": "Please enter your password",
   "@passwordRequired": {
     "description": "Password is required message"
   },
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Passwords do not match"
+  },
+  "pleaseRepeatYourPassword": "Please repeat your password",
+  "@pleaseRepeatYourPassword": {
+    "description": "Please repeat your password"
+  },
   "promotion": "Promotion",
   "@promotion": {
     "description": "promotion"
+  },
+  "repeatPassword": "Repeat password",
+  "@repeatPassword": {
+    "description": "repeat password input form label"
   },
   "sampleitemItemId": "Element de liste N°{itemId}",
   "@sampleitemItemId": {
@@ -88,6 +125,10 @@
     "description": "button processing status label"
   },
   "settingsPagetitle": "Paramètres",
+  "signin": "Signin",
+  "@signin": {
+    "description": "sign in button label"
+  },
   "signup": "Signup",
   "@signup": {
     "description": "login page text label for signup "
