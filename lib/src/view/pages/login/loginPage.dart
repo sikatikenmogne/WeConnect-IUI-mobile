@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
               'Login',
               style: TextStyle(
                 color: AppColor.primary,
-                fontFamily: "Syne",
+                fontFamily: AppFonts.FontFamily_Syne,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
-                        fontFamily: 'Syne',
+                        fontFamily: AppFonts.FontFamily_Syne,
                       ),
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.emailFormLabel,
@@ -202,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
-                        fontFamily: 'Syne',
+                        fontFamily: AppFonts.FontFamily_Syne,
                       ),
                       decoration: InputDecoration(
                         hintText:
@@ -238,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColor.white,
                         backgroundColor:
                             AppColor.primary, // Set the button color
                       ),
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                         AppLocalizations.of(context)!.submit,
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily: 'Syne',
+                                          fontFamily: AppFonts.FontFamily_Syne,
                                   ),
                                 ),
                                 SizedBox(width: 8),
@@ -277,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
                           AppLocalizations.of(context)!.donTHaveAnAccount,
                           style: TextStyle(
                             color: AppColor.tertiary,
-                            fontFamily: 'Syne',
+                            fontFamily: AppFonts.FontFamily_Syne,
                           ),
                         ),
                         const SizedBox(width: 5),
@@ -292,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                               AppLocalizations.of(context)!.signup,
                               style: TextStyle(
                                 color: AppColor.primary,
-                                fontFamily: 'Syne',
+                                fontFamily: AppFonts.FontFamily_Syne,
                               ),
                             ),
                           ),
