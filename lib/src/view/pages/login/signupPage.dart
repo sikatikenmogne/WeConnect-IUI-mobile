@@ -313,10 +313,13 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         obscureText: true,
                         validator: (value) {
+                          int minimalLength = 6;
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          } else if (value.length < 6) {
-                            return 'Password must be at least 8 characters';
+                            return AppLocalizations.of(context)!
+                                .passwordRequired;
+                          } else if (value.length < minimalLength) {
+                            return AppLocalizations.of(context)!
+                                .passwordMinimunSizeRequired(minimalLength);
                           }
                           return null;
                         },
