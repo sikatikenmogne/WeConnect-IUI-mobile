@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/app_color.dart';
 
@@ -155,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
               'Login',
               style: TextStyle(
                 color: AppColor.primary,
-                fontFamily: "Syne",
+                fontFamily: AppFonts.FontFamily_Syne,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -175,10 +177,10 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailController,
                       style: const TextStyle(
                         color: AppColor.primary,
-                        fontFamily: 'Syne',
+                        fontFamily: AppFonts.FontFamily_Syne,
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.emailFormLabel,
                         hintStyle: TextStyle(color: AppColor.primary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -190,6 +192,16 @@ class _LoginPageState extends State<LoginPage> {
                         filled: true,
                         fillColor: AppColor.success,
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.emailRequired;
+                        } else if (!value.contains('@')) {
+                          return AppLocalizations.of(context)!
+                              .validEmailRequired;
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -201,10 +213,11 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       style: const TextStyle(
                         color: AppColor.primary,
-                        fontFamily: 'Syne',
+                        fontFamily: AppFonts.FontFamily_Syne,
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
+                      decoration: InputDecoration(
+                        hintText:
+                            AppLocalizations.of(context)!.passwordFormLabel,
                         hintStyle: TextStyle(color: AppColor.primary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -217,6 +230,16 @@ class _LoginPageState extends State<LoginPage> {
                         fillColor: AppColor.success,
                       ),
                       obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.passwordRequired;
+                        } else if (value.length < 6) {
+                          return AppLocalizations.of(context)!
+                              .passwordMinimunSizeRequired;
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -231,12 +254,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: _isLoading
                           ? null
-                          : () async => await performSignInAndNavigate(context),
+                          : () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              await performSignInAndNavigate(context);
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColor.white,
                         backgroundColor:
                             AppColor.primary, // Set the button color
                       ),
@@ -244,20 +275,25 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Align(
                             alignment: Alignment.center,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Syne',
+                            child: _isLoading
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColor.white),
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.submit,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: AppFonts.FontFamily_Syne,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Icon(Icons.exit_to_app),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                Icon(Icons.exit_to_app),
-                              ],
-                            ),
                           ),
                         ],
                       ),
@@ -271,11 +307,11 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text(
-                          "Don't have an account?",
+                        Text(
+                          AppLocalizations.of(context)!.donTHaveAnAccount,
                           style: TextStyle(
                             color: AppColor.tertiary,
-                            fontFamily: 'Syne',
+                            fontFamily: AppFonts.FontFamily_Syne,
                           ),
                         ),
                         const SizedBox(width: 5),
@@ -285,12 +321,13 @@ class _LoginPageState extends State<LoginPage> {
                                 context, AppRoutes.signUp);
                           },
                           child: InkWell(
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
+                            onTap: () =>
+                                Navigator.pushNamed(context, AppRoutes.signUp),
                             child: Text(
-                              "Signup",
+                              AppLocalizations.of(context)!.signup,
                               style: TextStyle(
                                 color: AppColor.primary,
-                                fontFamily: 'Syne',
+                                fontFamily: AppFonts.FontFamily_Syne,
                               ),
                             ),
                           ),
