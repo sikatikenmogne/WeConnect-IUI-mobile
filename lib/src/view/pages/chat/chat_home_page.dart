@@ -4,9 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
-import 'package:we_connect_iui_mobile/src/model/comment_model.dart';
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
-import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/shimer_list_view.dart';
 
@@ -22,31 +20,25 @@ class _ChatHomePageState extends State<ChatHomePage> {
   late Map<String, List<Chat>> groupedChatsByUsername;
   bool _isLoading = true;
   
-  Future<void> _loadData() async {
-    // await loadData();
-    await User.load();
-    await Chat.load();
-
-    groupChatsByUsername();
-    setState(() => _isLoading = false);
-  }
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
-    (supabaseClient.auth.currentUser == null)
-      ? Navigator.of(context).pushNamed(AppRoutes.login)
-      : _loadData();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    await User.load();
+    await Chat.load();
+    groupChatsByUsername();
+    setState(() => _isLoading = false);
   }
 
   void groupChatsByUsername() {
     groupedChatsByUsername = {};
     for (var chat in chatData) {
       String username = '${chat.destinator.firstname} ${chat.destinator.lastname}';
-      if (!groupedChatsByUsername.containsKey(username)) {
-        groupedChatsByUsername[username] = [];
-      }
-      groupedChatsByUsername[username]!.add(chat);
+      groupedChatsByUsername.putIfAbsent(username, () => []).add(chat);
     }
   }
 
@@ -54,11 +46,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    if (dateTime.isAfter(today)) {
-      return DateFormat.Hm().format(dateTime);
-    } else {
-      return DateFormat.Md().format(dateTime);
-    }
+    return (dateTime.isAfter(today)) 
+      ? DateFormat.Hm().format(dateTime)
+      : DateFormat.Md().format(dateTime);
   }
 
   void navigateToChat(String userId) {
@@ -87,17 +77,14 @@ class _ChatHomePageState extends State<ChatHomePage> {
             itemBuilder: (context, index) {
               String username = groupedChatsByUsername.keys.elementAt(index);
               List<Chat> chats = groupedChatsByUsername[username]!;
-              Chat lastChat = chats.last;
-        
+              Chat lastChat = chats.last;        
               int unreadCount = chats.where((msg) => !msg.isRead).length;
         
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: width * .008),
                 child: ListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: width * .06),
-                  onTap: () {
-                    navigateToChat(lastChat.destinator.id);
-                  },
+                  onTap: () => navigateToChat(lastChat.destinator.id),
                   tileColor: AppColor.inputText.withOpacity(.2),
                   leading: CircleAvatar(
                     backgroundImage: lastChat.destinator.profilePicture != null

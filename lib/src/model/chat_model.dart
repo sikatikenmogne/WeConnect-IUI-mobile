@@ -20,7 +20,8 @@ class Chat extends AuditModel {
     required bool isRead,
     required User destinator,
     Chat? parentChat,
-    User? createdBy
+    User? createdBy, 
+    DateTime? createdAt
   })  : _id = id,
         _content = content,
         _isSent = isSent,
@@ -28,9 +29,7 @@ class Chat extends AuditModel {
         _isRead = isRead,
         _destinator = destinator,
         _parentChat = parentChat,
-        super(){
-          (createdBy != null) ? AuditModel().createdBy = createdBy : null;
-        }
+        super(createdAt: createdAt, createdBy: createdBy);
   static Future<Chat> create({
     required String content,
     bool? isSent,
@@ -58,7 +57,7 @@ class Chat extends AuditModel {
       "is_read": isRead,
       "destinator_id": destinator.id,
       "parent_chat_id": parentChat?.id,
-      "created_by": AuditModel().createdBy,
+      "created_by": AuditModel().createdBy
     });
 
     if (response.error != null) {
@@ -108,7 +107,8 @@ class Chat extends AuditModel {
       parentChat: map['parent_chat_id'] != null
           ? Chat.getById(map['parent_chat_id'] as String)
           : null,
-      createdBy: User.getById("created_by")
+      createdBy: User.getById("created_by"),
+      createdAt: DateTime.parse(map['created_at'] as String),
     );
   }
 

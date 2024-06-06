@@ -65,21 +65,8 @@ List<Role> roleData = [
 ];
 Future<void> loadData() async {
   final prefs = await SharedPreferences.getInstance();
- 
-    // if(prefs.getString("user") != null && prefs.getString("user") != ""){
-    //   print("okay");
-    //   String? encodedMap = prefs.getString("user") ?? '';
-    //   print("okay");
-    //   Map<String, dynamic> decodedMap = json.decode(encodedMap);
-    //   print("okay");
-    //   currentUser = UserModel.User.fromJson(decodedMap.map((key, value) => MapEntry(key, value)));
-    // } else{
-    //   final user = await supabaseClient.from("users")
-    //     .select()
-    //     .eq("id", supabaseClient.auth.currentUser!.id)
-    //     .single();
-    //   currentUser = UserModel.User.fromJson(user);
-    // }    
+    UserModel.User.load();
+    currentUser = UserModel.User.getById(supabaseClient.auth.currentSession!.user.id); 
 
     if(prefs.getString("settings") != null){
       print("okay");

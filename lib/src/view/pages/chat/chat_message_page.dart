@@ -24,25 +24,12 @@ class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
 
 
-
-  void _loadOtherUser() async {
-    final otherUserResponse = await supabaseClient
-        .from("users")
-        .select()
-        .eq('id', widget.userId)
-        .single();
-
-      setState(() {
-        otherUser = User.fromJson(otherUserResponse);
-      });
-    }
-
   void _loadMessages() async {
   try {
     await ChatModel.Chat.load();
     setState(() {
       _messages = chatData
-          .where((chat) => chat.destinator.id == widget.userId)
+          .where((chat) => chat.destinator.id == widget.userId || chat.createdBy == User.getById(widget.userId))
           .map((chat) => types.TextMessage(
                 author: types.User(id: chat.destinator.id),
                 createdAt: chat.createdAt.millisecondsSinceEpoch,
@@ -84,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     loadData();
     _currentUser = currentUser!;
-    _loadOtherUser();
+    otherUser = User.getById(widget.userId)!;
     _loadMessages();
   }
 

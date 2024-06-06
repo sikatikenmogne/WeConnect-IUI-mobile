@@ -7,9 +7,9 @@ class AuditModel {
   late DateTime _updatedAt;
   late User? _updatedBy;
 
-  AuditModel({User? createdBy, User? upatedBy}){
-    _createdAt = DateTime.now();
-    _updatedAt = DateTime.now();
+  AuditModel({DateTime? createdAt, User? createdBy, DateTime? updatedAt, User? upatedBy}){
+    _createdAt = createdAt ?? DateTime.now();
+    _updatedAt = updatedAt ?? DateTime.now();
     _loadCurrentUser();
     (createdBy != null) ? _createdBy = createdBy : currentUser;
     // (updatedBy != null) ? _updatedBy = updatedBy : currentUser;
