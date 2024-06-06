@@ -370,17 +370,22 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                       child: ElevatedButton(
-                        onPressed: () async {
+                        onPressed: _isLoading
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
                           final email = emailController.text;
                           final password = passwordController.text;
-                          final repeatPassword = repeatPasswordController.text;
+                                  final repeatPassword =
+                                      repeatPasswordController.text;
         
                           var signUpResponse = await _signUp(
                               email: email,
                               password: password,
                               repeatPassword: repeatPassword);
         
-                          if (signUpResponse != null && signUpResponse.session != null) {
+                                  if (signUpResponse != null &&
+                                      signUpResponse.session != null) {
                             final name = nameController.text.trim();
                             final user = signUpResponse.user;
         
@@ -395,6 +400,7 @@ class _SignupPageState extends State<SignupPage> {
                             // Navigate to the login page
                             Navigator.pushReplacementNamed(
                                 context, AppRoutes.home);
+                                  }
                           }
                         },
                         style: ElevatedButton.styleFrom(
