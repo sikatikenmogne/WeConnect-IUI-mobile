@@ -34,6 +34,10 @@
   "@emailFormLabel": {
     "description": "Email form text label"
   },
+  "emailRequired": "Please enter your email",
+  "@emailRequired": {
+    "description": "Email is required message"
+  },
   "lightTheme": "Mode clair",
   "@lightTheme": {
     "description": "Le mode clair"
@@ -58,6 +62,14 @@
   "passwordFormLabel": "Password",
   "@passwordFormLabel": {
     "description": "Password form text label"
+  },
+  "passwordMinimunSizeRequired": "Password must be at least 6 characters",
+  "@passwordMinimunSizeRequired": {
+    "description": "Message to set a minimum password size"
+  },
+  "passwordRequired": "Please enter your password",
+  "@passwordRequired": {
+    "description": "Password is required message"
   },
   "promotion": "Promotion",
   "@promotion": {
@@ -95,5 +107,9 @@
   "userName": "User Name",
   "@userName": {
     "description": "UserName"
+  },
+  "validEmailRequired": "Please enter a valid email",
+  "@validEmailRequired": {
+    "description": "Message to user that is email adress is not valid"
   }
 }
