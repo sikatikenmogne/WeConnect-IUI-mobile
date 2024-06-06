@@ -231,7 +231,17 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: _isLoading
                           ? null
-                          : () async => await performSignInAndNavigate(context),
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                await performSignInAndNavigate(context);
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
