@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
           await prefs.setBool('isLoggedIn', true);      
           await prefs.setString('user', json.encode(user));
           print("prefs stored");
-          loadUserAndSettings();
+          loadData();
           currentUser = UserModel.User.fromJson(user);
 
           ScaffoldMessenger.of(context).showSnackBar(

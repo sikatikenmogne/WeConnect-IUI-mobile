@@ -1,24 +1,26 @@
-import 'package:we_connect_iui_mobile/src/model/role_model.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
 
 class AuditModel {
-  DateTime _createdAt;
-  User? _createdBy;
-  DateTime _updatedAt;
-  User? _updatedBy;
+  late DateTime _createdAt;
+  late User? _createdBy;
+  late DateTime _updatedAt;
+  late User? _updatedBy;
 
-  AuditModel(
-  )  :  _createdAt = DateTime.now(),
-        // _createdBy = User(
-        //   id: "0", 
-        //   firstname: "Jordan",
-        //   lastname: "TCHOUNGA",
-        //   email: "jt@gmail.com",
-        //   role: Role.learner
-        // ),
-        _updatedAt = DateTime.now();
-        // _updatedBy = new User.empty();
-        
+  AuditModel() {
+    _createdAt = DateTime.now();
+    _updatedAt = DateTime.now();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async{
+    final user = await supabaseClient.from("users")
+        .select()
+        .eq("id", supabaseClient.auth.currentUser!.id)
+        .single();
+    _createdBy = User.fromJson(user);
+    _updatedBy = User.fromJson(user);
+  }
 
   DateTime get createdAt => _createdAt;
   set createdAt(DateTime value) => _createdAt = value;

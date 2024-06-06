@@ -15,6 +15,29 @@ class User extends AuditModel {
   String? _profilePicture;
   Role _role;
 
+  User({
+    required String id,
+    String? firstname,
+    String? lastname,
+    String? promotion,
+    String? phone,
+    String? dateOfBirth,
+    String? sex,
+    required String email,
+    String? profilePicture,
+    required Role role,
+  })  : _id = id,
+        _firstname = firstname,
+        _lastname = lastname,
+        _promotion = promotion,
+        _phone = phone,
+        _dateOfBirth = dateOfBirth,
+        _sex = sex,
+        _email = email,
+        _profilePicture = profilePicture,
+        _role = role,
+        super();
+
   User._({
     required String id,
     String? firstname,
@@ -69,11 +92,11 @@ class User extends AuditModel {
       "lastname": lastname,
       "promotion": promotion,
       "phone": phone,
-      "dateOfBirth": dateOfBirth,
+      "dat_of_birth": dateOfBirth,
       "sex": sex,
       "email": email,
-      "profilePicture": profilePicture,
-      "roleid": role.id, // Assuming roleid is stored as a reference to the Role table
+      "profile_picture": profilePicture,
+      "role_id": role.id, 
     });
 
     if (response.error != null) {
@@ -84,21 +107,65 @@ class User extends AuditModel {
 
     return newUser;
   }
+
+  static Future<List<User>> load() async {
+    try {
+      final response = await supabaseClient.from("users")
+          .select();
+      
+      final data = response as List<dynamic>;
+      for(var item in data){
+        userData.add(await User.fromMap(item));
+      }
+    } catch (e) {
+      print("Error loading user: $e");      
+    }
+    
+    return userData;
+  }
+
+  static User? getById(String id) {
+    if (userData != null){
+      for(var user in userData!){
+        if(user.id == id){
+          return user;
+        }
+      }
+    }
+  }
   
-  factory User.fromJson(Map<String, dynamic> json){
-    return User._(
-      id: json['id'],
-      firstname: json['firstname'],
-      lastname: json['lastname'],
-      promotion: json['promotion'],
-      phone: json['phone'],
-      dateOfBirth: json['dateOfBirth'],
-      sex: json['sex'],
-      email: json['email'],
-      profilePicture: json['profilePicture'],
-      role: Role.fromJson(json['role']),
+
+  static User fromMap(Map<String, dynamic> map){
+    return User(
+      id: map['id'] as String,
+      firstname: map['firstname'] as String?,
+      lastname: map['lastname'] as String?,
+      promotion: map['promotion'] as String?,
+      phone: map['phone'] as String?,
+      dateOfBirth: map['date_of_birth'] as String?,
+      sex: map['sex'] as String?,
+      email: map['email'] as String,
+      profilePicture: map['profile_picture'] as String?,
+      role: Role.getById(map['role_id'] as String)!
     );
   }
+  
+
+  factory User.fromJson(Map<String, dynamic> data) {    
+    return User._(
+      id: data['id'] as String,
+      firstname: data['firstname'] as String?,
+      lastname: data['lastname'] as String?,
+      promotion: data['promotion'] as String?,
+      phone: data['phone'] as String?,
+      dateOfBirth: data['date_of_birth'] as String?,
+      sex: data['sex'] as String?,
+      email: data['email'] as String,
+      profilePicture: data['profile_picture'] as String?,
+      role: Role.fromJson(data['role_id']),
+    );
+  }
+  
 
   String get id => _id;
   set id(String value) => _id = value;

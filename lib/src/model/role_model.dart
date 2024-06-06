@@ -5,39 +5,34 @@ class Role {
   String _id;
   String _name;
 
-  Role._({
+  Role({
     required String id,
     required String name,
   })  : _id = id,
         _name = name;
-
-  static Future<Role> create({
-    required String name,
-  }) async {
-    final id = AutogenerateUtil().generateId();
-    final newRole = Role._(
-      id: id,
-      name: name,
-    );
-
-    final response = await supabaseClient.from("roles").insert({
-      "id": id,
-      "name": name,
-    });
-
-    if (response.error != null) {
-      print('Error inserting role: ${response.error!.message}');
-    } else {
-      print('Role inserted successfully');
+  
+  static Role? getById(String id) {
+    for (var role in roleData) {
+      if (role.id == id) {
+        return role;
+      }
+    }
     }
 
-    return newRole;
-  }
+  // static Future<Role> getById(String id) async {
+  //   final data = await supabaseClient
+  //       .from('role')
+  //       .select()
+  //       .eq('id', id)
+  //       .single();
+
+  //   return Role.fromJson(data);
+  // }
 
   factory Role.fromJson(Map<String, dynamic> json) {
-    return Role._(
-      id: json['id'],
-      name: json['name'],
+    return Role(
+      id: json['id'] as String,
+      name: json['name'] as String,
     );
   }
 
@@ -46,15 +41,4 @@ class Role {
 
   String get name => _name;
   set name(String value) => _name = value;
-}
-
-// Example usage of the Role class
-void main() async {
-  // Example usage
-  Role newRole = await Role.create(
-    name: "Admin",
-  );
-
-  // Use the newRole object as needed
-  print('New role created with ID: ${newRole.id}');
 }

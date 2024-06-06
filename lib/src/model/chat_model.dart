@@ -47,13 +47,15 @@ class Chat extends AuditModel {
     );
 
     try {
-      final response = await supabaseClient.from("chats").insert({
+      final response = await supabaseClient.from("chat").insert({
         "id": id,
         "content": content,
-        "isSent": true,
-        "isReceived": false,
-        "isRead": false,
-        "destinatorId": destinator.id,
+        "is_sent": true,
+        "is_received": false,
+        "is_read": isRead,
+        "destinator_id": destinator.id,
+        "created_by": AuditModel().createdBy,
+        "parent_chat_id": parentChat?.id,
       });
 
       if (response.error != null) {
@@ -68,45 +70,52 @@ class Chat extends AuditModel {
     return newChat;
   }
 
-  static Future<List<Chat>> loadChats() async {
-    final user = supabaseClient.auth.currentSession!.user;
+  static Future<List<Chat>> load() async {
+    final user = await supabaseClient.auth.currentSession!.user;
         
     List<Chat> chats = [];
     try {
-      final response = await supabaseClient.from("chats")
+      final response = await supabaseClient.from("chat")
           .select()
-          .or('destinatorId.eq.${user.id},createdBy.eq.${user.id}');
+          .or('destinator_id.eq.${user.id},created_by.eq.${user.id}');
 
       final data = response as List<dynamic>;
 
       for (var item in data) {
         try {
           final destinatorResponse = await supabaseClient
-            .from('users').select().eq('id', item['destinatorId']).single();
+            .from('users').select().eq('id', item['destinator_id']).single();
+            
 
-          User destinator = User.fromJson(destinatorResponse);
+          // User destinator = User.fromJson(destinatorResponse);
+          print("==============================================");
+          print("data: $destinatorResponse");
+          print("==============================================");
+          print("destinator: ${await User.fromMap(destinatorResponse) }");
+          print("==============================================");
+          print("==============================================");
 
           // Optionally load the parent chat if it exists
-          Chat? parentChat;
-          if (item['parentChatId'] != null) {
-            try {
-              final parentChatResponse = await supabaseClient.from('chats').select().eq('id', item['parentChatId']).single();
+          // Chat? parentChat;
+          // if (item['parentChatId'] != null) {
+          //   try {
+          //     final parentChatResponse = await supabaseClient.from('chat').select().eq('id', item['parent_chat_id']).single();
 
-              parentChat = Chat.fromJson(parentChatResponse);
-            } catch (e) {
-              print('Exception loading parent chat: $e');
-            }
-          }
+          //     parentChat = Chat.fromJson(parentChatResponse);
+          //   } catch (e) {
+          //     print('Exception loading parent chat: $e');
+          //   }
+          // }
 
-          chats.add(Chat._(
-            id: item['id'],
-            content: item['content'],
-            isSent: item['isSent'],
-            isReceived: item['isReceived'],
-            isRead: item['isRead'],
-            destinator: destinator,
-            parentChat: parentChat,
-          ));
+          // chats.add(Chat._(
+          //   id: item['id'],
+          //   content: item['content'],
+          //   isSent: item['is_ent'],
+          //   isReceived: item['is_received'],
+          //   isRead: item['is_read'],
+          //   destinator: destinator,
+          //   parentChat: parentChat,
+          // ));
         } catch (e) {
           print('Exception loading destinator user: $e');
         }
@@ -118,14 +127,15 @@ class Chat extends AuditModel {
     return chats;
   }
 
+
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat._(
-      id: json['id'],
-      content: json['content'],
-      isSent: json['isSent'],
-      isReceived: json['isReceived'],
-      isRead: json['isRead'],
-      destinator: User.fromJson(json['destinator']), // Assuming User.fromJson exists
+      id: json['id'] as String,
+      content: json['content'] as String,
+      isSent: json['is_sent'] as bool,
+      isReceived: json['isReceived'] as bool,
+      isRead: json['isRead'] as bool,
+      destinator: User.fromJson(json['destinator']), 
       parentChat: json['parentChat'] != null ? Chat.fromJson(json['parentChat']) : null,
     );
   }

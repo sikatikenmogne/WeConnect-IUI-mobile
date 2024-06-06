@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:we_connect_iui_mobile/src/model/calendar_model.dart';
+import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
+import 'package:we_connect_iui_mobile/src/model/comment_model.dart';
+import 'package:we_connect_iui_mobile/src/model/post_model.dart';
+import 'package:we_connect_iui_mobile/src/model/role_model.dart';
 import 'dart:convert';
 
 import 'src/app.dart';
@@ -48,8 +53,17 @@ void main() async {
 final supabaseClient = Supabase.instance.client;
 UserModel.User? currentUser;
 Map<String, bool>? userSettings;
-
-Future<void> loadUserAndSettings() async {
+List<Comment>? commentData;
+List<Post>? postData;
+List<UserModel.User> userData = [];
+List<Calendar>? calendarData;
+List<Chat>? chatData;
+List<Role> roleData = [
+  Role(id: "1", name: "ADMIN"),
+  Role(id: "2", name: "INSTRUCTOR"),
+  Role(id: "3", name: "LEARNER")
+];
+Future<void> loadData() async {
   final prefs = await SharedPreferences.getInstance();
  
     // if(prefs.getString("user") != null && prefs.getString("user") != ""){

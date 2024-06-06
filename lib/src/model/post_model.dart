@@ -11,6 +11,19 @@ class Post extends AuditModel {
   List<User>? _likes;
   List<Comment>? _comments;
 
+  Post({
+    required String id,
+    required String content,
+    String? media,
+    List<User>? likes,
+    List<Comment>? comments,
+  }) : _id = id,
+      _content = content,
+      _media = media,
+      _likes = likes,
+      _comments = comments,
+      super();
+      
   Post._({
     required String id,
     required String content,
@@ -54,6 +67,54 @@ class Post extends AuditModel {
     }
 
     return newPost;
+  }
+
+  static Future<List<Post>> load() async {
+    try {
+      final data = await supabaseClient
+          .from("post")
+          .select();
+      List<Post> posts = data.cast<Post>();
+      print("Posts: $posts");
+      return posts;
+    } catch (e) {
+        print('Exception loading comments: $e');
+        return [];
+    }
+  }
+
+  static Post? getById(String id) {
+    if (postData != null){
+      for(var post in postData!){
+        if(post.id == id){
+          return post;
+        }
+      }
+    }
+  }
+  
+  // static Future<Post?> getById(String id) async {
+  //   try {
+  //     final data = await supabaseClient
+  //        .from("post")
+  //        .select()
+  //        .eq("id", id)
+  //        .single();
+
+  //   } catch (e) {
+  //     print('Exception loading comment: $e');
+  //     return null;
+  //   }
+  // }
+
+  static Post fromMap(Map<String, dynamic> map) {
+    return Post(
+      id: map['id'] as String,
+      content: map['content'] as String,
+      media: map['media'] as String?,
+      likes: map['likes'] as List<User>?,
+      comments: map['comments'] as List<Comment>?,
+    );
   }
 
   String get id => _id;

@@ -40,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _loadMessages() async {
   try {
-    loadedChats = await chats.Chat.loadChats();
+    loadedChats = await chats.Chat.load();
     setState(() {
       _messages = loadedChats
           .where((chat) => chat.destinator.id == widget.userId)
@@ -83,7 +83,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    loadUserAndSettings();
+    loadData();
     _currentUser = currentUser!;
     _loadOtherUser();
     _loadMessages();
