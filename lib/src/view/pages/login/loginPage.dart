@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
@@ -233,7 +234,15 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: _isLoading
                           ? null
-                          : () async => await performSignInAndNavigate(context),
+                          : () async {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              await performSignInAndNavigate(context);
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -246,20 +255,25 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           Align(
                             alignment: Alignment.center,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
+                            child: _isLoading
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColor.white),
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
                                         AppLocalizations.of(context)!.submit,
-                                  style: TextStyle(
-                                    fontSize: 18,
+                                        style: TextStyle(
+                                          fontSize: 18,
                                           fontFamily: AppFonts.FontFamily_Syne,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Icon(Icons.exit_to_app),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                Icon(Icons.exit_to_app),
-                              ],
-                            ),
                           ),
                         ],
                       ),
@@ -287,7 +301,8 @@ class _LoginPageState extends State<LoginPage> {
                                 context, AppRoutes.signUp);
                           },
                           child: InkWell(
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
+                            onTap: () =>
+                                Navigator.pushNamed(context, AppRoutes.signUp),
                             child: Text(
                               AppLocalizations.of(context)!.signup,
                               style: TextStyle(
