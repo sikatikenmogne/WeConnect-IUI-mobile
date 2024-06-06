@@ -192,6 +192,16 @@ class _LoginPageState extends State<LoginPage> {
                         filled: true,
                         fillColor: AppColor.success,
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.emailRequired;
+                        } else if (!value.contains('@')) {
+                          return AppLocalizations.of(context)!
+                              .validEmailRequired;
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -220,6 +230,16 @@ class _LoginPageState extends State<LoginPage> {
                         fillColor: AppColor.success,
                       ),
                       obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!.passwordRequired;
+                        } else if (value.length < 6) {
+                          return AppLocalizations.of(context)!
+                              .passwordMinimunSizeRequired;
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                   ),
                   const SizedBox(height: 40),
