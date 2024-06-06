@@ -26,6 +26,9 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController repeatPasswordController =
       TextEditingController();
 
+  // Add a new variable to track the loading state
+  bool _isLoading = false;
+
   void initState() {
     super.initState();
 
@@ -92,6 +95,11 @@ class _SignupPageState extends State<SignupPage> {
       {required String email,
       required String password,
       required String repeatPassword}) async {
+    // Set loading state to true at the start of the signup process
+    setState(() {
+      _isLoading = true;
+    });
+
     if (password != repeatPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -146,6 +154,12 @@ class _SignupPageState extends State<SignupPage> {
 
       print('Unexpected error occurred: $e');
     }
+
+    // Set loading state to false at the end of the signup process
+    setState(() {
+      _isLoading = false;
+    });
+
     return null;
   }
 
@@ -223,6 +237,12 @@ class _SignupPageState extends State<SignupPage> {
                           filled: true,
                           fillColor: AppColor.success,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -249,6 +269,14 @@ class _SignupPageState extends State<SignupPage> {
                           filled: true,
                           fillColor: AppColor.success,
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!value.contains('@')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -276,6 +304,14 @@ class _SignupPageState extends State<SignupPage> {
                           fillColor: AppColor.success,
                         ),
                         obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          } else if (value.length < 6) {
+                            return 'Password must be at least 8 characters';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     // Repeat password input field
@@ -302,6 +338,14 @@ class _SignupPageState extends State<SignupPage> {
                           fillColor: AppColor.success,
                         ),
                         obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please repeat your password';
+                          } else if (value != passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -352,7 +396,12 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             Align(
                               alignment: Alignment.center,
-                              child: Row(
+                              child: _isLoading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          AppColor.white),
+                                    )
+                                  : Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: const [
                                   Text(
@@ -363,7 +412,8 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                      width: 8), // Adjust this width as needed
+                                            width:
+                                                8), // Adjust this width as needed
                                   Icon(Icons.exit_to_app),
                                 ],
                               ),
@@ -410,7 +460,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
         
-                    SizedBox(height: screenWidth*.3)
+                    SizedBox(height: screenWidth * .3)
                   ],
                 ),
               ),
