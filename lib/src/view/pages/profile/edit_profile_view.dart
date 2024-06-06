@@ -41,13 +41,13 @@ class _ProfileViewState extends State<EditProfileView> {
     try {
       final userId = supabaseClient.auth.currentSession!.user.id;
       final data = await supabaseClient
-          .from('profiles')
+          .from('users')
           .select()
           .eq('id', userId)
           .single();
-      _usernameController.text = (data['username'] ?? '') as String;
-      _websiteController.text = (data['website'] ?? '') as String;
-      _avatarUrl = (data['avatar_url'] ?? '') as String;
+      _usernameController.text = (data['firstname'] ?? '') as String;
+      // _websiteController.text = (data['website'] ?? '') as String;
+      _avatarUrl = (data['profile_picture'] ?? '') as String;
       _avatarData = {
         'imageUrl': _avatarUrl!,
         'username': _usernameController.text,
@@ -90,12 +90,11 @@ class _ProfileViewState extends State<EditProfileView> {
     final user = supabaseClient.auth.currentUser;
     final updates = {
       'id': user!.id,
-      'username': userName,
-      'website': website,
+      'firstname': userName,
       'updated_at': DateTime.now().toIso8601String(),
     };
     try {
-      await supabaseClient.from('profiles').upsert(updates);
+      await supabaseClient.from('users').upsert(updates);
       if (mounted) {
         const SnackBar(
           content: Text('Successfully updated profile!'),
@@ -152,9 +151,9 @@ class _ProfileViewState extends State<EditProfileView> {
   Future<void> _onUpload(String imageUrl) async {
     try {
       final userId = supabaseClient.auth.currentUser!.id;
-      await supabaseClient.from('profiles').upsert({
+      await supabaseClient.from('users').upsert({
         'id': userId,
-        'avatar_url': imageUrl,
+        'profile_picture': imageUrl,
       });
       if (mounted) {
         const SnackBar(
