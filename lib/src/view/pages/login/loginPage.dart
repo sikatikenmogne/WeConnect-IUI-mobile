@@ -7,6 +7,7 @@ import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../constants/app_color.dart';
 
@@ -177,8 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                         color: AppColor.primary,
                         fontFamily: 'Syne',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.emailFormLabel,
                         hintStyle: TextStyle(color: AppColor.primary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -203,8 +204,9 @@ class _LoginPageState extends State<LoginPage> {
                         color: AppColor.primary,
                         fontFamily: 'Syne',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
+                      decoration: InputDecoration(
+                        hintText:
+                            AppLocalizations.of(context)!.passwordFormLabel,
                         hintStyle: TextStyle(color: AppColor.primary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -248,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: const [
                                 Text(
-                                  'Submit',
+                                        AppLocalizations.of(context)!.submit,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'Syne',
@@ -271,8 +273,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text(
-                          "Don't have an account?",
+                        Text(
+                          AppLocalizations.of(context)!.donTHaveAnAccount,
                           style: TextStyle(
                             color: AppColor.tertiary,
                             fontFamily: 'Syne',
@@ -287,7 +289,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: InkWell(
                             onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
                             child: Text(
-                              "Signup",
+                              AppLocalizations.of(context)!.signup,
                               style: TextStyle(
                                 color: AppColor.primary,
                                 fontFamily: 'Syne',

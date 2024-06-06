@@ -18,6 +18,10 @@
   "@darkTheme": {
     "description": "Le mode sombre"
   },
+  "donTHaveAnAccount": "Don't have an account?",
+  "@donTHaveAnAccount": {
+    "description": "Login text label ask user to sign up"
+  },
   "editProfile": "Edit",
   "@editProfile": {
     "description": "Etit profile button label"
@@ -25,6 +29,10 @@
   "email": "surname.name@20xx.ucac-icam.com",
   "@email": {
     "description": "email text label"
+  },
+  "emailFormLabel": "Email",
+  "@emailFormLabel": {
+    "description": "Email form text label"
   },
   "lightTheme": "Mode clair",
   "@lightTheme": {
@@ -47,6 +55,10 @@
   "@number": {
     "description": "phone number label"
   },
+  "passwordFormLabel": "Password",
+  "@passwordFormLabel": {
+    "description": "Password form text label"
+  },
   "promotion": "Promotion",
   "@promotion": {
     "description": "promotion"
@@ -64,6 +76,10 @@
     "description": "button processing status label"
   },
   "settingsPagetitle": "Settings",
+  "signup": "Signup",
+  "@signup": {
+    "description": "login page text label for signup "
+  },
   "submit": "Submit",
   "@submit": {
     "description": "submit button label"
