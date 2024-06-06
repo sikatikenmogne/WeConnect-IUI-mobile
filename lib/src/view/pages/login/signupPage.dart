@@ -39,9 +39,6 @@ class _SignupPageState extends State<SignupPage> {
         // final website = _websiteController.text.trim();
         final user = supabaseClient.auth.currentUser;
 
-        // L'utilisateur a cliqué sur le lien d'authentification et est maintenant connecté
-        // Vous pouvez maintenant continuer la séquence d'inscription
-
         // Sauvegardez les informations supplémentaires de l'utilisateur
         try {
           final insertResponse = await supabaseClient.from('profiles').insert({
@@ -129,21 +126,18 @@ class _SignupPageState extends State<SignupPage> {
           await supabaseClient.auth.signUp(email: email, password: password);
 
       if (response.user != null) {
-        final _settings = Settings();
         final newUser = {
           "id": response.user!.id,
-          "firstname": nameController.text, 
+          "firstname": nameController.text,
           "email": response.user!.email,
           "role_id": '3'
         };
-        
+
         await supabaseClient.from("users").insert(newUser);
 
         print('Sign-up successful');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  'Sign-up successful')),
+          SnackBar(content: Text('Sign-up successful')),
         );
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -207,8 +201,8 @@ class _SignupPageState extends State<SignupPage> {
                   ],
                 ),
               ),
-        
-              SizedBox(height: screenWidth*.2),
+
+              SizedBox(height: screenWidth * .2),
               // Login title
               const Text(
                 'Inscription',
@@ -220,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               const SizedBox(height: 40),
-        
+
               // Signup form
               Form(
                 key: _formKey,
@@ -292,7 +286,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-        
+
                     // Password input field
                     Container(
                       width: screenWidth * 0.87,
@@ -361,7 +355,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     const SizedBox(height: 40),
-        
+
                     // Submit button with centered text and icon at the end
                     Container(
                       width: screenWidth * 0.87,
@@ -374,35 +368,35 @@ class _SignupPageState extends State<SignupPage> {
                             ? null
                             : () async {
                                 if (_formKey.currentState!.validate()) {
-                          final email = emailController.text;
-                          final password = passwordController.text;
+                                  final email = emailController.text;
+                                  final password = passwordController.text;
                                   final repeatPassword =
                                       repeatPasswordController.text;
-        
-                          var signUpResponse = await _signUp(
-                              email: email,
-                              password: password,
-                              repeatPassword: repeatPassword);
-        
+
+                                  var signUpResponse = await _signUp(
+                                      email: email,
+                                      password: password,
+                                      repeatPassword: repeatPassword);
+
                                   if (signUpResponse != null &&
                                       signUpResponse.session != null) {
-                            final name = nameController.text.trim();
-                            final user = signUpResponse.user;
-        
-                            final updates = {
-                              'id': user!.id,
-                              'username': name,
+                                    final name = nameController.text.trim();
+                                    final user = signUpResponse.user;
+
+                                    final updates = {
+                                      'id': user!.id,
+                                      'username': name,
                                       'updated_at':
                                           DateTime.now().toIso8601String(),
-                            };
-                            await _updateProfile(updates);
-        
-                            // Navigate to the login page
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.home);
+                                    };
+                                    await _updateProfile(updates);
+
+                                    // Navigate to the login page
+                                    Navigator.pushReplacementNamed(
+                                        context, AppRoutes.home);
                                   }
-                          }
-                        },
+                                }
+                              },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -421,28 +415,28 @@ class _SignupPageState extends State<SignupPage> {
                                           AppColor.white),
                                     )
                                   : Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Syne',
-                                    ),
-                                  ),
-                                  SizedBox(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const [
+                                        Text(
+                                          'Submit',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'Syne',
+                                          ),
+                                        ),
+                                        SizedBox(
                                             width:
                                                 8), // Adjust this width as needed
-                                  Icon(Icons.exit_to_app),
-                                ],
-                              ),
+                                        Icon(Icons.exit_to_app),
+                                      ],
+                                    ),
                             ),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 12),
-        
+
                     // Signup link aligned with form fields
                     Container(
                       width: screenWidth * 0.87,
@@ -465,7 +459,8 @@ class _SignupPageState extends State<SignupPage> {
                                       builder: (context) => LoginPage()));
                             },
                             child: InkWell(
-                              onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                              onTap: () =>
+                                  Navigator.pushNamed(context, AppRoutes.login),
                               child: Text(
                                 "Signin",
                                 style: TextStyle(
@@ -478,7 +473,7 @@ class _SignupPageState extends State<SignupPage> {
                         ],
                       ),
                     ),
-        
+
                     SizedBox(height: screenWidth * .3)
                   ],
                 ),
