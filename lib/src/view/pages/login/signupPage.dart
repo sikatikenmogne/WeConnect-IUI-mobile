@@ -50,6 +50,14 @@ class _SignupPageState extends State<SignupPage> {
             'updated_at': DateTime.now().toIso8601String(),
           });
 
+          await supabaseClient.from('users').insert({
+            'id': user.id,
+            'email': user.email,
+            'firstname': userName,
+            'role_id': '3',
+            'created_at': DateTime.now().toIso8601String(),
+          });
+
           if (mounted) {
             const SnackBar(
               content: Text('Profile Successfully created !'),
@@ -69,6 +77,13 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _updateProfile(Map<String, String> updates) async {
     try {
       await supabaseClient.from('profiles').upsert(updates);
+
+      await supabaseClient.from('users').upsert({
+        'id': updates['id'],
+        'firstname': updates['username'],
+        'updated_at': updates['updated_at'],
+      });
+
       if (mounted) {
         const SnackBar(
           content: Text('Successfully updated profile!'),
@@ -119,13 +134,10 @@ class _SignupPageState extends State<SignupPage> {
           "id": response.user!.id,
           "firstname": nameController.text, 
           "email": response.user!.email,
-          "settingsid": _settings.id,
-          "roleid": 3
+          "role_id": '3'
         };
         
-        await supabaseClient
-          .from("users")
-          .insert(newUser);
+        await supabaseClient.from("users").insert(newUser);
 
         print('Sign-up successful');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -375,7 +387,8 @@ class _SignupPageState extends State<SignupPage> {
                             final updates = {
                               'id': user!.id,
                               'username': name,
-                              'updated_at': DateTime.now().toIso8601String(),
+                                      'updated_at':
+                                          DateTime.now().toIso8601String(),
                             };
                             await _updateProfile(updates);
         
