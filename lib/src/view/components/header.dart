@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -6,7 +7,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final double? titleSpacing;
   final List<Widget>? actions;
-  final Color backgroundColor;
+  // final Color backgroundColor;
   final double width;
   final double height;
 
@@ -16,7 +17,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.titleSpacing,
     this.actions,
-    this.backgroundColor = AppColor.header,
+    // this.backgroundColor = AppColor.header,
     required this.width,
     required this.height,
   }) : super(key: key);
@@ -27,7 +28,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: backgroundColor,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         titleSpacing: titleSpacing,
         leading: (leading != null)
             ? Padding(
@@ -42,7 +43,8 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         title: title,
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: (actions == null) ? width*.04 : width*.08),
+            padding: EdgeInsets.symmetric(
+                horizontal: (actions == null) ? width * .04 : width * .08),
             child: Row(
               children: actions ??
                   [
