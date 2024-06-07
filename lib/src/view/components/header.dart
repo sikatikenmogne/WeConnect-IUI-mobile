@@ -35,7 +35,8 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.symmetric(horizontal: width * .04),
                 child: IconButton(
                   icon: Icon(leading ?? Icons.menu,
-                      color: AppColor.black, size: height / width * 20),
+                      color: Theme.of(context).textTheme.displayMedium!.color,
+                      size: height / width * 20),
                   onPressed: () {},
                 ),
               )
@@ -49,9 +50,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               children: actions ??
                   [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.search,
-                        color: AppColor.black,
+                        color: Theme.of(context).textTheme.displayMedium!.color,
                       ),
                       onPressed: () {},
                     ),
