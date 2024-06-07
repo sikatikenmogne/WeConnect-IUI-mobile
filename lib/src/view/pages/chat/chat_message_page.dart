@@ -5,6 +5,7 @@ import 'package:we_connect_iui_mobile/src/model/role_model.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 import 'package:we_connect_iui_mobile/src/service/user_service.dart';
 import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
@@ -12,7 +13,7 @@ import 'package:we_connect_iui_mobile/src/view/pages/chat/custom_bubble.dart';
 
 import '../../../model/chat_model.dart' as chats;
 
-class ChatPage extends StatefulWidget{
+class ChatPage extends StatefulWidget {
   // final String userId;
   // const ChatPage({Key? key, required this.userId}) : super(key: key);
 
@@ -30,52 +31,44 @@ class _ChatPageState extends State<ChatPage> {
   // List<Chat> messages = [];
   List<types.Message> _messages = [];
 
-
   void _loadMessages() {
     setState(() {
       _messages = chatDataSet.values
           .where((chat) => chat.destinator.id == widget.userId)
           .map((chat) => types.TextMessage(
-            author: types.User(id: chat.destinator.id),
-            createdAt: chat.createdAt.millisecondsSinceEpoch,
-            id: chat.id,
-            text: chat.content
-          ))
+              author: types.User(id: chat.destinator.id),
+              createdAt: chat.createdAt.millisecondsSinceEpoch,
+              id: chat.id,
+              text: chat.content))
           .toList();
 
       _messages = _messages.reversed.toList();
     });
   }
 
-  void _sendMessage(types.PartialText message){
+  void _sendMessage(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: types.User(id: currentUser.id),
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: AutogenerateUtil().generateId(),
-      text: message.text
-    );
+        author: types.User(id: currentUser.id),
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: AutogenerateUtil().generateId(),
+        text: message.text);
 
     setState(() => _messages.insert(_messages.length, textMessage));
 
     // persist data
     chatDataSet[textMessage.id] = chats.Chat(
-      id: textMessage.id,
-      content: textMessage.text,
-      destinator: otherUser
-    );
-
+        id: textMessage.id, content: textMessage.text, destinator: otherUser);
   }
 
   @override
   void initState() {
     super.initState();
     currentUser = User(
-          id: "0", 
-          firstname: "Jordan",
-          lastname: "TCHOUNGA",
-          email: "jt@gmail.com",
-          role: Role.learner
-        );
+        id: "0",
+        firstname: "Jordan",
+        lastname: "TCHOUNGA",
+        email: "jt@gmail.com",
+        role: Role.learner);
     otherUser = UserService().getUserById("2")!;
     // otherUser = UserService().getUserById(widget.userId)!;
     _loadMessages();
@@ -89,24 +82,27 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         scrolledUnderElevation: 20,
         shadowColor: Colors.black,
-        titleSpacing: -width*.02,
+        titleSpacing: -width * .02,
         backgroundColor: AppColor.color2,
         leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.03),
+          padding: EdgeInsets.symmetric(horizontal: width * .03),
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColor.black),
-            onPressed: () => Navigator.pushNamed(context, Routes.chatHome)),
+              icon: Icon(Icons.arrow_back, color: AppColor.black),
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.chatHome)),
         ),
         title: Row(
           children: [
             CircleAvatar(
-              maxRadius: height/width*12,
+              maxRadius: height / width * 12,
               backgroundImage: otherUser.profilePicture != null
-                ? AssetImage(otherUser.profilePicture!,)
-                : null,
+                  ? AssetImage(
+                      otherUser.profilePicture!,
+                    )
+                  : null,
               child: otherUser.profilePicture == null
-                ? Icon(Icons.contact_emergency)
-                : null,
+                  ? Icon(Icons.contact_emergency)
+                  : null,
             ),
             Text(
               " ${otherUser.firstname} ${otherUser.firstname} ",
@@ -118,27 +114,32 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ],
         ),
-        actions: [Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*.1),
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.search, color: AppColor.black,),
-                onPressed: () {}
-              ),
-              IconButton(
-                icon: Icon(Icons.more_vert, color: AppColor.black,),
-                onPressed: () {}
-              ),
-            ],
-          ))],
+        actions: [
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * .1),
+              child: Row(
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: AppColor.black,
+                      ),
+                      onPressed: () {}),
+                  IconButton(
+                      icon: Icon(
+                        Icons.more_vert,
+                        color: AppColor.black,
+                      ),
+                      onPressed: () {}),
+                ],
+              ))
+        ],
       ),
-      body: Chat(        
-        messages: _messages, 
-        onSendPressed: _sendMessage, 
-        user: types.User(id: currentUser.id),
-        bubbleBuilder: _bubbleBuilder        
-      ),
+      body: Chat(
+          messages: _messages,
+          onSendPressed: _sendMessage,
+          user: types.User(id: currentUser.id),
+          bubbleBuilder: _bubbleBuilder),
     );
   }
 
@@ -160,18 +161,15 @@ class _ChatPageState extends State<ChatPage> {
         createdAt: DateTime.fromMillisecondsSinceEpoch(message.createdAt ?? 0),
         child: DefaultTextStyle(
           style: TextStyle(fontSize: 15),
-        child: Builder(
-          builder: (context) {
-            return Text(
-              message is types.TextMessage ? message.text : ''
-            );
-          },
+          child: Builder(
+            builder: (context) {
+              return Text(message is types.TextMessage ? message.text : '');
+            },
+          ),
         ),
-      ),
         color: color,
         isCurrentUser: isCurrentUser,
       ),
     );
   }
-
 }

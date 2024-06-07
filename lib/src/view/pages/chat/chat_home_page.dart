@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 
 import '../../components/header.dart';
@@ -27,7 +28,8 @@ class _ChatHomePageState extends State<ChatHomePage> {
   void groupChatsByUsername() {
     groupedChatsByUsername = {};
     for (var chat in chatDataSet.values) {
-      String username = '${chat.destinator.firstname} ${chat.destinator.lastname}';
+      String username =
+          '${chat.destinator.firstname} ${chat.destinator.lastname}';
       if (!groupedChatsByUsername.containsKey(username)) {
         groupedChatsByUsername[username] = [];
       }
@@ -47,7 +49,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
   }
 
   void navigateToChat(String userId) {
-    Navigator.pushNamed(context, Routes.chatMessage, arguments: userId);
+    Navigator.pushNamed(context, AppRoutes.chatMessage, arguments: userId);
   }
 
   @override
@@ -56,24 +58,22 @@ class _ChatHomePageState extends State<ChatHomePage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppHeader(
-        title: Text(
-          "Chats", 
-          style: TextStyle(color: AppColor.black, fontSize: 25, fontFamily: "Syne")
-        ),
-        height: height,
-        width: width
-      ),
+          title: Text("Chats",
+              style: TextStyle(
+                  color: AppColor.black, fontSize: 25, fontFamily: "Syne")),
+          height: height,
+          width: width),
       body: ListView.builder(
         itemCount: groupedChatsByUsername.length,
         itemBuilder: (context, index) {
           String username = groupedChatsByUsername.keys.elementAt(index);
           List<Chat> chats = groupedChatsByUsername[username]!;
           Chat lastChat = chats.last;
-    
+
           int unreadCount = chats.where((msg) => !msg.isRead).length;
-    
+
           return Padding(
             padding: EdgeInsets.symmetric(vertical: width * .008),
             child: ListTile(
@@ -84,11 +84,11 @@ class _ChatHomePageState extends State<ChatHomePage> {
               tileColor: AppColor.inputText.withOpacity(.2),
               leading: CircleAvatar(
                 backgroundImage: lastChat.destinator.profilePicture != null
-                  ? AssetImage(lastChat.destinator.profilePicture!)
-                  : null,
+                    ? AssetImage(lastChat.destinator.profilePicture!)
+                    : null,
                 child: lastChat.destinator.profilePicture == null
-                  ? Icon(Icons.contact_emergency)
-                  : null,
+                    ? Icon(Icons.contact_emergency)
+                    : null,
               ),
               title: Text(
                 username,
