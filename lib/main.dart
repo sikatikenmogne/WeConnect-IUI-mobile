@@ -63,17 +63,14 @@ List<Role> roleData = [
   Role(id: "2", name: "INSTRUCTOR"),
   Role(id: "3", name: "LEARNER")
 ];
-Future<void> loadData() async {
-  final prefs = await SharedPreferences.getInstance();
-    UserModel.User.load();
-    currentUser = UserModel.User.getById(supabaseClient.auth.currentSession!.user.id); 
+Future<void> loadUserAndSettings() async {
+  UserModel.User.load();
+  currentUser = UserModel.User.getById(supabaseClient.auth.currentSession!.user.id); 
 
+  final prefs = await SharedPreferences.getInstance();
     if(prefs.getString("settings") != null){
-      print("okay");
       String? encodedMap = prefs.getString("settings") ?? "No Setting";
-      print("okay");
       Map<String, dynamic> decodedMap = json.decode(encodedMap);
-      print("okay");
       userSettings = decodedMap.map((key, value) => MapEntry(key, value));
     } else{
       userSettings = {

@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   late User? user;
   
   Future<void> _loadData() async {
-    await loadData();
+    await loadUserAndSettings();
   }
   @override
   void initState(){

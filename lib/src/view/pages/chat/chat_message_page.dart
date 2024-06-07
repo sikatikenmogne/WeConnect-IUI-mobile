@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
-import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/custom_bubble.dart';
 
 import '../../../model/chat_model.dart' as ChatModel;
@@ -19,48 +17,37 @@ class ChatPage extends StatefulWidget{
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late User _currentUser;
   late User otherUser;
-  List<types.Message> _messages = [];
+  List<ChatModel.Chat> _chats = [];
 
 
   void _loadMessages() async {
-  try {
-    await ChatModel.Chat.load();
-    setState(() {
-      _messages = chatData
-          .where((chat) => chat.destinator.id == widget.userId || chat.createdBy == User.getById(widget.userId))
-          .map((chat) => types.TextMessage(
-                author: types.User(id: chat.destinator.id),
-                createdAt: chat.createdAt.millisecondsSinceEpoch,
-                id: chat.id,
-                text: chat.content,
-              ))
-          .toList();
-
-      _messages = _messages.reversed.toList();
-    });
-  } catch (e) {
-    print('Error loading messages: $e');
+    try {
+      await ChatModel.Chat.load();
+      setState(() {
+        _chats = chatData
+            .where((chat) => chat.destinator.id == widget.userId || chat.createdBy!.id == widget.userId)
+            .toList();
+      });
+    } catch (e) {
+      print('Error loading messages: $e');
+    }
   }
-}
 
-  void _sendMessage(types.PartialText message) async {
-    final textMessage = types.TextMessage(
-      author: types.User(id: _currentUser.id),
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: AutogenerateUtil().generateId(),
-      text: message.text
-    );
+  void _sendMessage(String message, Chat? parentChat) async {
+    final ChatModel.Chat _chat = ChatModel.Chat(
+      content: message,
+      destinator: otherUser,
+    ); 
 
-    setState(() => _messages.insert(_messages.length, textMessage));
+    setState(() => chatData.add(_chat));
 
     // persist data
     try {
-    await ChatModel.Chat.create(
-      content: message.text,
-      destinator: otherUser,
-    );
+      await ChatModel.Chat.create(
+        content: message,
+        destinator: otherUser
+      );
     } catch (e) {
       print('Error sending message: $e');
     }
@@ -69,8 +56,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    loadData();
-    _currentUser = currentUser!;
+    loadUserAndSettings();
     otherUser = User.getById(widget.userId)!;
     _loadMessages();
   }
@@ -127,21 +113,34 @@ class _ChatPageState extends State<ChatPage> {
             ],
           ))],
       ),
-      body: Chat(        
-        messages: _messages, 
-        onSendPressed: _sendMessage, 
-        user: types.User(id: _currentUser.id),
-        bubbleBuilder: _bubbleBuilder        
-      ),
+      body: ListView.builder(
+        reverse: true, // Reverse the order of the list
+        itemCount: _chats.length,
+        itemBuilder: (context, index) {
+          final message = _chats[index];
+          final nextMessageInGroup = index < _chats.length - 1 &&
+              _chats[index + 1].createdBy?.id == message.createdBy?.id;
+      
+          return _bubbleBuilder(
+            chat: message,
+            child: Text(
+              message.content,
+              style: TextStyle(color: Colors.black), // Customize text style as needed
+            ),
+            nextMessageInGroup: nextMessageInGroup,
+          );
+        },
+      )
+
     );
   }
 
-  Widget _bubbleBuilder(
-    Widget child, {
-    required types.Message message,
+  Widget _bubbleBuilder({
+    required ChatModel.Chat chat,
+    required Widget child,
     required bool nextMessageInGroup,
   }) {
-    final isCurrentUser = message.author.id == _currentUser.id;
+    final isCurrentUser = chat.createdBy!.id == currentUser!.id;
     final color = isCurrentUser ? AppColor.header : AppColor.color2;
 
     return Container(
@@ -151,17 +150,11 @@ class _ChatPageState extends State<ChatPage> {
         right: isCurrentUser ? 0 : 30,
       ),
       child: CustomBubble(
-        createdAt: DateTime.fromMillisecondsSinceEpoch(message.createdAt ?? 0),
+        createdAt: chat.createdAt,
         child: DefaultTextStyle(
           style: TextStyle(fontSize: 15),
-        child: Builder(
-          builder: (context) {
-            return Text(
-              message is types.TextMessage ? message.text : ''
-            );
-          },
+          child: child,
         ),
-      ),
         color: color,
         isCurrentUser: isCurrentUser,
       ),

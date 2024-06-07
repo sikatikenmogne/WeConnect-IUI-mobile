@@ -5,6 +5,7 @@ import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/user_model.dart';
+import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/shimer_list_view.dart';
 
@@ -24,11 +25,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
+    // (supabaseClient.auth.currentUser == null) ? Navigator.pushNamed(context, AppRoutes.login) : _loadData();
     _loadData();
   }
 
   Future<void> _loadData() async {
-    await User.load();
+    await loadUserAndSettings();
     await Chat.load();
     groupChatsByUsername();
     setState(() => _isLoading = false);
