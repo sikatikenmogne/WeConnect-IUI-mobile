@@ -6,7 +6,6 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData.light().copyWith(
     primaryColor: AppColor.primary,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColor.appBarLight,
       color: AppColor.appBarLight,
     ),
     colorScheme: ThemeData.light().colorScheme.copyWith(
@@ -28,7 +27,6 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
     primaryColor: AppColor.secondary,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColor.appBarDark,
       color: AppColor.appBarDark,
     ),
     colorScheme: ThemeData.dark().colorScheme.copyWith(
