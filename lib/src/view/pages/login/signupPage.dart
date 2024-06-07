@@ -8,6 +8,7 @@ import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:developer' as developer;
 
 import '../../../constants/app_color.dart';
 
@@ -113,64 +114,68 @@ class _SignupPageState extends State<SignupPage> {
     setState(() {
       _isLoading = true;
     });
-
+  
     if (password != repeatPassword) {
+      developer.log('Password verification failed', name: 'my.app');
+      print('Password verification failed');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
-                'Invalid verification: the password and the repeat password dhould be the same')),
+                'Invalid verification: the password and the repeat password should be the same')),
       );
       return null;
     }
-
+  
     try {
+      developer.log('Starting signup process', name: 'my.app');
+      print('Starting signup process');
       final response =
           await supabaseClient.auth.signUp(email: email, password: password);
-
+  
       if (response.user != null) {
+        developer.log('Signup successful', name: 'my.app');
+        print('Signup successful');
         final newUser = {
           "id": response.user!.id,
           "firstname": nameController.text,
           "email": response.user!.email,
           "role_id": '3'
         };
-
+  
         await supabaseClient.from("users").insert(newUser);
-
-        print('Sign-up successful');
+  
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Sign-up successful')),
         );
-
+  
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
-
+  
         return response;
       } else {
         // Sign-up was failed
+        developer.log('Signup failed', name: 'my.app');
+        print('Signup failed');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Sign up failed')),
         );
-
-        print('Sign-up failed');
       }
     } catch (e) {
       // An unexpected error occurred
+      developer.log('Unexpected error: $e', name: 'my.app');
+      print('Unexpected error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Unexpected error occurred: $e')),
       );
-
-      print('Unexpected error occurred: $e');
     }
-
+  
     // Set loading state to false at the end of the signup process
     setState(() {
       _isLoading = false;
     });
-
+  
     return null;
   }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -393,27 +398,59 @@ class _SignupPageState extends State<SignupPage> {
                                   final repeatPassword =
                                       repeatPasswordController.text;
 
-                                  var signUpResponse = await _signUp(
-                                      email: email,
-                                      password: password,
-                                      repeatPassword: repeatPassword);
+                                  try {
+                                    developer.log('Signup started!',
+                                        name: 'my.app');
+                                    print('Signup started!');
 
-                                  if (signUpResponse != null &&
-                                      signUpResponse.session != null) {
-                                    final name = nameController.text.trim();
-                                    final user = signUpResponse.user;
+                                    var signUpResponse = await _signUp(
+                                        email: email,
+                                        password: password,
+                                        repeatPassword: repeatPassword);
 
-                                    final updates = {
-                                      'id': user!.id,
-                                      'username': name,
-                                      'updated_at':
-                                          DateTime.now().toIso8601String(),
-                                    };
-                                    await _updateProfile(updates);
+                                    if (signUpResponse != null &&
+                                        signUpResponse.session != null) {
+                                      final name = nameController.text.trim();
+                                      final user = signUpResponse.user;
 
-                                    // Navigate to the login page
-                                    Navigator.pushReplacementNamed(
-                                        context, AppRoutes.home);
+                                      final updates = {
+                                        'id': user!.id,
+                                        'username': name,
+                                        'updated_at':
+                                            DateTime.now().toIso8601String(),
+                                      };
+
+                                      developer.log('Updating profile...',
+                                          name: 'my.app');
+                                      print('Updating profile...');
+                                      await _updateProfile(updates);
+
+                                      // Navigate to the login page
+                                      developer.log('Navigating to home...',
+                                          name: 'my.app');
+                                      print('Navigating to home...');
+                                      Navigator.pushReplacementNamed(
+                                          context, AppRoutes.home);
+                                    } else {
+                                      developer.log('Signup failed!',
+                                          name: 'my.app');
+                                      print('Signup failed!');
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Signup failed! Please try again.')),
+                                      );
+                                    }
+                                  } catch (e) {
+                                    developer.log('Unexpected error: $e',
+                                        name: 'my.app');
+                                    print('Unexpected error: $e');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Unexpected error: $e')),
+                                    );
                                   }
                                 }
                               },
