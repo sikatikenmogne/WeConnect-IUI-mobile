@@ -46,10 +46,14 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppHeader(
         width: width, 
         height: height,
-        leading: Icons.arrow_back_ios,
-        title: Text("Back", style: TextStyle(color: AppColor.black),),
-        titleSpacing: -width*.001,
-        actions: [Text(
+        // leading: Icons.arrow_back_ios,
+        leading: null,
+        title: Text(
+          AppLocalizations.of(context)!.backTextButton,
+        ),
+        titleSpacing: -width * .001,
+        actions: [
+          Text(
             AppLocalizations.of(context)!.settingsPagetitle, 
             style: TextStyle(color: AppColor.black, fontSize: 22),
           )],
@@ -58,7 +62,8 @@ class _SettingsPageState extends State<SettingsPage> {
         color: AppColor.white,
         padding: EdgeInsets.all(width*.08),
         child: Column(
-          children: [
+                  Text(AppLocalizations.of(context)!.languageEnglishFrench,
+                      style: TextStyle(fontSize: 19)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -78,16 +83,20 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Disable post notifications", style: TextStyle(color: AppColor.black, fontSize: 19)),
-                CommonSwitch(value: _settings.isPostNotificationDisabled, width: width)
+                  Text(AppLocalizations.of(context)!.disablePostNotifications,
+                      style: TextStyle(fontSize: 19)),
+                  CommonSwitch(
+                      value: _settings.isPostNotificationDisabled, width: width)
               ],
             ),
             SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Disable chat notifications", style: TextStyle(color: AppColor.black, fontSize: 19)),
-                CommonSwitch(value: _settings.isChatNotificationDisabled, width: width)
+                  Text(AppLocalizations.of(context)!.disableChatNotifications,
+                      style: TextStyle(fontSize: 19)),
+                  CommonSwitch(
+                      value: _settings.isChatNotificationDisabled, width: width)
               ],
             ),
           ],
