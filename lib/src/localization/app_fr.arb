@@ -22,6 +22,14 @@
   "@darkTheme": {
     "description": "Le mode sombre"
   },
+  "disableChatNotifications": "Disable chat notifications",
+  "@disableChatNotifications": {
+    "description": "Disable chat notifications"
+  },
+  "disablePostNotifications": "Disable post notifications",
+  "@disablePostNotifications": {
+    "description": "Disable post notifications"
+  },
   "donTHaveAnAccount": "Don't have an account?",
   "@donTHaveAnAccount": {
     "description": "Login text label ask user to sign up"
@@ -49,6 +57,10 @@
   "inscription": "Inscription",
   "@inscription": {
     "description": "sign up page title"
+  },
+  "languageEnglishFrench": "Language: english/french",
+  "@languageEnglishFrench": {
+    "description": "Language: english/french"
   },
   "lightTheme": "Thème clair",
   "@lightTheme": {
