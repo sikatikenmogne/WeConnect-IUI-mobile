@@ -9,6 +9,7 @@ import 'package:we_connect_iui_mobile/src/view/components/common_switch.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.controller});
@@ -51,14 +52,16 @@ class _SettingsPageState extends State<SettingsPage> {
         height: height,
         // leading: Icons.arrow_back_ios,
         leading: null,
-        title: Text(
+        title: HeaderText(
           AppLocalizations.of(context)!.backTextButton,
+          color: Theme.of(context).textTheme.displayMedium!.color!,
+          fontSize: 22,
         ),
         titleSpacing: -width * .001,
         actions: [
-          Text(
+          HeaderText(
             AppLocalizations.of(context)!.settingsPagetitle,
-            style: TextStyle(fontSize: 22),
+            fontSize: 22,
           )
         ],
       ),
@@ -99,8 +102,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           AppLocalizations.of(context)!.systemTheme,
                           style: TextStyle(
                             fontSize: 19,
-                            fontFamily: AppFonts.FontFamily_RedHatDisplay,
-                            color: Theme.of(context).textTheme.displayMedium!.color,
+                            fontFamily: AppFonts.FontFamily_Syne,
+                            color: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .color,
                           ),
                         ),
                       ),
@@ -110,8 +116,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           AppLocalizations.of(context)!.lightTheme,
                           style: TextStyle(
                             fontSize: 19,
-                            fontFamily: AppFonts.FontFamily_RedHatDisplay,
-                            color: Theme.of(context).textTheme.displayMedium!.color,
+                            fontFamily: AppFonts.FontFamily_Syne,
+                            color: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .color,
                           ),
                         ),
                       ),
@@ -121,8 +130,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           AppLocalizations.of(context)!.darkTheme,
                           style: TextStyle(
                             fontSize: 19,
-                            fontFamily: AppFonts.FontFamily_RedHatDisplay,
-                            color: Theme.of(context).textTheme.displayMedium!.color,
+                            fontFamily: AppFonts.FontFamily_Syne,
+                            color: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .color,
                           ),
                         ),
                       )
@@ -151,8 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ],
-        )
-      ),
+          )),
     );
   }
 }
