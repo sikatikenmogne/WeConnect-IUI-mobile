@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart'; // Import your routes file
 import 'package:we_connect_iui_mobile/src/controller/settings/settings_controller.dart';
 
+import 'constants/app_theme.dart';
 import 'routes/routes.dart';
 
 /// The Widget that configures your application.
@@ -55,8 +56,8 @@ class MyApp extends StatelessWidget {
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
           // SettingsController to display the correct theme.
-          theme: ThemeData(),
-          darkTheme: ThemeData.dark(),
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
           themeMode: settingsController.themeMode,
 
           // Define a function to handle named routes in order to support
