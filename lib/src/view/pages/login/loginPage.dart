@@ -147,16 +147,16 @@ class _LoginPageState extends State<LoginPage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Login title
-            const Text(
+            Text(
               'Login',
               style: TextStyle(
-                color: AppColor.primary,
+                color: Theme.of(context).primaryColor,
                 fontFamily: AppFonts.FontFamily_Syne,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
@@ -175,19 +175,20 @@ class _LoginPageState extends State<LoginPage> {
                     width: screenWidth * 0.87,
                     child: TextFormField(
                       controller: _emailController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontFamily: AppFonts.FontFamily_Syne,
                       ),
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.emailFormLabel,
-                        hintStyle: TextStyle(color: AppColor.primary),
+                        hintStyle:
+                            TextStyle(color: Theme.of(context).primaryColor),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
                         prefixIcon: Icon(
                           Icons.email,
-                          color: AppColor.primary,
+                          color: Theme.of(context).primaryColor,
                         ),
                         filled: true,
                         fillColor: AppColor.success,
@@ -195,7 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.emailRequired;
-                        } else if (!value.contains('@')) {
+                        } else if (!value.contains('@') &&
+                            !value.contains('.')) {
                           return AppLocalizations.of(context)!
                               .validEmailRequired;
                         }
@@ -211,20 +213,21 @@ class _LoginPageState extends State<LoginPage> {
                     width: screenWidth * 0.87,
                     child: TextFormField(
                       controller: _passwordController,
-                      style: const TextStyle(
-                        color: AppColor.primary,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontFamily: AppFonts.FontFamily_Syne,
                       ),
                       decoration: InputDecoration(
                         hintText:
                             AppLocalizations.of(context)!.passwordFormLabel,
-                        hintStyle: TextStyle(color: AppColor.primary),
+                        hintStyle:
+                            TextStyle(color: Theme.of(context).primaryColor),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
                         prefixIcon: Icon(
                           Icons.lock,
-                          color: AppColor.primary,
+                          color: Theme.of(context).primaryColor,
                         ),
                         filled: true,
                         fillColor: AppColor.success,
@@ -271,8 +274,8 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         foregroundColor: AppColor.white,
-                        backgroundColor:
-                            AppColor.primary, // Set the button color
+                        backgroundColor: Theme.of(context)
+                            .primaryColor, // Set the button color
                       ),
                       child: Stack(
                         children: [
@@ -329,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               AppLocalizations.of(context)!.signup,
                               style: TextStyle(
-                                color: AppColor.primary,
+                                color: Theme.of(context).primaryColor,
                                 fontFamily: AppFonts.FontFamily_Syne,
                               ),
                             ),

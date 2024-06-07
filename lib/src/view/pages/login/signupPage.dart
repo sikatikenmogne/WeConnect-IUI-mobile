@@ -176,7 +176,7 @@ class _SignupPageState extends State<SignupPage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -195,9 +195,9 @@ class _SignupPageState extends State<SignupPage> {
                               MaterialPageRoute(
                                   builder: (context) => LoginPage()));
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back,
-                          color: AppColor.primary,
+                          color: Theme.of(context).primaryColor,
                           size: 30,
                         )),
                   ],
@@ -209,7 +209,7 @@ class _SignupPageState extends State<SignupPage> {
               Text(
                 AppLocalizations.of(context)!.inscription,
                 style: TextStyle(
-                  color: AppColor.primary,
+                  color: Theme.of(context).primaryColor,
                   fontFamily: AppFonts.FontFamily_Syne,
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
@@ -228,20 +228,21 @@ class _SignupPageState extends State<SignupPage> {
                       width: screenWidth * 0.87,
                       child: TextFormField(
                         controller: nameController,
-                        style: const TextStyle(
-                          color: AppColor.primary,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontFamily: AppFonts.FontFamily_Syne,
                         ),
                         decoration: InputDecoration(
                           hintText:
                               AppLocalizations.of(context)!.inputLabelname,
-                          hintStyle: TextStyle(color: AppColor.primary),
+                          hintStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                           prefixIcon: Icon(
                             Icons.person,
-                            color: AppColor.primary,
+                            color: Theme.of(context).primaryColor,
                           ),
                           filled: true,
                           fillColor: AppColor.success,
@@ -262,20 +263,21 @@ class _SignupPageState extends State<SignupPage> {
                       width: screenWidth * 0.87,
                       child: TextFormField(
                         controller: emailController,
-                        style: const TextStyle(
-                          color: AppColor.primary,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontFamily: AppFonts.FontFamily_Syne,
                         ),
                         decoration: InputDecoration(
                           hintText:
                               AppLocalizations.of(context)!.emailFormLabel,
-                          hintStyle: TextStyle(color: AppColor.primary),
+                          hintStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                           prefixIcon: Icon(
                             Icons.email,
-                            color: AppColor.primary,
+                            color: Theme.of(context).primaryColor,
                           ),
                           filled: true,
                           fillColor: AppColor.success,
@@ -283,7 +285,8 @@ class _SignupPageState extends State<SignupPage> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return AppLocalizations.of(context)!.emailRequired;
-                          } else if (!value.contains('@')) {
+                          } else if (!value.contains('@') &&
+                              !value.contains('.')) {
                             return AppLocalizations.of(context)!
                                 .validEmailRequired;
                           }
@@ -299,19 +302,20 @@ class _SignupPageState extends State<SignupPage> {
                       width: screenWidth * 0.87,
                       child: TextFormField(
                         controller: passwordController,
-                        style: const TextStyle(
-                          color: AppColor.primary,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontFamily: AppFonts.FontFamily_Syne,
                         ),
                         decoration: InputDecoration(
                           hintText: AppLocalizations.of(context)!.password,
-                          hintStyle: TextStyle(color: AppColor.primary),
+                          hintStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                           prefixIcon: Icon(
                             Icons.lock,
-                            color: AppColor.primary,
+                            color: Theme.of(context).primaryColor,
                           ),
                           filled: true,
                           fillColor: AppColor.success,
@@ -337,20 +341,21 @@ class _SignupPageState extends State<SignupPage> {
                       width: screenWidth * 0.87,
                       child: TextFormField(
                         controller: repeatPasswordController,
-                        style: const TextStyle(
-                          color: AppColor.primary,
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontFamily: AppFonts.FontFamily_Syne,
                         ),
                         decoration: InputDecoration(
                           hintText:
                               AppLocalizations.of(context)!.repeatPassword,
-                          hintStyle: TextStyle(color: AppColor.primary),
+                          hintStyle:
+                              TextStyle(color: Theme.of(context).primaryColor),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                           prefixIcon: Icon(
                             Icons.lock,
-                            color: AppColor.primary,
+                            color: Theme.of(context).primaryColor,
                           ),
                           filled: true,
                           fillColor: AppColor.success,
@@ -417,8 +422,8 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           foregroundColor: Colors.white,
-                          backgroundColor:
-                              AppColor.primary, // Set the button color
+                          backgroundColor: Theme.of(context)
+                              .primaryColor, // Set the button color
                         ),
                         child: Stack(
                           children: [
@@ -480,7 +485,7 @@ class _SignupPageState extends State<SignupPage> {
                               child: Text(
                                 AppLocalizations.of(context)!.signin,
                                 style: TextStyle(
-                                  color: AppColor.primary,
+                                  color: Theme.of(context).primaryColor,
                                   fontFamily: AppFonts.FontFamily_Syne,
                                 ),
                               ),
