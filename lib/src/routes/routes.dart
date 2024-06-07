@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/controller/settings/settings_controller.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
@@ -22,7 +23,7 @@ class Routes {
   static const String about = '/about';
 
 
-  static Map<String, WidgetBuilder> getRoutes() {
+  static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
     return {
       onboarding: (context) => OnboardingView(),
       login: (context) => LoginPage(),
@@ -33,7 +34,7 @@ class Routes {
         // return ChatPage(userId: userId);
         return ChatPage();
       },
-      settings: (context) => SettingsPage(),
+      settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage()
     };
   }
