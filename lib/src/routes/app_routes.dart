@@ -42,7 +42,11 @@ class AppRoutes {
       home: (context) => SampleItemListView(),
       sampleItemDetails: (context) => SampleItemDetailsView(),
       chatHome: (context) => ChatHomePage(),
-      chatMessage: (context) => ChatPage(),
+      chatMessage: (context) {
+        final userId = ModalRoute.of(context)!.settings.arguments as String;
+        return ChatPage(userId: userId);
+      },
+      profile: (context) => ProfileView(),
       editProfile: (context) => EditProfileView(),
       settings: (context) => SettingsPage(),
       about: (context) => AboutPage(),
