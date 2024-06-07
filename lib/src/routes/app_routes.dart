@@ -31,8 +31,8 @@ class AppRoutes {
   static const String chatMessage = '/chat/chat_message';
   static const String about = '/about';
 
-  static Map<String, WidgetBuilder> getRoutes() {
-    final settingsController = SettingsController(SettingsService());
+  static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
+    // final settingsController = SettingsController(SettingsService());
 
     return {
       splashscreen: (context) => Splashscreen(),
@@ -45,7 +45,7 @@ class AppRoutes {
       chatMessage: (context) => ChatPage(),
       profile: (context) => ProfileView(),
       editProfile: (context) => EditProfileView(),
-      settings: (context) => SettingsPage(),
+      settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage(),
     };
   }
