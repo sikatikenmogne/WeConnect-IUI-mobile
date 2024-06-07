@@ -64,7 +64,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
               style: TextStyle(
                   color: AppColor.black, fontSize: 25, fontFamily: "Syne")),
           height: height,
-          width: width),
+          width: width,leading: null),
       body: ListView.builder(
         itemCount: groupedChatsByUsername.length,
         itemBuilder: (context, index) {
