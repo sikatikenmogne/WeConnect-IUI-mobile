@@ -75,7 +75,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   Widget build(BuildContext context) {
     var indexMemory = 0;
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Stack(
@@ -115,7 +115,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               text: "WeConnect",
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
-                              color: AppColor.primary,
+                              color: Theme.of(context).primaryColor,
                               alignment: TextAlign.left,
                             ),
                           )
@@ -164,7 +164,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                           width: homeCon.currentPage.value == index
                               ? 38
                               : 8, // Adjust the size of the active dot
-                          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 1.5),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 1.5),
                           decoration: BoxDecoration(
                             color: homeCon.currentPage.value == index
                                 ? AppColor.pinkAccent
@@ -229,5 +230,4 @@ class _OnboardingViewState extends State<OnboardingView> {
       ),
     );
   }
-
 }

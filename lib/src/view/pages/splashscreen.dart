@@ -54,7 +54,7 @@ class _SplashscreenState extends State<Splashscreen> {
           ],
         ),
       ),
-      // color: AppColor.primary,
+      // color: Theme.of(context).primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

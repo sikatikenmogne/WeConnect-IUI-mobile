@@ -89,8 +89,7 @@ class User extends AuditModel {
 
   static Future<List<User>> load() async {
     try {
-      final response = await supabaseClient.from("users")
-          .select();
+      final response = await supabaseClient.from("users").select();
       
       final data = response as List<dynamic>;
       for(var item in data){

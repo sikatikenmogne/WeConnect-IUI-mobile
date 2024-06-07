@@ -59,6 +59,7 @@ class Notification extends AuditModel {
     return newNotification;
   }
 
+
   bool get isRead => _isRead;
   set isRead(bool value) => _isRead = value;
 

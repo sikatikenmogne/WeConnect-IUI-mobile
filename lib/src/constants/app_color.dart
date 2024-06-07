@@ -21,6 +21,17 @@ class AppColor {
   static const Color inputText = Color(0xFFD9D9D9);
   static const Color buttonText = Color(0xFFFFFFFF);
   static const Color header = Color(0xFFF6978A);
+  static const Color background = Color(0xFFE5E5E5);
 
-  // Add more colors as needed
+  static const Color appBarLight = header;
+  static const Color appBarDark = Color(0xFF607D8B);
+
+  static const Color scaffoldLight = Color(0xFFFFFFFF);
+  static const Color scaffoldDark = Color(0xFF000000);
+
+  static const Color buttonLight = Color(0xFFEC6060);
+  static const Color buttonDark = Color(0xFFA04040);
+
+  static const Color textLight = Color(0xFF000000);
+  static const Color textDark = Color(0xFFF5F5F5);
 }

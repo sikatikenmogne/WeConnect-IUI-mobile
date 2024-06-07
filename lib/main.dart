@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/src/model/calendar_model.dart';
 import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/comment_model.dart';
+import 'package:we_connect_iui_mobile/src/model/event_model.dart';
 import 'package:we_connect_iui_mobile/src/model/post_model.dart';
 import 'package:we_connect_iui_mobile/src/model/role_model.dart';
 import 'dart:convert';
@@ -53,9 +54,10 @@ void main() async {
 final supabaseClient = Supabase.instance.client;
 UserModel.User? currentUser;
 Map<String, bool>? userSettings;
-List<Comment>? commentData;
-List<Post>? postData;
+List<Comment> commentData = [];
+List<Post> postData = [];
 List<UserModel.User> userData = [];
+List<Event> eventData = [];
 List<Calendar> calendarData = [];
 List<Chat> chatData = [];
 List<Role> roleData = [

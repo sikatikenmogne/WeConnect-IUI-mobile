@@ -1,7 +1,6 @@
 import 'package:we_connect_iui_mobile/src/model/audit_model.dart';
-import 'package:we_connect_iui_mobile/src/model/enum/event_type_enum.dart';
-import 'package:we_connect_iui_mobile/main.dart'; // Assuming supabaseClient is defined in main.dart
-import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
+import 'package:we_connect_iui_mobile/main.dart';
+import 'package:we_connect_iui_mobile/src/model/enum/event_type_enum.dart'; // Assuming supabaseClient is defined in main.dart
 
 class Calendar extends AuditModel {
   String _id;
@@ -13,7 +12,7 @@ class Calendar extends AuditModel {
   String _instructor;
   String? _comment;
 
-  Calendar._({
+  Calendar({
     required String id,
     required String title,
     required EventTypeEnum eventType,
@@ -21,7 +20,7 @@ class Calendar extends AuditModel {
     required DateTime stopDate,
     required String room,
     required String instructor,
-    required String comment,
+    String? comment,
   })  : _id = id,
         _title = title,
         _eventType = eventType,
@@ -32,46 +31,45 @@ class Calendar extends AuditModel {
         _comment = comment,
         super();
 
-  static Future<Calendar> create({
-    required String title,
-    required EventTypeEnum eventType,
-    required DateTime startDate,
-    required DateTime stopDate,
-    required String room,
-    required String instructor,
-    required String comment,
-  }) async {
-    final id = AutogenerateUtil().generateId();
-    final newCalendar = Calendar._(
-      id: id,
-      title: title,
-      eventType: eventType,
-      startDate: startDate,
-      stopDate: stopDate,
-      room: room,
-      instructor: instructor,
-      comment: comment,
+  factory Calendar.fromJson(Map<String, dynamic> map) {
+    return Calendar(
+      id: map['id'] as String,
+      title: map['title'] as String,
+      eventType: _mapStringToEventTypeEnum(map['event_type'] as String),
+      startDate: DateTime.parse(map['start_date'] as String),
+      stopDate: DateTime.parse(map['stop_date'] as String),
+      room: map['room'] as String,
+      instructor: map['instructor'] as String,
+      comment: map['comment'] as String?,
     );
+  }
 
-    final response = await supabaseClient.from("calendars").insert({
-      "id": id,
-      "title": title,
-      "eventType": eventType.toString(), // Convert enum to string
-      "startDate": startDate.toIso8601String(),
-      "stopDate": stopDate.toIso8601String(),
-      "room": room,
-      "instructor": instructor,
-      "comment": comment,
-    });
+  static EventTypeEnum _mapStringToEventTypeEnum(String eventType) {
+    switch (eventType) {
+      case 'class':
+        return EventTypeEnum.CLASS;
+      case 'test':
+        return EventTypeEnum.TEST;
+      default:
+        throw ArgumentError('Unknown event type: $eventType');
+    }
+  }
 
-    if (response.error != null) {
-      print('Error inserting calendar event: ${response.error!.message}');
-    } else {
-      print('Calendar event inserted successfully');
+  static Future<List<Calendar>> load() async {
+    try {
+      final response = await supabaseClient.from("calendar").select();
+
+      final data = response as List<dynamic>;
+      for (var item in data) {
+        calendarData.add(Calendar.fromJson(item));
+      }
+    } catch (e) {
+      print("Error loading calendar events: $e");
     }
 
-    return newCalendar;
+    return calendarData;
   }
+
 
   String get id => _id;
   set id(String value) => _id = value;
