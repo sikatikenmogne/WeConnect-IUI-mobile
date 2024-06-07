@@ -11,7 +11,7 @@ import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'dart:developer' as developer;
 import '../../../constants/app_color.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<Session?> _signInWithPassword(
       {required String email, required String password}) async {
     try {
+      print('Signin started!');
+      developer.log('Signin started!', name: 'my.app');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Signin started!')),
       );
@@ -43,13 +45,21 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
 
+      print('Response received: $response');
+      developer.log('Response received: $response', name: 'my.app');
+
       if (mounted) {
         if (response?.user != null) {
           final user = await supabaseClient.from("users")
                     .select()
                     .eq("id", response!.user.id)
                     .single();
+          
           // The user is logged in
+      
+          print('User is logged in');
+          developer.log('User is logged in', name: 'my.app');
+
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('isLoggedIn', true);      
           await prefs.setString('user', json.encode(user));
@@ -62,11 +72,25 @@ class _LoginPageState extends State<LoginPage> {
           );
 
           return response;
-        }
+        } else {
+          print('Authentication failed');
+          developer.log('Authentication failed', name: 'my.app');
 
-        _emailController.clear();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Authentication failed! Please try again.')),
+          );
+          _emailController.clear();
+        }
+      } else {
+        print('Error: Widget is not mounted and cannot be updated.');
+        developer.log('Error: Widget is not mounted and cannot be updated.',
+            name: 'my.app');
       }
     } on AuthException catch (error) {
+      print('AuthException: ${error.message}');
+      developer.log('AuthException: ${error.message}', name: 'my.app');
+
       if (mounted) {
         SnackBar(
           content: Text(error.message),
@@ -74,6 +98,9 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } catch (error) {
+      print('Unexpected error: $error');
+      developer.log('Unexpected error: $error', name: 'my.app');
+
       if (mounted) {
         SnackBar(
           content: const Text('Unexpected error occurred'),
@@ -114,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
       password: _passwordController.text,
     );
     if (signInResponse != null) {
-      Navigator.pushReplacementNamed(context, AppRoutes.chatHome);
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
     } else {
       SnackBar(
         content: const Text('Sign in failed'),

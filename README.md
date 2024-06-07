@@ -27,26 +27,49 @@ A Social Network for empowering the Educational Community of UCAC-ICAM Institute
 
 ## 🚀 Getting Started
 
-This project is a starting point for a Flutter application that follows the [simple app state management tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+Welcome to our project! This is a social network designed to empower the educational community of UCAC-ICAM Institute. Built by students, for students, alumni, and faculty, our aim is to foster a vibrant, collaborative environment where ideas can be shared and connections can be made.
 
-For help getting started with Flutter development, view the [online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a full API reference.
+This project is built using Flutter, following best practices for state management. Whether you're a student looking to contribute or a faculty member interested in seeing how it all works, this project is a great starting point for understanding the development of robust, scalable Flutter applications.
 
-## 🎨 Assets
-
-The `assets` directory houses images, fonts, and any other files you want to include with your application.
-
-The `assets/images` directory contains [resolution-aware images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+For comprehensive guidance on Flutter development, refer to the [official Flutter documentation](https://flutter.dev/docs). It provides tutorials, samples, mobile development best practices, and a complete API reference.
 
 ## 🌍 Localization
 
-This project supports multiple languages. The currently supported languages are:
+In our commitment to inclusivity, this project supports multiple languages to cater to our diverse community. Currently, the application is localized in:
 
 - English
 - French
 
-The localized messages are generated based on arb files found in the `lib/src/localization` directory.
+Localization is achieved through arb files located in the `lib/src/localization` directory. These files contain the translations for all the text used in the application.
 
-To support additional languages, please visit the tutorial on [Internationalizing Flutter apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+To add more languages to the application, follow the guide on [Internationalizing Flutter apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization).
+
+## ✅ Features
+
+- [x] User Authentication (Login/Signup)
+- [x] Onboarding for new users
+- [x] User Profile (View/Edit)
+- [x] Chat functionality
+- [x] Settings customization
+- [x] Localization (English/French)
+- [x] Home Page
+- [x] About Page
+- [x] Sample Items (List/Details)
+- [x] Splash Screen
+- [ ] Feature yet to be implemented
+
+<details>
+<summary>📸 App Preview</summary>
+<div align="center">
+    <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.11.14.jpeg" width="300px">
+    <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.18.26.jpeg" width="300px">
+    <img src=".github/readme_assets/Screen_recording_20240605_202921.webm" width="300px">
+    <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.09.57.jpeg" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240605_055916.png" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240607_102804.png" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240607_102840.pngd" width="300px">
+</div>
+</details>
 
 ## 🛠️ Installation & Setup
 

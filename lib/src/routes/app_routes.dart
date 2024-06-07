@@ -4,6 +4,7 @@ import 'package:we_connect_iui_mobile/src/service/settings/settings_service.dart
 import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/home/home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/notification/notification_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/profile/edit_profile_view.dart';
@@ -32,6 +33,8 @@ class AppRoutes {
   static const String chatMessage = '/chat/chat_message';
   static const String about = '/about';
   static const String notification = '/notification';
+  static const String calendar = '/calendar';
+
 
   static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
     // final settingsController = SettingsController(SettingsService());
@@ -41,7 +44,7 @@ class AppRoutes {
       onboarding: (context) => OnboardingView(),
       login: (context) => LoginPage(),
       signUp: (context) => SignupPage(),
-      home: (context) => SampleItemListView(),
+      home: (context) => HomePage(),
       sampleItemDetails: (context) => SampleItemDetailsView(),
       chatHome: (context) => ChatHomePage(),
       chatMessage: (context) {
@@ -53,7 +56,7 @@ class AppRoutes {
       // settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage(),
       notification: (context) => NotificationPage(),
-      
+      calendar: (context) => SampleItemListView(),
     };
   }
 }

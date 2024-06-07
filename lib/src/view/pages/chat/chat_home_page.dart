@@ -103,6 +103,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
                     lastChat.content,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
+
                     style: TextStyle(color: AppColor.tertiary, fontSize: 12),
                   ),
                   trailing: Column(

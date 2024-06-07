@@ -9,6 +9,9 @@ import 'package:we_connect_iui_mobile/src/view/components/header.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -73,6 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
               color: AppColor.white,
               padding: EdgeInsets.all(width*.08),
               child: Column(
+
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,5 +115,6 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         }
       });
+
   }
 }

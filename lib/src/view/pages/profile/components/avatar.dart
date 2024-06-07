@@ -7,7 +7,7 @@ import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'profile_text.dart';
+import '../../../components/header_text.dart';
 
 class Avatar extends StatefulWidget {
   const Avatar({
@@ -80,12 +80,18 @@ class _AvatarState extends State<Avatar> {
                 child: Column(
                   children: [
                     (widget.data != null && widget.data!['username'] != null)
-                        ? ProfileText(widget.data!['username']!)
-                        : ProfileText(''),
+                        ? HeaderText(
+                            widget.data!['username']!,
+                            color: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .color!,
+                          )
+                        : HeaderText(''),
                     (widget.data != null && widget.data!['promotion'] != null)
-                        ? ProfileText(widget.data!['promotion']!,
+                        ? HeaderText(widget.data!['promotion']!,
                             color: AppColor.tertiary)
-                        : ProfileText(''),
+                        : HeaderText(''),
                   ],
                 ),
               ),
