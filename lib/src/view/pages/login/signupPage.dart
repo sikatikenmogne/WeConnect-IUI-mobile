@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
+import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -137,20 +139,25 @@ class _SignupPageState extends State<SignupPage> {
         print('Signup successful');
         final newUser = {
           "id": response.user!.id,
-          "firstname": nameController.text,
+          "firstname": nameController.text, 
           "email": response.user!.email,
-          "role_id": '3'
+          "roleid": 3
         };
+
   
         await supabaseClient.from("users").insert(newUser);
-  
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Sign-up successful')),
         );
   
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
-  
+
+        await prefs.setString('user', json.encode(newUser));
+        await prefs.setString('settings', json.encode(userSettings));
+        currentUser = UserModel.User.fromJson(newUser);
+
         return response;
       } else {
         // Sign-up was failed

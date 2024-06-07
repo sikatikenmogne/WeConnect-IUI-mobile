@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:we_connect_iui_mobile/main.dart';
 
 import '../../constants/app_color.dart';
 
 class CommonSwitch extends StatefulWidget {
-  final bool value;
+  final String value;
   final double width;
 
   const CommonSwitch({
@@ -17,6 +21,14 @@ class CommonSwitch extends StatefulWidget {
 }
 
 class _CommonSwitchState extends State<CommonSwitch> {
+  Future<void> _persistSwitchValue(bool value) async {
+    setState(() {
+      userSettings![widget.value] = value;   
+    });
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('settings', json.encode(userSettings));
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,10 +40,8 @@ class _CommonSwitchState extends State<CommonSwitch> {
           activeColor: AppColor.header,
           inactiveThumbColor: AppColor.header,
           inactiveTrackColor: AppColor.inputText,
-          value: widget.value, 
-          onChanged:(value) => setState(() {
-            value = !value;
-          }) 
+          value: userSettings![widget.value]!, 
+          onChanged:(value) => _persistSwitchValue(value)
         ),
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:we_connect_iui_mobile/src/model/audit_model.dart';
 import 'package:we_connect_iui_mobile/src/model/role_model.dart';
-import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
+import 'package:we_connect_iui_mobile/main.dart'; // Assuming supabaseClient is defined in main.dart
 
-class User extends AuditModel{
+class User extends AuditModel {
   String _id;
   String? _firstname;
   String? _lastname;
@@ -14,10 +14,9 @@ class User extends AuditModel{
   String _email;
   String? _profilePicture;
   Role _role;
-  Settings _settings;
 
   User({
-    String? id,
+    required String id,
     String? firstname,
     String? lastname,
     String? promotion,
@@ -26,57 +25,133 @@ class User extends AuditModel{
     String? sex,
     required String email,
     String? profilePicture,
-    required Role role
-  }) :  _id = (id == null) ? AutogenerateUtil().generateId() : id,
-        _firstname = firstname, 
-        _lastname = lastname, 
-        _promotion = promotion, 
-        _phone = phone, 
-        _dateOfBirth = dateOfBirth, 
-        _sex = sex, 
+    required Role role,
+  })  : _id = id,
+        _firstname = firstname,
+        _lastname = lastname,
+        _promotion = promotion,
+        _phone = phone,
+        _dateOfBirth = dateOfBirth,
+        _sex = sex,
         _email = email,
-        _profilePicture = profilePicture, 
-        _role = role, 
-        _settings = Settings(),
+        _profilePicture = profilePicture,
+        _role = role,
         super();
 
-  User.empty()
-  : _id = "",
-    _email = "",
-    _role = Role.learner,
-    _settings = Settings();
 
-  String get id => this._id;
-  set id(value) => this._id = value;
+  static Future<User> create({
+    String? firstname,
+    String? lastname,
+    String? promotion,
+    String? phone,
+    String? dateOfBirth,
+    String? sex,
+    required String email,
+    String? profilePicture,
+    required Role role,
+  }) async {
+    final id = AutogenerateUtil().generateId();
+    final newUser = User(
+      id: id,
+      firstname: firstname,
+      lastname: lastname,
+      promotion: promotion,
+      phone: phone,
+      dateOfBirth: dateOfBirth,
+      sex: sex,
+      email: email,
+      profilePicture: profilePicture,
+      role: role
+    );
 
-  String? get firstname => this._firstname;
-  set firstname(String? value) => this._firstname = value;
+    final response = await supabaseClient.from("users").insert({
+      "id": id,
+      "firstname": firstname,
+      "lastname": lastname,
+      "promotion": promotion,
+      "phone": phone,
+      "dat_of_birth": dateOfBirth,
+      "sex": sex,
+      "email": email,
+      "profile_picture": profilePicture,
+      "role_id": role.id,
+      "created_by": AuditModel().createdBy
+    });
 
-  String? get lastname => this._lastname; 
-  set lastname(String? value) => this._lastname = value;
+    if (response.error != null) {
+      print('Error inserting user: ${response.error!.message}');
+    } else {
+      print('User inserted successfully');
+    }
 
-  String? get promotion => this._promotion;
-  set promotion(String? value) => this._promotion = value;
+    return newUser;
+  }
 
-  String? get phone => this._phone;
-  set phone(String? value) => this._phone = value;
+  static Future<List<User>> load() async {
+    try {
+      final response = await supabaseClient.from("users").select();
+      
+      final data = response as List<dynamic>;
+      for(var item in data){
+        userData.add(await User.fromJson(item));
+      }
+    } catch (e) {
+      print("Error loading user: $e");      
+    }
+    
+    return userData;
+  }
 
-  String? get dateOfBirth => this._dateOfBirth;
-  set dateOfBirth(String? value) => this._dateOfBirth = value;
+  static User? getById(String id) {
+    for(var user in userData){
+      if(user.id == id){
+        return user;
+      }
+    }
+  }  
 
-  String? get sex => this._sex;
-  set sex(String? value) => this._sex = value;
-
-  String get email => this._email;
-  set email(String value) => this._email = value;
-
-  String? get profilePicture => this._profilePicture;
-  set profilePicture(String? value) => this._profilePicture = value;
-
-  Role get role => this._role;
-  set role(Role value) => this._role = value;
-
-  Settings get settings => this._settings;
-  set settings(Settings value) => this._settings = value;
+  factory User.fromJson(Map<String, dynamic> map){
+    return User(
+      id: map['id'] as String,
+      firstname: map['firstname'] as String?,
+      lastname: map['lastname'] as String?,
+      promotion: map['promotion'] as String?,
+      phone: map['phone'] as String?,
+      dateOfBirth: map['date_of_birth'] as String?,
+      sex: map['sex'] as String?,
+      email: map['email'] as String,
+      profilePicture: map['profile_picture'] as String?,
+      role: Role.getById(map['role_id'] as String)!
+    );
+  }
   
+  String get id => _id;
+  set id(String value) => _id = value;
+
+  String? get firstname => _firstname;
+  set firstname(String? value) => _firstname = value;
+
+  String? get lastname => _lastname;
+  set lastname(String? value) => _lastname = value;
+
+  String? get promotion => _promotion;
+  set promotion(String? value) => _promotion = value;
+
+  String? get phone => _phone;
+  set phone(String? value) => _phone = value;
+
+  String? get dateOfBirth => _dateOfBirth;
+  set dateOfBirth(String? value) => _dateOfBirth = value;
+
+  String? get sex => _sex;
+  set sex(String? value) => _sex = value;
+
+  String get email => _email;
+  set email(String value) => _email = value;
+
+  String? get profilePicture => _profilePicture;
+  set profilePicture(String? value) => _profilePicture = value;
+
+  Role get role => _role;
+  set role(Role value) => _role = value;
 }

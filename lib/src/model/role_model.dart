@@ -1,38 +1,44 @@
-import 'package:we_connect_iui_mobile/src/model/enum/privilege_enum.dart';
+import 'package:we_connect_iui_mobile/main.dart'; // Assuming supabaseClient is defined in main.dart
+import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 
-class Role{
-  static const learner = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR
-  ]);
-  static const instructor = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR
-  ]);
-  static const admin = Role._([
-    PrivilegeEnum.CREATE_POST,
-    PrivilegeEnum.DELETE_POST,
-    PrivilegeEnum.LIKE_POST,
-    PrivilegeEnum.COMMENT_POST,
-    PrivilegeEnum.SEND_MESSAGE,
-    PrivilegeEnum.DELETE_MESSAGE,
-    PrivilegeEnum.READ_CALENDAR,
-    PrivilegeEnum.CREATE_CALENDAR,
-  ]);
+class Role {
+  String _id;
+  String _name;
 
-  final List<PrivilegeEnum> privileges;
+  Role({
+    required String id,
+    required String name,
+  })  : _id = id,
+        _name = name;
+  
+  static Role? getById(String id) {
+    for (var role in roleData) {
+      if (role.id == id) {
+        return role;
+      }
+    }
+    }
 
-  const Role._(this.privileges);
+  // static Future<Role> getById(String id) async {
+  //   final data = await supabaseClient
+  //       .from('role')
+  //       .select()
+  //       .eq('id', id)
+  //       .single();
 
-  static List<Role> get values => [learner, instructor, admin];
+  //   return Role.fromJson(data);
+  // }
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  String get id => _id;
+  set id(String value) => _id = value;
+
+  String get name => _name;
+  set name(String value) => _name = value;
 }

@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:we_connect_iui_mobile/src/model/calendar_model.dart';
+import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
+import 'package:we_connect_iui_mobile/src/model/comment_model.dart';
+import 'package:we_connect_iui_mobile/src/model/event_model.dart';
+import 'package:we_connect_iui_mobile/src/model/post_model.dart';
+import 'package:we_connect_iui_mobile/src/model/role_model.dart';
+import 'dart:convert';
 
 import 'src/app.dart';
 import 'src/controller/settings/settings_controller.dart';
 import 'src/service/settings/settings_service.dart';
+import 'src/model/user_model.dart' as UserModel;
 
 void main() async {
   // Ensures that the widget binding has been initialized.
@@ -43,3 +52,34 @@ void main() async {
 // Get an instance of the Supabase client
 // ! Comment this line if Supabase initialization is also commented
 final supabaseClient = Supabase.instance.client;
+UserModel.User? currentUser;
+Map<String, bool>? userSettings;
+List<Comment> commentData = [];
+List<Post> postData = [];
+List<UserModel.User> userData = [];
+List<Event> eventData = [];
+List<Calendar> calendarData = [];
+List<Chat> chatData = [];
+List<Role> roleData = [
+  Role(id: "1", name: "ADMIN"),
+  Role(id: "2", name: "INSTRUCTOR"),
+  Role(id: "3", name: "LEARNER")
+];
+Future<void> loadUserAndSettings() async {
+  UserModel.User.load();
+  currentUser = UserModel.User.getById(supabaseClient.auth.currentSession!.user.id); 
+
+  final prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("settings") != null){
+      String? encodedMap = prefs.getString("settings") ?? "No Setting";
+      Map<String, dynamic> decodedMap = json.decode(encodedMap);
+      userSettings = decodedMap.map((key, value) => MapEntry(key, value));
+    } else{
+      userSettings = {
+        "isEnglish": true,
+        "isDarkModeEnabled": false,
+        "isPostNotificationDisabled": false,
+        "isChatNotificationDisabled": false,
+      };
+    }    
+}

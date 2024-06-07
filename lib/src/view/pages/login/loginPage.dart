@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,8 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/controller/login_controller.dart';
+import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/login/signupPage.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:developer' as developer;
 import '../../../constants/app_color.dart';
@@ -48,11 +50,22 @@ class _LoginPageState extends State<LoginPage> {
 
       if (mounted) {
         if (response?.user != null) {
+          final user = await supabaseClient.from("users")
+                    .select()
+                    .eq("id", response!.user.id)
+                    .single();
+          
+          // The user is logged in
+      
           print('User is logged in');
           developer.log('User is logged in', name: 'my.app');
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setBool('isLoggedIn', true);
+          await prefs.setBool('isLoggedIn', true);      
+          await prefs.setString('user', json.encode(user));
+          print("prefs stored");
+          loadUserAndSettings();
+          currentUser = UserModel.User.fromJson(user);
 
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Authentification is successful!')),
@@ -345,20 +358,14 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, AppRoutes.signUp);
-                          },
-                          child: InkWell(
-                            onTap: () =>
-                                Navigator.pushNamed(context, AppRoutes.signUp),
-                            child: Text(
-                              AppLocalizations.of(context)!.signup,
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontFamily: AppFonts.FontFamily_Syne,
-                              ),
+                        InkWell(
+                          onTap: () =>
+                              Navigator.pushNamed(context, AppRoutes.signUp),
+                          child: Text(
+                            AppLocalizations.of(context)!.signup,
+                            style: TextStyle(
+                              color: AppColor.primary,
+                              fontFamily: AppFonts.FontFamily_Syne,
                             ),
                           ),
                         ),
