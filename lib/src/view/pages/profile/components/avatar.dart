@@ -7,15 +7,22 @@ import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'profile_text.dart';
+
 class Avatar extends StatefulWidget {
   const Avatar({
     super.key,
     required this.imageUrl,
     required this.onUpload,
+    this.editMode = true,
+    this.data,
   });
 
   final String? imageUrl;
+
   final void Function(String) onUpload;
+  final bool editMode;
+  final Map<String, String>? data;
 
   @override
   State<Avatar> createState() => _AvatarState();
@@ -26,14 +33,15 @@ class _AvatarState extends State<Avatar> {
 
   @override
   Widget build(BuildContext context) {
+    String? imageUrl = widget.imageUrl;
     return Column(
       children: [
-        if (widget.imageUrl == null || widget.imageUrl!.isEmpty)
+        if (imageUrl == null || imageUrl.isEmpty)
           ClipRRect(
-            borderRadius: BorderRadius.circular(75),
+            borderRadius: BorderRadius.circular(100),
             child: Container(
-              width: 150,
-              height: 150,
+              width: 200,
+              height: 200,
               color: Colors.grey,
               child: Center(
                 child: CommonText(
@@ -50,22 +58,37 @@ class _AvatarState extends State<Avatar> {
         else
           ClipOval(
             child: Image.network(
-              widget.imageUrl!,
-              width: 150,
-              height: 150,
+              imageUrl,
+              width: 200,
+              height: 200,
               fit: BoxFit.cover,
             ),
           ),
-        TextButton(
-          onPressed: _isLoading ? null : _upload,
-          child: CommonText(
-            text: AppLocalizations.of(context)!.changePicture,
-            fontFamily: AppFonts.FontFamily_RedHatDisplay,
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
+        widget.editMode == true
+            ? TextButton(
+                onPressed: _isLoading ? null : _upload,
+                child: CommonText(
+                  text: AppLocalizations.of(context)!.changePicture,
+                  fontFamily: AppFonts.FontFamily_RedHatDisplay,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.italic,
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    (widget.data != null && widget.data!['username'] != null)
+                        ? ProfileText(widget.data!['username']!)
+                        : ProfileText(''),
+                    (widget.data != null && widget.data!['promotion'] != null)
+                        ? ProfileText(widget.data!['promotion']!,
+                            color: AppColor.tertiary)
+                        : ProfileText(''),
+                  ],
+                ),
+              ),
       ],
     );
   }
