@@ -3,10 +3,12 @@ import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 
-class ProfileText extends StatelessWidget {
+class HeaderText extends StatelessWidget {
   final String data;
   final Color color;
-  const ProfileText(this.data, {Key? key, this.color = AppColor.black})
+  final double fontSize;
+  const HeaderText(this.data,
+      {Key? key, this.color = AppColor.black, this.fontSize = 17})
       : super(key: key);
 
   @override
@@ -14,7 +16,7 @@ class ProfileText extends StatelessWidget {
     return CommonText(
         text: this.data,
         fontFamily: AppFonts.FontFamily_RedHatDisplay,
-        fontSize: 17,
+        fontSize: this.fontSize,
         color: this.color,
         fontWeight: FontWeight.w700,
         fontStyle: FontStyle.italic);
