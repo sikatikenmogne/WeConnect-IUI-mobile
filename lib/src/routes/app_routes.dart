@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:we_connect_iui_mobile/src/controller/settings/settings_controller.dart';
 import 'package:we_connect_iui_mobile/src/service/settings/settings_service.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/calendar/calendar.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/home/home_page.dart';
@@ -49,7 +50,7 @@ class AppRoutes {
       editProfile: (context) => EditProfileView(),
       settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage(),
-      calendar: (context) => SampleItemListView(),
+      calendar: (context) => Calendar(),
     };
   }
 }
