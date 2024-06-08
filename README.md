@@ -56,7 +56,7 @@ To add more languages to the application, follow the guide on [Internationalizin
 - [x] About Page
 - [x] Sample Items (List/Details)
 - [x] Splash Screen
-- [ ] Feature yet to be implemented
+- [ ] Wheather news functionality
 
 <details>
 <summary>📸 App Preview</summary>
