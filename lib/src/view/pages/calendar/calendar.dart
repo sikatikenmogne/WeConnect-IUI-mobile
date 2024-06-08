@@ -25,7 +25,7 @@ class _CalendarState extends State<Calendar> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamed(context, AppRoutes.home);
         break;
       case 1:
         Navigator.push(
