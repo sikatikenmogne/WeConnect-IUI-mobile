@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 
 class CustomBubble extends StatelessWidget {
   final Widget child;

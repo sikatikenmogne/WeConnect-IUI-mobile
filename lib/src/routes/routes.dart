@@ -4,7 +4,6 @@ import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/notification/notification_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/settings/settings_page.dart';
 
 import '../view/pages/login/signupPage.dart';
@@ -22,23 +21,21 @@ class Routes {
   static const String chatHome = '/chat';
   static const String chatMessage = '/chat/chat_message';
   static const String about = '/about';
-  static const String notification = '/notification';
 
 
-  static Map<String, WidgetBuilder> getRoutes({SettingsController? settingsController}) {
-  // static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
+  static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
     return {
       onboarding: (context) => OnboardingView(),
       login: (context) => LoginPage(),
       signUp: (context) => SignupPage(),
       chatHome: (context) => ChatHomePage(),
       chatMessage: (context) {
-        final userId = ModalRoute.of(context)!.settings.arguments as String;
-        return ChatPage(userId: userId);
+        // final userId = ModalRoute.of(context)!.settings.arguments as String;
+        // return ChatPage(userId: userId);
+        return ChatPage();
       },
-      // settings: (context) => SettingsPage(controller: settingsController),
-      about: (context) => AboutPage(),
-      notification: (context) => NotificationPage(),
+      settings: (context) => SettingsPage(controller: settingsController),
+      about: (context) => AboutPage()
     };
   }
 }

@@ -6,7 +6,6 @@ import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/home/home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/notification/notification_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/profile/edit_profile_view.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/profile/profile_view.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/sample_item/sample_item_details_view.dart';
@@ -32,9 +31,7 @@ class AppRoutes {
   static const String chatHome = '/chat';
   static const String chatMessage = '/chat/chat_message';
   static const String about = '/about';
-  static const String notification = '/notification';
   static const String calendar = '/calendar';
-
 
   static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
     // final settingsController = SettingsController(SettingsService());
@@ -47,15 +44,11 @@ class AppRoutes {
       home: (context) => HomePage(),
       sampleItemDetails: (context) => SampleItemDetailsView(),
       chatHome: (context) => ChatHomePage(),
-      chatMessage: (context) {
-        final userId = ModalRoute.of(context)!.settings.arguments as String;
-        return ChatPage(userId: userId);
-      },
+      chatMessage: (context) => ChatPage(),
       profile: (context) => ProfileView(),
       editProfile: (context) => EditProfileView(),
-      // settings: (context) => SettingsPage(controller: settingsController),
+      settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage(),
-      notification: (context) => NotificationPage(),
       calendar: (context) => SampleItemListView(),
     };
   }

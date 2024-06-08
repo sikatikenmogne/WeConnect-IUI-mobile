@@ -62,9 +62,9 @@ class MyApp extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
-          initialRoute: AppRoutes.notification,
-          // initialRoute: Routes.onboarding,
-          routes: Routes.getRoutes(),
+          // initialRoute: Routes.about,
+          initialRoute: AppRoutes.onboarding,
+          routes: AppRoutes.getRoutes(settingsController: settingsController),
         );
       },
     );

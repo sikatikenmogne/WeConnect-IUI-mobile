@@ -1,6 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class LoginController {
   final SupabaseClient supabaseClient;
@@ -17,12 +16,6 @@ class LoginController {
     if (response.user != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
-      final user = await supabaseClient.from("users")
-          .select()
-          .eq(email, email)
-          .single();
-      await prefs.setString('user', json.encode(user));
-      
       return response.session;
     } else {
       return null;

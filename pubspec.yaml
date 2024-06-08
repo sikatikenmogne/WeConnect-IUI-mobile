@@ -22,7 +22,6 @@ dependencies:
   intl: any
   package_info_plus: ^8.0.0
   shared_preferences: ^2.2.3
-  shimmer: ^3.0.0
   supabase_flutter: ^2.5.3
   uuid: ^4.4.0
 
