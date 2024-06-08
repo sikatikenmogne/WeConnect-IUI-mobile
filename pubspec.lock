@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  expandable_text:
+    dependency: "direct main"
+    description:
+      name: expandable_text
+      sha256: "7d03ea48af6987b20ece232678b744862aa3250d4a71e2aaf1e4af90015d76b1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   fake_async:
     dependency: transitive
     description:
@@ -190,6 +198,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
+  flutter_expandable_text:
+    dependency: "direct main"
+    description:
+      name: flutter_expandable_text
+      sha256: "9c6496051fda42bb7d25bbf09453a587475bb3f6c2114f312cb5b2e87cff7e89"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_link_previewer:
     dependency: transitive
     description:
