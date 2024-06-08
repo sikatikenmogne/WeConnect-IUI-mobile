@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
       password: _passwordController.text,
     );
     if (signInResponse != null) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
+      Navigator.pushReplacementNamed(context, AppRoutes.calendar);
     } else {
       SnackBar(
         content: const Text('Sign in failed'),
