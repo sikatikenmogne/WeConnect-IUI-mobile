@@ -58,9 +58,10 @@ class _CalendarState extends State<Calendar> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: AppDrawer(),
       appBar: AppHeader(
-        title: Text("Calendar",
-            style: TextStyle(
-                color: AppColor.black, fontSize: 25, fontFamily: "Syne")),
+        title: HeaderText(
+          "Calendar",
+          fontSize: 25,
+        ),
         height: screenHeight,
         width: screenWidth,
         // iconTheme: IconThemeData(color: AppColor.black),

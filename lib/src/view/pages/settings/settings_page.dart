@@ -8,7 +8,7 @@ import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_switch.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
 import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 
 class SettingsPage extends StatefulWidget {

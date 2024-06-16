@@ -119,7 +119,7 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppHeader(
           title: HeaderText(
-                "Add Event",
+            "Add Event",
             fontSize: 25,
           ),
           leading: null,
