@@ -116,32 +116,15 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight * 0.1),
-        child: AppBar(
-          backgroundColor: AppColor.header,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios_new, color: AppColor.black),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppHeader(
+          title: HeaderText(
                 "Add Event",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: screenHeight * 0.04,
-                ),
-              ),
-            ],
+            fontSize: 25,
           ),
-        ),
-      ),
+          leading: null,
+          height: screenHeight,
+          width: screenWidth),
       body: Center(
         child: Form(
           key: _formKey,
