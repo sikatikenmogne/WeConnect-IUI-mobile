@@ -54,7 +54,7 @@ class _CalendarState extends State<Calendar> {
     String teacher = 'Mr. Smith';
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: AppDrawer(),
       appBar: AppHeader(
         title: Text("Calendar",
@@ -155,14 +155,14 @@ class _CalendarState extends State<Calendar> {
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_back_ios_new,
-                            color: AppColor.primary),
+                            color: Theme.of(context).appBarTheme.backgroundColor),
                         iconSize: 50,
                       ),
                       SizedBox(height: 20),
                       IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.arrow_forward_ios,
-                              color: AppColor.primary),
+                              color: Theme.of(context).appBarTheme.backgroundColor),
                           iconSize: 50),
                     ],
                   ),
@@ -195,7 +195,7 @@ class _CalendarState extends State<Calendar> {
                     MaterialPageRoute(
                         builder: (context) => AddEventCalendar()));
               },
-              icon: Icon(Icons.add_circle, color: AppColor.primary),
+              icon: Icon(Icons.add_circle, color: Theme.of(context).appBarTheme.backgroundColor),
               iconSize: 50,
             ),
           ),
