@@ -4,10 +4,13 @@ import 'package:we_connect_iui_mobile/main.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_drawer.dart';
+import 'package:we_connect_iui_mobile/src/view/components/bottom_nav.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_button.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
-import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/profile/components/profile_button.dart';
 
 import 'components/avatar.dart';
@@ -123,37 +126,22 @@ class _ProfileViewState extends State<ProfileView> {
     super.dispose();
   }
 
+  int _selectedIndex = 3;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppHeader(
-        title: Row(
-          children: [
-            Icon(Icons.arrow_back_ios),
-            CommonText(
-              text: AppLocalizations.of(context)!.backTextButton,
-              fontFamily: AppFonts.FontFamily_RedHatDisplay,
-              fontWeight: FontWeight.w700,
-              fontSize: 17,
-              fontStyle: FontStyle.italic,
-            ),
-          ],
+        title: HeaderText(
+          "Profile",
+          fontSize: 25,
         ),
         height: height,
         width: width,
-        leading: null,
-        actions: [
-          // CommonText(
-          //   text: AppLocalizations.of(context)!.editProfile,
-          //   fontFamily: AppFonts.FontFamily_RedHatDisplay,
-          //   fontWeight: FontWeight.w700,
-          //   fontSize: 17,
-          //   fontStyle: FontStyle.italic,
-          // ),
-        ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -222,6 +210,9 @@ class _ProfileViewState extends State<ProfileView> {
                 }),
               ],
             ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+      ),
     );
   }
 }
