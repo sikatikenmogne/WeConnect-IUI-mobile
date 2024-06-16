@@ -6,8 +6,11 @@ import 'package:we_connect_iui_mobile/src/model/chat_model.dart';
 import 'package:we_connect_iui_mobile/src/model/data/chat_dataset.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/routes/routes.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_drawer.dart';
+import 'package:we_connect_iui_mobile/src/view/components/bottom_nav.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 
-import '../../components/header.dart';
+import '../../components/app_header.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({Key? key}) : super(key: key);
@@ -52,6 +55,8 @@ class _ChatHomePageState extends State<ChatHomePage> {
     Navigator.pushNamed(context, AppRoutes.chatMessage, arguments: userId);
   }
 
+  int _selectedIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -59,12 +64,14 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: AppDrawer(),
       appBar: AppHeader(
-          title: Text("Chats",
-              style: TextStyle(
-                  color: AppColor.black, fontSize: 25, fontFamily: "Syne")),
+          title: HeaderText(
+            "Chats",
+            fontSize: 25,
+          ),
           height: height,
-          width: width,leading: null),
+          width: width),
       body: ListView.builder(
         itemCount: groupedChatsByUsername.length,
         itemBuilder: (context, index) {
@@ -121,6 +128,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
             ),
           );
         },
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
       ),
     );
   }
