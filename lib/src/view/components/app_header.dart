@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 
+import 'notification_button.dart';
+
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final IconData? leading;
   final Widget? title;
@@ -37,7 +39,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   icon: Icon(leading ?? Icons.menu,
                       color: Theme.of(context).textTheme.displayMedium!.color,
                       size: height / width * 20),
-                  onPressed: () {},
+                  onPressed: () => Scaffold.of(context).openDrawer(),
                 ),
               )
             : null,
@@ -56,13 +58,10 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       onPressed: () {},
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.notifications,
-                        color: AppColor.black,
-                      ),
-                      onPressed: () {},
-                    ),
+                    NotificationButton(
+                        icon: Icons.notifications,
+                        notificationCount: 22,
+                        onPressed: () {}),
                   ],
             ),
           ),
