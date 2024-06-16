@@ -6,7 +6,7 @@ import '../../constants/app_color.dart';
 class CommonText extends StatelessWidget {
   final String text;
   final double fontSize;
-  final Color color;
+  final Color? color;
   final FontWeight fontWeight;
   final TextAlign alignment;
   final String fontFamily;
@@ -16,7 +16,7 @@ class CommonText extends StatelessWidget {
     Key? key,
     required this.text,
     this.fontSize = 14.0,
-    this.color = AppColor.black,
+    this.color,
     this.fontWeight = FontWeight.w400,
     this.alignment = TextAlign.center,
     this.fontFamily = AppFonts.FontFamily_Syne,
@@ -30,7 +30,7 @@ class CommonText extends StatelessWidget {
       textAlign: alignment,
       style: TextStyle(
         fontSize: fontSize,
-        color: color,
+        color: color ?? Theme.of(context).textTheme.displayMedium!.color,
         fontWeight: fontWeight,
         fontFamily: fontFamily,
         fontStyle: fontStyle,
