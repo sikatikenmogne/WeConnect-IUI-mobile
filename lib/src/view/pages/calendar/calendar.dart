@@ -205,7 +205,6 @@ class _CalendarState extends State<Calendar> {
       ),
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
