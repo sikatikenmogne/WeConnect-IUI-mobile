@@ -6,31 +6,25 @@ import 'package:we_connect_iui_mobile/src/view/pages/calendar/calendar.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 
+import 'common_text.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        backgroundColor: AppColor.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text(
-                "CED",
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontFamily: "Syne",
-                  fontSize: 18,
-                ),
+              accountName: CommonText(
+                text: "CED",
+                fontSize: 18,
               ),
-              accountEmail: Text(
-                "ced@gmail.comn",
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontFamily: "Syne",
-                  fontSize: 18,
-                ),
+              accountEmail: CommonText(
+                text: "ced@gmail.comn",
+                fontSize: 18,
               ),
               currentAccountPicture: CircleAvatar(
                 child: ClipOval(
@@ -42,20 +36,19 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              decoration: BoxDecoration(color: AppColor.header),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).appBarTheme.backgroundColor),
             ),
             ListTile(
               leading: Icon(
                 Icons.home_outlined,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
+                size: 30,
               ),
-              title: Text(
-                "Home",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Home",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.home);
@@ -65,15 +58,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.calendar_month,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "Calendar",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Calendar",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.push(context,
@@ -84,15 +74,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.chat,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "Chats",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Chats",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.push(context,
@@ -103,15 +90,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.person,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "Profile",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Profile",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.profile);
@@ -121,15 +105,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.settings,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "Settings",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Settings",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.settings);
@@ -139,15 +120,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.note,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "About",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "About",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.about);
@@ -157,15 +135,12 @@ class AppDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.exit_to_app,
-                color: AppColor.black,
+                color: Theme.of(context).textTheme.displayMedium!.color,
               ),
-              title: Text(
-                "Logout",
-                style: TextStyle(
-                  color: AppColor.black,
-                  fontFamily: "Syne",
-                  fontSize: 16,
-                ),
+              title: CommonText(
+                text: "Logout",
+                fontSize: 16,
+                alignment: TextAlign.start,
               ),
               onTap: () {
                 Navigator.pushNamed(context, AppRoutes.signUp);
