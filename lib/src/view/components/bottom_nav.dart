@@ -7,18 +7,16 @@ import '../pages/calendar/calendar.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
-  final ValueChanged<int> onItemTapped;
 
   const CustomBottomNavBar({
     Key? key,
     required this.selectedIndex,
-    required this.onItemTapped,
   }) : super(key: key);
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamed(context, AppRoutes.home);
         break;
       case 1:
         Navigator.push(
@@ -37,28 +35,28 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: '',
+          icon: Icon(Icons.home, size: 30),
+          label: 'Feed',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
-          label: '',
+          label: 'Calendar',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble_outline),
-          label: '',
+          label: 'Chat',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label: '',
+          label: 'Profile',
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.black,
-      unselectedItemColor: Colors.white,
-      backgroundColor: AppColor.header,
+      selectedItemColor: Theme.of(context).textTheme.displayMedium!.color,
+      unselectedItemColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       type: BottomNavigationBarType.fixed,
       elevation: 0,
       showSelectedLabels: false,
