@@ -213,7 +213,7 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: "Syne",
-                        color: AppColor.black,
+                        color: Theme.of(context).textTheme.displayMedium!.color,
                       ),
                     ),
                     Spacer(),
@@ -259,7 +259,7 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: "Syne",
-                        color: AppColor.black,
+                        color: Theme.of(context).textTheme.displayMedium!.color,
                       ),
                     ),
                     Spacer(),
@@ -299,24 +299,29 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
                     horizontal: 20.0, vertical: 10.0),
                 child: Row(
                   children: [
-                    Icon(Icons.door_front_door_outlined, color: AppColor.black),
+                    Icon(Icons.door_front_door_outlined,
+                        color:
+                            Theme.of(context).textTheme.displayMedium!.color),
                     SizedBox(width: 10),
                     Text(
                       "Room",
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: "Syne",
-                        color: AppColor.black,
+                        color: Theme.of(context).textTheme.displayMedium!.color,
                       ),
                     ),
                     Spacer(),
                     DropdownButton<String>(
                       dropdownColor: AppColor.tertiary,
                       value: _selectedRoom2,
-                      icon: const Icon(Icons.arrow_downward),
+                      icon: Icon(Icons.arrow_downward,
+                          color:
+                              Theme.of(context).textTheme.displayMedium!.color),
                       elevation: 16,
-                      style: const TextStyle(
-                          color: AppColor.black,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).textTheme.displayMedium!.color,
                           fontFamily: "Syne",
                           fontSize: 20),
                       underline: Container(
@@ -340,10 +345,13 @@ class _AddEventCalendarState extends State<AddEventCalendar> {
                     DropdownButton<String>(
                       dropdownColor: AppColor.tertiary,
                       value: _selectedRoom,
-                      icon: const Icon(Icons.arrow_downward),
+                      icon: Icon(Icons.arrow_downward,
+                          color:
+                              Theme.of(context).textTheme.displayMedium!.color),
                       elevation: 16,
-                      style: const TextStyle(
-                          color: AppColor.black,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).textTheme.displayMedium!.color,
                           fontFamily: "Syne",
                           fontSize: 20),
                       underline: Container(
