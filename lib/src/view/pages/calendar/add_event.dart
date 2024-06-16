@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_drawer.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/calendar/calendar.dart';
 
 const List<String> list1 = <String>['B01', 'B02', 'B03', 'B04'];

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:we_connect_iui_mobile/src/constants/app_color.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
-import 'package:we_connect_iui_mobile/src/view/components/app-drawer.dart';
-import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_drawer.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/calendar/add_event.dart';
 import 'package:we_connect_iui_mobile/src/view/components/bottom_nav.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart'; // Import the CustomBottomNavBar

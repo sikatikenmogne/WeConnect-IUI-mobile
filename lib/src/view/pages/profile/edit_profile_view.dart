@@ -6,7 +6,7 @@ import 'package:we_connect_iui_mobile/src/constants/app_fonts.dart';
 import 'package:we_connect_iui_mobile/src/routes/app_routes.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_button.dart';
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
-import 'package:we_connect_iui_mobile/src/view/components/header.dart';
+import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'components/avatar.dart';
