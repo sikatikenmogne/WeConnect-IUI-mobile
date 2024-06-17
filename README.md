@@ -68,6 +68,10 @@ To add more languages to the application, follow the guide on [Internationalizin
     <img src=".github/readme_assets/Screenshot_20240605_055916.png" width="300px">
     <img src=".github/readme_assets/Screenshot_20240607_102804.png" width="300px">
     <img src=".github/readme_assets/Screenshot_20240607_102840.png" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240616_080144.png" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240607_232536.png" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240607_231922.png" width="300px">
+
 </div>
 </details>
 
