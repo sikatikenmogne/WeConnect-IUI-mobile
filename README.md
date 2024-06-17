@@ -59,7 +59,7 @@ To add more languages to the application, follow the guide on [Internationalizin
 - [ ] Wheather news functionality
 
 <details>
-<summary>📸 App Preview</summary>
+<summary><h3>📸 App Preview</h3></summary>
 <div align="center">
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.11.14.jpeg" width="300px">
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.18.26.jpeg" width="300px">
@@ -67,7 +67,7 @@ To add more languages to the application, follow the guide on [Internationalizin
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.09.57.jpeg" width="300px">
     <img src=".github/readme_assets/Screenshot_20240605_055916.png" width="300px">
     <img src=".github/readme_assets/Screenshot_20240607_102804.png" width="300px">
-    <img src=".github/readme_assets/Screenshot_20240607_102840.pngd" width="300px">
+    <img src=".github/readme_assets/Screenshot_20240607_102840.png" width="300px">
 </div>
 </details>
 
