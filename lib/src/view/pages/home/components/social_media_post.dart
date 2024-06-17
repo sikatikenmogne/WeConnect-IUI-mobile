@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 
 import 'comment_page.dart';
 
@@ -22,6 +24,7 @@ class SocialMediaPost extends StatefulWidget {
 class _SocialMediaPostState extends State<SocialMediaPost> {
   bool isLiked = false;
   int _likeCount = 0;
+  int _shareCount = 0;
 
   final _commentController = TextEditingController();
   final _comments = <String>[];
@@ -39,6 +42,9 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
 
   void sharePost() {
     Share.share(widget.postText);
+    setState(() {
+      _shareCount++;
+    });
   }
 
   void openCommentPage(BuildContext context) {
@@ -56,7 +62,7 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[200], // change the card color
+      color: Theme.of(context).scaffoldBackgroundColor, // change the card color
       elevation: 5, // change the card elevation
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -72,11 +78,11 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Username',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    CommonText(
+                      text: 'Username',
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text('3 hrs ago'),
+                    CommonText(text: '3 hrs ago'),
                   ],
                 ),
               ],
@@ -87,33 +93,61 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
               readMoreText: 'show more',
               readLessText: 'show less',
               trim: 3,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.displayMedium!.color!,
+              ),
             ),
             (widget.postMediaUrl != null)
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Image.network(widget.postMediaUrl!,
-                        fit: BoxFit.contain),
+                    child: Expanded(
+                        child: Container(
+                            color: Colors.red,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.postMediaUrl!,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              width: 350,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ))),
                   )
                 : Container(),
             SizedBox(height: 10),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: isLiked ? Colors.red : null,
-                  ),
-                  onPressed: toggleLikeStatus,
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        isLiked ? Icons.favorite : Icons.favorite_border,
+                        color: isLiked ? Colors.red : null,
+                      ),
+                      onPressed: toggleLikeStatus,
+                    ),
+                    CommonText(text: '$_likeCount'),
+                  ],
                 ),
-                Text('$_likeCount'),
-                IconButton(
-                  icon: Icon(Icons.comment),
-                  onPressed: () {},
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.comment),
+                      onPressed: () {},
+                    ),
+                    CommonText(text: '${_comments.length}'),
+                  ],
                 ),
-                Text('${_comments.length}'),
-                IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: sharePost,
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.share),
+                      onPressed: sharePost,
+                    ),
+                    CommonText(text: '$_shareCount'),
+                  ],
                 ),
               ],
             ),
@@ -126,7 +160,7 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
             ),
             for (var comment in _comments)
               ListTile(
-                title: Text(comment),
+                title: CommonText(text: comment),
               ),
           ],
         ),
