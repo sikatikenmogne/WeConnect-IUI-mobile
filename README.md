@@ -63,7 +63,7 @@ To add more languages to the application, follow the guide on [Internationalizin
 <div align="center">
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.11.14.jpeg" width="300px">
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.18.26.jpeg" width="300px">
-    <img src=".github/readme_assets/Screen_recording_20240605_202921.webm" width="300px">
+    <img src=".github/readme_assets/Screen_recording_20240605_202921.gif" width="300px">
     <img src=".github/readme_assets/WhatsApp Image 2024-06-03 at 04.09.57.jpeg" width="300px">
     <img src=".github/readme_assets/Screenshot_20240605_055916.png" width="300px">
     <img src=".github/readme_assets/Screenshot_20240607_102804.png" width="300px">
