@@ -3,7 +3,7 @@ import 'package:we_connect_iui_mobile/src/model/role_model.dart';
 import 'package:we_connect_iui_mobile/src/model/setting_model.dart';
 import 'package:we_connect_iui_mobile/src/utils/autogenerate_util.dart';
 
-class User extends AuditModel{
+class User extends AuditModel {
   String _id;
   String? _firstname;
   String? _lastname;
@@ -16,35 +16,35 @@ class User extends AuditModel{
   Role _role;
   Settings _settings;
 
-  User({
-    String? id,
-    String? firstname,
-    String? lastname,
-    String? promotion,
-    String? phone,
-    String? dateOfBirth,
-    String? sex,
-    required String email,
-    String? profilePicture,
-    required Role role
-  }) :  _id = (id == null) ? AutogenerateUtil().generateId() : id,
-        _firstname = firstname, 
-        _lastname = lastname, 
-        _promotion = promotion, 
-        _phone = phone, 
-        _dateOfBirth = dateOfBirth, 
-        _sex = sex, 
+  User(
+      {String? id,
+      String? firstname,
+      String? lastname,
+      String? promotion,
+      String? phone,
+      String? dateOfBirth,
+      String? sex,
+      required String email,
+      String? profilePicture,
+      required Role role})
+      : _id = (id == null) ? AutogenerateUtil().generateId() : id,
+        _firstname = firstname,
+        _lastname = lastname,
+        _promotion = promotion,
+        _phone = phone,
+        _dateOfBirth = dateOfBirth,
+        _sex = sex,
         _email = email,
-        _profilePicture = profilePicture, 
-        _role = role, 
+        _profilePicture = profilePicture,
+        _role = role,
         _settings = Settings(),
         super();
 
   User.empty()
-  : _id = "",
-    _email = "",
-    _role = Role.learner,
-    _settings = Settings();
+      : _id = "",
+        _email = "",
+        _role = Role.learner,
+        _settings = Settings();
 
   String get id => this._id;
   set id(value) => this._id = value;
@@ -52,7 +52,7 @@ class User extends AuditModel{
   String? get firstname => this._firstname;
   set firstname(String? value) => this._firstname = value;
 
-  String? get lastname => this._lastname; 
+  String? get lastname => this._lastname;
   set lastname(String? value) => this._lastname = value;
 
   String? get promotion => this._promotion;
@@ -78,5 +78,17 @@ class User extends AuditModel{
 
   Settings get settings => this._settings;
   set settings(Settings value) => this._settings = value;
-  
+
+  static User createDefaultUser() {
+    return User(
+      id: 'defaultId',
+      firstname: 'john',
+      lastname: 'doe',
+      promotion: 'X2025',
+      profilePicture:
+          'https://yojnxscjecnlltwblvrn.supabase.co/storage/v1/object/public/post_images/Image_placeholder.svg.png?t=2024-06-07T19%3A20%3A51.928Z',
+      role: Role.learner, // Or any default role
+      email: 'default@example.com', // Use a default email
+    );
+  }
 }
