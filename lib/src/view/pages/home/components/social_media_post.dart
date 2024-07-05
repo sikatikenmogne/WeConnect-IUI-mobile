@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:we_connect_iui_mobile/src/model/comment_model.dart';
+import 'package:we_connect_iui_mobile/src/model/user_model.dart' as UserModel;
 import 'package:we_connect_iui_mobile/src/view/components/common_text.dart';
 
 import 'comment_page.dart';
@@ -9,13 +11,18 @@ import 'comment_page.dart';
 class SocialMediaPost extends StatefulWidget {
   final String postText;
   final String imageUrl;
-
+  final DateTime createdAt;
+  final UserModel.User author;
   final String? postMediaUrl;
 
+  final List<Comment>? comments;
   SocialMediaPost(
       {required this.postText,
       required this.imageUrl,
-      this.postMediaUrl = null});
+      required this.createdAt,
+      required this.author,
+      this.postMediaUrl = null,
+      this.comments});
 
   @override
   State<SocialMediaPost> createState() => _SocialMediaPostState();
@@ -25,6 +32,7 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
   bool isLiked = false;
   int _likeCount = 0;
   int _shareCount = 0;
+  bool _isCommentSectionVisible = false;
 
   final _commentController = TextEditingController();
   final _comments = <String>[];
@@ -54,7 +62,9 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
 
   void addComment() {
     setState(() {
-      _comments.add(_commentController.text);
+      widget.comments?.add(Comment(
+          author: UserModel.User.createDefaultUser(),
+          content: _commentController.text));
       _commentController.clear();
     });
   }
@@ -72,17 +82,18 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: NetworkImage(widget.imageUrl),
+                  backgroundImage:
+                      NetworkImage(widget.author.profilePicture ?? ''),
                 ),
                 SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CommonText(
-                      text: 'Username',
+                      text: widget.author.firstname ?? 'Username',
                       fontWeight: FontWeight.bold,
                     ),
-                    CommonText(text: '3 hrs ago'),
+                    CommonText(text: _timeSince(widget.createdAt)),
                   ],
                 ),
               ],
@@ -119,52 +130,211 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(
                         isLiked ? Icons.favorite : Icons.favorite_border,
                         color: isLiked ? Colors.red : null,
                       ),
-                      onPressed: toggleLikeStatus,
-                    ),
-                    CommonText(text: '$_likeCount'),
-                  ],
+                      CommonText(text: '$_likeCount'),
+                    ],
+                  ),
+                  onTap: toggleLikeStatus,
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.comment),
-                      onPressed: () {},
-                    ),
-                    CommonText(text: '${_comments.length}'),
-                  ],
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(Icons.comment),
+                      CommonText(text: '${widget.comments!.length}'),
+                    ],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _isCommentSectionVisible = !_isCommentSectionVisible;
+                    });
+                  },
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.share),
-                      onPressed: sharePost,
-                    ),
-                    CommonText(text: '$_shareCount'),
-                  ],
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(Icons.share),
+                      CommonText(text: '$_shareCount')
+                    ],
+                  ),
+                  onTap: sharePost,
                 ),
               ],
             ),
-            TextField(
-              controller: _commentController,
-              decoration: InputDecoration(
-                labelText: 'Add a comment...',
+            Visibility(
+              visible: _isCommentSectionVisible,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _commentController,
+                    decoration: InputDecoration(
+                      labelText: 'Add a comment...',
+                    ),
+                    onSubmitted: (_) => addComment(),
+                  ),
+                  if (widget.comments != null)
+                    for (var comment in widget.comments!)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                comment.author.profilePicture ?? ''),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              CommonText(
+                                text: comment.author.firstname ?? 'Username',
+                                alignment: TextAlign.left,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              CommonText(
+                                text: comment.content,
+                                alignment: TextAlign.left,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                    child: CommonText(
+                                        text: _timeSince(comment.createdAt)),
+                                  ),
+                                  InkWell(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          isLiked
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: isLiked
+                                              ? Colors.red
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                        ),
+                                        CommonText(text: '$_likeCount'),
+                                      ],
+                                    ),
+                                    onTap: toggleLikeStatus,
+                                  ),
+                                  InkWell(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.reply,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary, // Use a theme color
+                                        ),
+                                        CommonText(text: '1'),
+                                      ],
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                ],
               ),
-              onSubmitted: (_) => addComment(),
             ),
-            for (var comment in _comments)
-              ListTile(
-                title: CommonText(text: comment),
-              ),
           ],
         ),
       ),
+    );
+  }
+
+  String _timeSince(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays >= 1) {
+      return '${difference.inDays} d';
+    } else if (difference.inHours >= 1) {
+      return '${difference.inHours} h';
+    } else if (difference.inMinutes >= 1) {
+      return '${difference.inMinutes} m';
+    } else {
+      return 'Just now';
+    }
+  }
+
+  Row newMethod(String comment, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(widget.imageUrl),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            CommonText(
+              text: 'Username',
+              alignment: TextAlign.left,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+            CommonText(
+              text: comment,
+              alignment: TextAlign.left,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                  child: CommonText(text: '3 h'),
+                ),
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(
+                        isLiked ? Icons.favorite : Icons.favorite_border,
+                        color: isLiked
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.secondary,
+                      ),
+                      CommonText(text: '$_likeCount'),
+                    ],
+                  ),
+                  onTap: toggleLikeStatus,
+                ),
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.reply,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary, // Use a theme color
+                      ),
+                      CommonText(text: '1'),
+                    ],
+                  ),
+                  onTap: () {},
+                ),
+              ],
+            )
+          ],
+        )
+      ],
     );
   }
 }
