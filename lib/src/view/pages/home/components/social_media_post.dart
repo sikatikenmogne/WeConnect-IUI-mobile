@@ -76,7 +76,8 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
       elevation: 5, // change the card elevation
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: 
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
@@ -168,7 +169,8 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
             ),
             Visibility(
               visible: _isCommentSectionVisible,
-              child: Column(
+              child: 
+              Column(
                 children: [
                   TextField(
                     controller: _commentController,
