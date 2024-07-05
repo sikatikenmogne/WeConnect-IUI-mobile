@@ -28,6 +28,8 @@ class CommonText extends StatelessWidget {
     return Text(
       text,
       textAlign: alignment,
+      softWrap: true, // Ensure text wrapping is enabled
+      overflow: TextOverflow.visible, // Allow the text to wrap
       style: TextStyle(
         fontSize: fontSize,
         color: color ?? Theme.of(context).textTheme.displayMedium!.color,
