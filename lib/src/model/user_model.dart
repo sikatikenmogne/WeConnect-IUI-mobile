@@ -91,4 +91,8 @@ class User extends AuditModel {
       email: 'default@example.com', // Use a default email
     );
   }
+
+  static User getCurrentUser() {
+    return createDefaultUser();
+  }
 }
