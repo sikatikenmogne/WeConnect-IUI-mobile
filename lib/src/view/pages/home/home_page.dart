@@ -12,7 +12,7 @@ import 'package:we_connect_iui_mobile/src/view/components/app_header.dart';
 import 'package:we_connect_iui_mobile/src/view/components/header_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:we_connect_iui_mobile/src/view/components/notification_button.dart';
-import 'package:we_connect_iui_mobile/src/view/pages/home/components/feed_page.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/home/feed_page.dart';
 
 class HomePage extends StatefulWidget {
   List<Post> posts = <Post>[

@@ -114,7 +114,6 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Expanded(
                         child: Container(
-                            color: Colors.red,
                             child: CachedNetworkImage(
                               imageUrl: widget.postMediaUrl!,
                               placeholder: (context, url) =>
