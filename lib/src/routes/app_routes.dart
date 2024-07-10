@@ -5,6 +5,7 @@ import 'package:we_connect_iui_mobile/src/view/pages/about_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/calendar/calendar.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/chat/chat_message_page.dart';
+import 'package:we_connect_iui_mobile/src/view/pages/home/add_post_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/home/home_page.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/login/loginPage.dart';
 import 'package:we_connect_iui_mobile/src/view/pages/profile/edit_profile_view.dart';
@@ -33,8 +34,10 @@ class AppRoutes {
   static const String chatMessage = '/chat/chat_message';
   static const String about = '/about';
   static const String calendar = '/calendar';
+  static const String addPost = 'post/add';
 
-  static Map<String, WidgetBuilder> getRoutes({required SettingsController settingsController}) {
+  static Map<String, WidgetBuilder> getRoutes(
+      {required SettingsController settingsController}) {
     // final settingsController = SettingsController(SettingsService());
 
     return {
@@ -51,6 +54,7 @@ class AppRoutes {
       settings: (context) => SettingsPage(controller: settingsController),
       about: (context) => AboutPage(),
       calendar: (context) => Calendar(),
+      addPost: (context) => AddPostPage(),
     };
   }
 }
